@@ -57,7 +57,7 @@ public class JoyconDemo : MonoBehaviour {
 				// Rumble for 200 milliseconds, with low frequency rumble at 160 Hz and high frequency rumble at 320 Hz. For more information check:
 				// https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering/blob/master/rumble_data_table.md
 
-				j.SetRumble (160, 320, 0.6f, 200);
+				j.SetRumble (160, 320, 20f, 200);
 
 				// The last argument (time) in SetRumble is optional. Call it with three arguments to turn it on without telling it when to turn off.
                 // (Useful for dynamically changing rumble values.)

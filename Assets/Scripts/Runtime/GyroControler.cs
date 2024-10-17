@@ -53,7 +53,27 @@ private List<Joycon> joycons;
 
         orientation = j.GetVector();
         
-        gameObject.transform.rotation = new Quaternion(orientation.z, orientation.y, orientation.x, orientation.w);
+        orientation.ToAngleAxis(out float angle, out Vector3 axis);
+
+		// if (Mathf.Abs(axis.x) < .95f)
+		// {
+		// 	axis = new Vector3(0, axis.y, axis.z);
+		// }
+        if (true)
+        {
+	        Quaternion rotationArroundRoll = Quaternion.AngleAxis(angle * axis.x, Vector3.forward);
+	        // Quaternion rotationArroundPitch = Quaternion.AngleAxis(angle * axis.y, Vector3.up);
+	        // Quaternion combinedQuaternion = rotationArroundRoll * rotationArroundPitch;
+
+	        gameObject.transform.localRotation = Quaternion.RotateTowards(
+		        gameObject.transform.localRotation,
+		        rotationArroundRoll,
+		        300 * Time.deltaTime);
+	        //gameObject.transform.rotation = rotationArroundY;
+        }
+        
+        transform.localEulerAngles += Vector3.right * 10;
+        Debug.Log("AAAAA" + transform.localEulerAngles);
     }
 
     private void OnGUI()
