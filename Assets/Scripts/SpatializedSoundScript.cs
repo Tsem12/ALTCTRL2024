@@ -13,6 +13,10 @@ struct SpatializedSoundSource
     public AudioSource SW;
     public AudioSource W;
     public AudioSource NW;
+    public AudioSource TOP;
+    public AudioSource DOWN;
+
+
 }
 public enum Direction
 {
@@ -23,28 +27,36 @@ public enum Direction
     South,
     SouthWest,
     West,
-    NorthWest
+    NorthWest,
+    Top,
+    Down
+
 }
 
 public class SpatializedSoundScript : MonoBehaviour
 {
     [SerializeField] private SpatializedSoundSource spatializedSoundSource;
-    [SerializeField] private AudioClip windSound;
 
     private AudioSource currentAudioSource;
 
+    public static SpatializedSoundScript Instance { get; private set; }
 
-    #region Debug
-    private int _debugCount = 0;
-    #endregion
 
-    private void Start()
+    private void Awake()
     {
-        StartCoroutine(Repeat());
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);  
+        }
+
+        DontDestroyOnLoad(gameObject); 
     }
 
-
-    private void PlayAudioClipAtDirection(Direction direction, AudioClip audioClip)
+    public void PlayAudioClipAtDirection(Direction direction, AudioClip audioClip)
     {
         AudioSource audioSource = GetAudioSourceByDirection(direction);
 
@@ -72,58 +84,10 @@ public class SpatializedSoundScript : MonoBehaviour
             Direction.SouthWest => spatializedSoundSource.SW,
             Direction.West => spatializedSoundSource.W,
             Direction.NorthWest => spatializedSoundSource.NW,
+            Direction.Top => spatializedSoundSource.TOP,
+            Direction.Down => spatializedSoundSource.DOWN,
             _ => null
         };
     }
 
-
-
-    private void DebuugSounds()
-    {
-        switch (_debugCount)
-        {
-            case 0:
-                PlayAudioClipAtDirection(Direction.North, windSound);
-                break;
-            case 1:
-                PlayAudioClipAtDirection(Direction.NorthEast, windSound);
-                break;
-            case 2:
-                PlayAudioClipAtDirection(Direction.East, windSound);
-                break;
-            case 3:
-                PlayAudioClipAtDirection(Direction.SouthEast, windSound);
-                break;
-            case 4:
-                PlayAudioClipAtDirection(Direction.South, windSound);
-                break;
-            case 5:
-                PlayAudioClipAtDirection(Direction.SouthWest, windSound);
-                break;
-            case 6:
-                PlayAudioClipAtDirection(Direction.West, windSound);
-                break;
-            case 7:
-                PlayAudioClipAtDirection(Direction.NorthWest, windSound);
-                break;
-        }
-        if(_debugCount == 7)
-        {
-            _debugCount = 0;
-        }
-        else
-        {
-            _debugCount++;
-        }
-        
-    }
-
-    private IEnumerator Repeat()
-    {
-        while (true) 
-        {
-            DebuugSounds(); 
-            yield return new WaitForSeconds(2.5f); 
-        }
-    }
 }
