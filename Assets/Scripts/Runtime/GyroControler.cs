@@ -8,6 +8,9 @@ public class GyroControler : MonoBehaviour
 	private List<Joycon> joycons;
 
 	[SerializeField] private Transform _parent;
+	[SerializeField] private bool _debug;
+	[SerializeField] private float _maxPitch;
+	[SerializeField] private float _pitchTriggerTreshold;
 
     // Values made available via Unity
     public float[] stick;
@@ -56,19 +59,35 @@ public class GyroControler : MonoBehaviour
         accel = j.GetAccel();
 
         orientation = j.GetVector();
+        
+        orientation.ToAngleAxis(out float angle, out Vector3 axis);
 
-        transform.Rotate(0,(gyro.x)/2,0);
-        _parent.Rotate(0,0,-(gyro.y)/2);
+        if (accel.y < .95f && accel.y > -.95f)
+        {
+	        Quaternion rotationArroundRoll = Quaternion.AngleAxis(angle * axis.x, Vector3.forward);
+	        if (Mathf.Abs(accel.y) > _pitchTriggerTreshold)
+	        {
+		        transform.localEulerAngles = new Vector3(-Mathf.Lerp(-_maxPitch, _maxPitch, (accel.y + .5f) / 1f), transform.localEulerAngles.y ,transform.localEulerAngles.z);
+	        }
+			gameObject.transform.localRotation = Quaternion.RotateTowards(
+			gameObject.transform.localRotation,
+			rotationArroundRoll,
+			300 * Time.deltaTime);
+        }
         
     }
 
     private void OnGUI()
     {
+	    if(!_debug)
+		    return;
+	    
 	    bool isGyroStable = ToolBox.Approximately(0, gyro.x, ToolBox.Epsilone) && ToolBox.Approximately(0, gyro.y, ToolBox.Epsilone) && ToolBox.Approximately(0, gyro.z, ToolBox.Epsilone);
 	    string gyroStability = isGyroStable ? "Stable" : "Not stable";
 	    
 	    bool isAccelAlign = ToolBox.Approximately(0, accel.x, .01f) && ToolBox.Approximately(0, accel.y, .01f) && ToolBox.Approximately(-1f, accel.z, .01f);
 	    string accelAlign = isAccelAlign ? "Aligned" : "Not aligned";
 	    GUILayout.Label($"Gyroscope Values => {gyroStability} => {gyro.ToString()} \n"+ $"Acceleration Values => {accelAlign} =>  {accel}", new GUIStyle(){fontSize = 60});
+	    GUILayout.Label($"{1/Time.deltaTime}");
     }
 }
