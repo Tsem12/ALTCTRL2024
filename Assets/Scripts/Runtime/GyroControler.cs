@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class GyroControler : MonoBehaviour
 {
-private List<Joycon> joycons;
+	private List<Joycon> joycons;
+
+	[SerializeField] private Transform _parent;
 
     // Values made available via Unity
     public float[] stick;
@@ -13,6 +15,7 @@ private List<Joycon> joycons;
     public Vector3 accel;
     public int jc_ind = 0;
     public Quaternion orientation;
+    private Vector3 _refEuler;
 
     void Start ()
     {
@@ -23,7 +26,8 @@ private List<Joycon> joycons;
 		if (joycons.Count < jc_ind+1){
 			Destroy(gameObject);
 		}
-	}
+		_refEuler = joycons[jc_ind].GetVector().eulerAngles;
+    }
 
 
     void Update () {
@@ -52,28 +56,10 @@ private List<Joycon> joycons;
         accel = j.GetAccel();
 
         orientation = j.GetVector();
-        
-        orientation.ToAngleAxis(out float angle, out Vector3 axis);
 
-		// if (Mathf.Abs(axis.x) < .95f)
-		// {
-		// 	axis = new Vector3(0, axis.y, axis.z);
-		// }
-        if (true)
-        {
-	        Quaternion rotationArroundRoll = Quaternion.AngleAxis(angle * axis.x, Vector3.forward);
-	        // Quaternion rotationArroundPitch = Quaternion.AngleAxis(angle * axis.y, Vector3.up);
-	        // Quaternion combinedQuaternion = rotationArroundRoll * rotationArroundPitch;
-
-	        gameObject.transform.localRotation = Quaternion.RotateTowards(
-		        gameObject.transform.localRotation,
-		        rotationArroundRoll,
-		        300 * Time.deltaTime);
-	        //gameObject.transform.rotation = rotationArroundY;
-        }
+        transform.Rotate(0,(gyro.x)/2,0);
+        _parent.Rotate(0,0,-(gyro.y)/2);
         
-        transform.localEulerAngles += Vector3.right * 10;
-        Debug.Log("AAAAA" + transform.localEulerAngles);
     }
 
     private void OnGUI()
