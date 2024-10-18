@@ -7,7 +7,6 @@ public class GyroControler : MonoBehaviour
 {
 	private List<Joycon> joycons;
 
-	[SerializeField] private Transform _parent;
 	[SerializeField] private bool _enableDebugLabels;
 	[SerializeField] private float _maxPitch;
 	[SerializeField] private float _pitchTriggerTreshold;
@@ -63,11 +62,14 @@ public class GyroControler : MonoBehaviour
         if (accel.y < .95f && accel.y > -.95f)
         {
 	        Quaternion rotationArroundRoll = Quaternion.AngleAxis(angle * axis.x, Vector3.forward);
+			/*
 	        transform.localRotation = rotationArroundRoll;	
 			gameObject.transform.localRotation = Quaternion.RotateTowards(
 			gameObject.transform.localRotation,
 			rotationArroundRoll,
 			300 * Time.deltaTime);
+			*/
+			transform.localRotation = rotationArroundRoll;	
 	        if (Mathf.Abs(accel.y) > _pitchTriggerTreshold)
 	        {
 		        float pitch = -Mathf.Lerp(-_maxPitch, _maxPitch, (accel.y + .5f) / 1f);
