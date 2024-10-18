@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7025301289490905505}
   - component: {fileID: 1588007724817182762}
   m_Layer: 0
-  m_Name: Wind
+  m_Name: Wind x1.5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,7 @@ ParticleSystem:
   m_GameObject: {fileID: 3250306690333424241}
   serializedVersion: 8
   lengthInSec: 5
-  simulationSpeed: 4
+  simulationSpeed: 6
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -116,7 +116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 4.81
+      scalar: 4
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -287,7 +287,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.3
+      scalar: 0.1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
