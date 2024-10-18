@@ -24,7 +24,7 @@ public class WindScript : MonoBehaviour
     private void Start()
     {
         windOrigin.SetActive(false);
-        PlayWindToDirection(WindDirection.South, 5);
+        PlayWindToDirection(WindDirection.East, 5);
     }
 
     public void PlayWindToDirection(WindDirection windDirection,float duration)
