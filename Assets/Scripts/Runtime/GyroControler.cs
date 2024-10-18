@@ -8,18 +8,19 @@ public class GyroControler : MonoBehaviour
 	private List<Joycon> joycons;
 
 	[SerializeField] private Transform _parent;
-	[SerializeField] private bool _debug;
+	[SerializeField] private bool _enableDebugLabels;
 	[SerializeField] private float _maxPitch;
 	[SerializeField] private float _pitchTriggerTreshold;
+    [SerializeField] private int jc_ind = 0;
 
     // Values made available via Unity
-    public float[] stick;
-    public Vector3 gyro;
-    public Vector3 accel;
-    public int jc_ind = 0;
-    public Quaternion orientation;
-    private Vector3 _refEuler;
-
+    private Vector3 gyro;
+    private Vector3 accel;
+    private Quaternion orientation;
+    private float _currentPitch;
+    public float GetPerchRoll => transform.localEulerAngles.z - 270;
+    public float GetPerchPitch => _currentPitch;
+    
     void Start ()
     {
         gyro = new Vector3(0, 0, 0);
@@ -29,12 +30,12 @@ public class GyroControler : MonoBehaviour
 		if (joycons.Count < jc_ind+1){
 			Destroy(gameObject);
 		}
-		_refEuler = joycons[jc_ind].GetVector().eulerAngles;
     }
 
 
-    void Update () {
-
+    void Update () 
+    {
+		Debug.Log($"Roll{GetPerchRoll} Pitch{GetPerchPitch}");
 		if (joycons.Count < 0)
 			return;
 		
@@ -48,9 +49,6 @@ public class GyroControler : MonoBehaviour
 			// Joycon has no magnetometer, so it cannot accurately determine its yaw value. Joycon.Recenter allows the user to reset the yaw value.
 			j.Recenter ();
 		}
-		
-
-        stick = j.GetStick();
 
         // Gyro values: x, y, z axis values (in radians per second)
         gyro = j.GetGyro();
@@ -65,21 +63,28 @@ public class GyroControler : MonoBehaviour
         if (accel.y < .95f && accel.y > -.95f)
         {
 	        Quaternion rotationArroundRoll = Quaternion.AngleAxis(angle * axis.x, Vector3.forward);
-	        if (Mathf.Abs(accel.y) > _pitchTriggerTreshold)
-	        {
-		        transform.localEulerAngles = new Vector3(-Mathf.Lerp(-_maxPitch, _maxPitch, (accel.y + .5f) / 1f), transform.localEulerAngles.y ,transform.localEulerAngles.z);
-	        }
+	        transform.localRotation = rotationArroundRoll;	
 			gameObject.transform.localRotation = Quaternion.RotateTowards(
 			gameObject.transform.localRotation,
 			rotationArroundRoll,
 			300 * Time.deltaTime);
+	        if (Mathf.Abs(accel.y) > _pitchTriggerTreshold)
+	        {
+		        float pitch = -Mathf.Lerp(-_maxPitch, _maxPitch, (accel.y + .5f) / 1f);
+		        _currentPitch = pitch;
+		        transform.localEulerAngles = new Vector3(pitch, transform.localEulerAngles.y ,transform.localEulerAngles.z);
+	        }
+	        else
+	        {
+		        _currentPitch = 0;
+	        }
         }
         
     }
 
     private void OnGUI()
     {
-	    if(!_debug)
+	    if(!_enableDebugLabels)
 		    return;
 	    
 	    bool isGyroStable = ToolBox.Approximately(0, gyro.x, ToolBox.Epsilone) && ToolBox.Approximately(0, gyro.y, ToolBox.Epsilone) && ToolBox.Approximately(0, gyro.z, ToolBox.Epsilone);
