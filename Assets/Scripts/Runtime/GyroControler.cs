@@ -53,7 +53,9 @@ private List<Joycon> joycons;
 
         orientation = j.GetVector();
         
-        gameObject.transform.rotation = new Quaternion(orientation.z, orientation.y, orientation.x, orientation.w);
+        //gameObject.transform.rotation = new Quaternion(orientation.z, orientation.y, orientation.x, orientation.w);
+        gameObject.transform.rotation = orientation;
+        //gameObject.transform.eulerAngles = new Vector3 (gameObject.transform.eulerAngles.x, 0, 0);
     }
 
     private void OnGUI()
