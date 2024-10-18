@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Camera playerCamera;             // Référence à la caméra du joueur
-    public float bobbingSpeed = 0.1f;       // Vitesse du balancement
-    public float baseBobbingAmountX = 0.02f; // Amplitude de base du balancement latéral (gauche-droite)
-    public float baseBobbingAmountY = 0.01f; // Amplitude de base du balancement vertical (haut-bas)
-    public float tiltAngle = 5f;            // Angle de rotation pour pencher la caméra latéralement
+    [SerializeField] private Camera playerCamera;             // Référence à la caméra du joueur
+
+    [Header("Bobbing")]
+    [SerializeField] private float bobbingSpeed = 0.1f;       // Vitesse du balancement
+    [SerializeField] private float baseBobbingAmountX = 0.02f; // Amplitude de base du balancement latéral (gauche-droite)
+    [SerializeField] private float baseBobbingAmountY = 0.01f; // Amplitude de base du balancement vertical (haut-bas)
+    [SerializeField] private float tiltAngle = 5f;            // Angle de rotation pour pencher la caméra latéralement
 
     private PlayerMovement playerMovement;  // Référence au script PlayerMovement
     private float timer = 0.0f;             // Timer pour l'oscillation
@@ -28,7 +30,7 @@ public class CameraController : MonoBehaviour
         if (playerMovement != null)
         {
             // Calculer la quantité de bobbing en fonction de la vitesse du joueur
-            float speedFactor = Mathf.Clamp01(playerMovement.moveSpeed / playerMovement.maxSpeed);
+            float speedFactor = Mathf.Clamp01(playerMovement.GetMoveSpeed() / playerMovement.GetMaxSpeed());
             float bobbingAmountX = baseBobbingAmountX * speedFactor; // Amplitude basée sur la vitesse
             float bobbingAmountY = baseBobbingAmountY * speedFactor; // Amplitude basée sur la vitesse
 
@@ -63,12 +65,12 @@ public class CameraController : MonoBehaviour
         if (playerMovement != null)
         {
             float tilt = 0f;
-
-            if (playerMovement.movementInput > 0) // Flèche du haut maintenue
+            float movementInput = playerMovement.GetMovementInput();
+            if (movementInput > 0) // Flèche du haut maintenue
             {
                 tilt = -tiltAngle; // Pencher à gauche
             }
-            else if (playerMovement.movementInput < 0) // Flèche du bas maintenue
+            else if (movementInput < 0) // Flèche du bas maintenue
             {
                 tilt = tiltAngle;  // Pencher à droite
             }

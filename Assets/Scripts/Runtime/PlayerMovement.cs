@@ -2,18 +2,21 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed;              // Vitesse actuelle du joueur
-    public float maxSpeed;               // Vitesse maximale
-    public float acceleration;           // Taux d'accélération
-    public Camera playerCamera;          // Référence à la caméra du joueur
-    public float cameraTiltAngle;        // Angle de rotation de la caméra
-    public float movementInput;         // Stocke l'input de mouvement (-1 pour reculer, 1 pour avancer)
+    [Header("Speed")]
+    [SerializeField] private float moveSpeed;              // Vitesse actuelle du joueur
+    [SerializeField] private float maxSpeed;               // Vitesse maximale
+    [SerializeField] private float acceleration;           // Taux d'accélération
+
+    [Header("Camera :huh:")]
+    [SerializeField] private Camera playerCamera;          // Référence à la caméra du joueur
+    [SerializeField] private float cameraTiltAngle;        // Angle de rotation de la caméra
+    private float movementInput;         // Stocke l'input de mouvement (-1 pour reculer, 1 pour avancer)
     private PlayerControls controls;     // Instance des contrôles
     private Quaternion initialCameraRotation;  // Stocker la rotation initiale de la caméra
 
     // Variables pour la gestion du contrôle par alternance
     private float timePressingSameKey = 0f;  // Temps passé à maintenir la même touche
-    public float maxPressTime = 1f;          // Temps maximal avant de perdre de la vitesse si on maintient la même touche
+    [SerializeField] private float maxPressTime = 1f;          // Temps maximal avant de perdre de la vitesse si on maintient la même touche
 
     private bool lastKeyWasUp = true;        // Savoir si la dernière touche était la flèche du haut (initialisé à "haut" pour le premier appui)
 
@@ -73,6 +76,21 @@ public class PlayerMovement : MonoBehaviour
         // Appliquer le mouvement du joueur en fonction de la vitesse
         Vector3 move = new Vector3(0, 0, moveSpeed) * Time.deltaTime;
         transform.Translate(move);
+    }
+
+    public float GetMoveSpeed()
+    {
+        return moveSpeed;
+    }
+
+    public float GetMaxSpeed()
+    {
+        return maxSpeed;
+    }
+
+    public float GetMovementInput()
+    {
+        return movementInput;
     }
 
     // Gestion de l'entrée de mouvement
