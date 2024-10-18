@@ -20,6 +20,7 @@ public class WindScript : MonoBehaviour
     [SerializeField] private GameObject windOrigin;
     [SerializeField] private GameObject player;
     [SerializeField] private AudioClip windSound;
+    [SerializeField] private GameObject compassArrow;
 
     private void Start()
     {
@@ -27,13 +28,13 @@ public class WindScript : MonoBehaviour
         PlayWindToDirection(WindDirection.East, 5);
     }
 
-    public void PlayWindToDirection(WindDirection windDirection,float duration)
+    public void PlayWindToDirection(WindDirection windDirection, float duration)
     {
         windOrigin.transform.position = GetWindOrigin(windDirection);
         Vector3 directionToPlayer = player.transform.position - windOrigin.transform.position;
         directionToPlayer.y = 0;
 
-        if (directionToPlayer != Vector3.zero) 
+        if (directionToPlayer != Vector3.zero)
         {
             windOrigin.transform.localRotation = Quaternion.LookRotation(directionToPlayer);
 
@@ -42,7 +43,7 @@ public class WindScript : MonoBehaviour
 
         windOrigin.SetActive(true);
         PlayWindSoundFromDirection(windDirection);
-
+        RotateCompass(windDirection);
         StartCoroutine(DisableWindAfterDuration(duration));
     }
 
@@ -108,6 +109,37 @@ public class WindScript : MonoBehaviour
                 return SpatializedSoundScript.Instance.spatializedSoundSource.NW.transform.position;
             default:
                 return Vector3.zero;
+        }
+    }
+
+    private void RotateCompass(WindDirection windDirection)
+    {
+        switch (windDirection)
+        {
+            case WindDirection.North:
+                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 0);
+                break;
+            case WindDirection.NorthEast:
+                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 45);
+                break;
+            case WindDirection.East:
+                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 90);
+                break;
+            case WindDirection.West:
+                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 270);
+                break;
+            case WindDirection.South:
+                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 180);
+                break;
+            case WindDirection.SouthEast:
+                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 135);
+                break;
+            case WindDirection.SouthWest:
+                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 225);
+                break;
+            case WindDirection.NorthWest:
+                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 315);
+                break;
         }
     }
 }
