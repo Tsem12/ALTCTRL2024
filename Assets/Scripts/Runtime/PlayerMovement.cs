@@ -52,7 +52,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Si on dépasse le temps limite, la vitesse redescend à 0
                 moveSpeed = Mathf.Max(0f, moveSpeed - acceleration * Time.deltaTime * 2); // Perte de vitesse
-                Debug.Log("Maintien trop long sur la même touche : vitesse réduite");
             }
             else
             {
