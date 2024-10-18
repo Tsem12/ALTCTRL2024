@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-struct SpatializedSoundSource
+public struct SpatializedSoundSource
 {
     public AudioSource N;
     public AudioSource NE;
@@ -35,7 +35,7 @@ public enum Direction
 
 public class SpatializedSoundScript : MonoBehaviour
 {
-    [SerializeField] private SpatializedSoundSource spatializedSoundSource;
+    [SerializeField] public SpatializedSoundSource spatializedSoundSource;
 
     private AudioSource currentAudioSource;
 
