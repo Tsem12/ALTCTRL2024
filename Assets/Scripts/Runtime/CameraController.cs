@@ -2,25 +2,25 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private Camera playerCamera;             // Référence à la caméra du joueur
+    [SerializeField] private Camera playerCamera;             // Rï¿½fï¿½rence ï¿½ la camï¿½ra du joueur
 
     [Header("Bobbing")]
     [SerializeField] private float bobbingSpeed = 0.1f;       // Vitesse du balancement
-    [SerializeField] private float baseBobbingAmountX = 0.02f; // Amplitude de base du balancement latéral (gauche-droite)
+    [SerializeField] private float baseBobbingAmountX = 0.02f; // Amplitude de base du balancement latï¿½ral (gauche-droite)
     [SerializeField] private float baseBobbingAmountY = 0.01f; // Amplitude de base du balancement vertical (haut-bas)
-    [SerializeField] private float tiltAngle = 5f;            // Angle de rotation pour pencher la caméra latéralement
+    [SerializeField] private float tiltAngle = 5f;            // Angle de rotation pour pencher la camï¿½ra latï¿½ralement
 
-    private PlayerMovement playerMovement;  // Référence au script PlayerMovement
+    private PlayerMovement playerMovement;  // Rï¿½fï¿½rence au script PlayerMovement
     private float timer = 0.0f;             // Timer pour l'oscillation
-    private Vector3 initialCameraPosition;  // Stocker la position initiale de la caméra
-    private Quaternion initialCameraRotation; // Stocker la rotation initiale de la caméra
+    private Vector3 initialCameraPosition;  // Stocker la position initiale de la camï¿½ra
+    private Quaternion initialCameraRotation; // Stocker la rotation initiale de la camï¿½ra
 
     private void Start()
     {
-        // Obtenir la référence au script PlayerMovement
+        // Obtenir la rï¿½fï¿½rence au script PlayerMovement
         playerMovement = GetComponent<PlayerMovement>();
 
-        // Stocker la position initiale et la rotation initiale de la caméra
+        // Stocker la position initiale et la rotation initiale de la camï¿½ra
         initialCameraPosition = playerCamera.transform.localPosition;
         initialCameraRotation = playerCamera.transform.localRotation;
     }
@@ -29,50 +29,50 @@ public class CameraController : MonoBehaviour
     {
         if (playerMovement != null)
         {
-            // Calculer la quantité de bobbing en fonction de la vitesse du joueur
+            // Calculer la quantitï¿½ de bobbing en fonction de la vitesse du joueur
             float speedFactor = Mathf.Clamp01(playerMovement.GetMoveSpeed() / playerMovement.GetMaxSpeed());
-            float bobbingAmountX = baseBobbingAmountX * speedFactor; // Amplitude basée sur la vitesse
-            float bobbingAmountY = baseBobbingAmountY * speedFactor; // Amplitude basée sur la vitesse
+            float bobbingAmountX = baseBobbingAmountX * speedFactor; // Amplitude basï¿½e sur la vitesse
+            float bobbingAmountY = baseBobbingAmountY * speedFactor; // Amplitude basï¿½e sur la vitesse
 
             // Appliquer le head bobbing
             ApplyHeadBobbing(bobbingAmountX, bobbingAmountY);
 
-            // Gérer l'inclinaison de la caméra en fonction de l'input
+            // Gï¿½rer l'inclinaison de la camï¿½ra en fonction de l'input
             ApplyCameraTilt();
         }
     }
 
     private void ApplyHeadBobbing(float bobbingAmountX, float bobbingAmountY)
     {
-        // Mettre à jour le timer
+        // Mettre ï¿½ jour le timer
         timer += Time.deltaTime * bobbingSpeed;
 
-        // Calculer les nouvelles positions basées sur le timer
+        // Calculer les nouvelles positions basï¿½es sur le timer
         float offsetX = Mathf.Sin(timer) * bobbingAmountX; // Oscillation sur l'axe X
         float offsetY = Mathf.Sin(timer) * bobbingAmountY; // Oscillation sur l'axe Y
 
-        // Appliquer le mouvement de bobbing à la position de la caméra en conservant la position initiale
+        // Appliquer le mouvement de bobbing ï¿½ la position de la camï¿½ra en conservant la position initiale
         playerCamera.transform.localPosition = new Vector3(
-            initialCameraPosition.x + offsetX,  // Ajout du décalage X à la position initiale X
-            initialCameraPosition.y + offsetY,  // Ajout du décalage Y à la position initiale Y
-            initialCameraPosition.z             // La position Z reste la même
+            initialCameraPosition.x + offsetX,  // Ajout du dï¿½calage X ï¿½ la position initiale X
+            initialCameraPosition.y + offsetY,  // Ajout du dï¿½calage Y ï¿½ la position initiale Y
+            initialCameraPosition.z             // La position Z reste la mï¿½me
         );
     }
 
     private void ApplyCameraTilt()
     {
-        // Incliner la caméra en fonction de l'input du joueur
+        // Incliner la camï¿½ra en fonction de l'input du joueur
         if (playerMovement != null)
         {
             float tilt = 0f;
             float movementInput = playerMovement.GetMovementInput();
-            if (movementInput > 0) // Flèche du haut maintenue
+            if (movementInput > 0) // Flï¿½che du haut maintenue
             {
-                tilt = -tiltAngle; // Pencher à gauche
+                tilt = -tiltAngle; // Pencher ï¿½ gauche
             }
-            else if (movementInput < 0) // Flèche du bas maintenue
+            else if (movementInput < 0) // Flï¿½che du bas maintenue
             {
-                tilt = tiltAngle;  // Pencher à droite
+                tilt = tiltAngle;  // Pencher ï¿½ droite
             }
 
             // Appliquer l'inclinaison sur l'axe Z
@@ -80,4 +80,5 @@ public class CameraController : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, Time.deltaTime);
         }
     }
+    
 }
