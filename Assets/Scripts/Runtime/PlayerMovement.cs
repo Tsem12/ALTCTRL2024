@@ -13,12 +13,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxPressTime = 1f;          // Temps maximal avant de perdre de la vitesse si on maintient la même touche
     private bool lastKeyWasUp = true;        // Savoir si la dernière touche était la flèche du haut (initialisé à "haut" pour le premier appui)
 
-    [Header("Camera :huh:")]
-    [SerializeField] private Camera playerCamera;          // Référence à la caméra du joueur
-    [SerializeField] private float cameraTiltAngle;        // Angle de rotation de la caméra
     private float movementInput;         // Stocke l'input de mouvement (-1 pour reculer, 1 pour avancer)
     private PlayerControls controls;     // Instance des contrôles
-    private Quaternion initialCameraRotation;  // Stocker la rotation initiale de la caméra
 
     [Header("Idle Settings")]
     [SerializeField] private float timeBeforeVertigo = 3f; // Temps avant de déclencher les effets de vertige
@@ -37,9 +33,6 @@ public class PlayerMovement : MonoBehaviour
         // Lier l'action Move à une méthode pour capturer la valeur d'entrée
         controls.Player.Move.performed += ctx => OnMove(ctx.ReadValue<float>());
         controls.Player.Move.canceled += ctx => OnStopMove();
-
-        // Stocker la rotation initiale de la caméra
-        initialCameraRotation = playerCamera.transform.localRotation;
     }
 
     private void OnEnable()
@@ -118,10 +111,6 @@ public class PlayerMovement : MonoBehaviour
                 isIdle = true;
             }
         }
-
-        // Appliquer l'inclinaison à la caméra selon la vitesse
-        Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(cameraTiltAngle * (moveSpeed / maxSpeed), 0, 0);
-        playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, 0.1f);
 
         // Appliquer le mouvement du joueur en fonction de la vitesse
         Vector3 move = new Vector3(0, 0, moveSpeed) * Time.deltaTime;
