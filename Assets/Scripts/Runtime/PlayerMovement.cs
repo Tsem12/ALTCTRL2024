@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -7,6 +8,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxSpeed;               // Vitesse maximale
     [SerializeField] private float acceleration;           // Taux d'accélération
 
+    // Variables pour la gestion du contrôle par alternance
+    private float timePressingSameKey = 0f;  // Temps passé à maintenir la même touche
+    [SerializeField] private float maxPressTime = 1f;          // Temps maximal avant de perdre de la vitesse si on maintient la même touche
+    private bool lastKeyWasUp = true;        // Savoir si la dernière touche était la flèche du haut (initialisé à "haut" pour le premier appui)
+
     [Header("Camera :huh:")]
     [SerializeField] private Camera playerCamera;          // Référence à la caméra du joueur
     [SerializeField] private float cameraTiltAngle;        // Angle de rotation de la caméra
@@ -14,11 +20,14 @@ public class PlayerMovement : MonoBehaviour
     private PlayerControls controls;     // Instance des contrôles
     private Quaternion initialCameraRotation;  // Stocker la rotation initiale de la caméra
 
-    // Variables pour la gestion du contrôle par alternance
-    private float timePressingSameKey = 0f;  // Temps passé à maintenir la même touche
-    [SerializeField] private float maxPressTime = 1f;          // Temps maximal avant de perdre de la vitesse si on maintient la même touche
+    [Header("Idle Settings")]
+    [SerializeField] private float timeBeforeVertigo = 3f; // Temps avant de déclencher les effets de vertige
+    private float idleTimer = 0f;                          // Temps d'immobilité
+    private bool isIdle = false;                           // Savoir si le joueur est immobile
 
-    private bool lastKeyWasUp = true;        // Savoir si la dernière touche était la flèche du haut (initialisé à "haut" pour le premier appui)
+    [Header("Unity Events")]
+    public UnityEvent onIdleEvent;
+    public UnityEvent onStopIdleEvent;
 
     private void Awake()
     {
@@ -47,10 +56,41 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        HandleMovement();
+    }
+
+    public float GetMoveSpeed()
+    {
+        return moveSpeed;
+    }
+
+    public float GetMaxSpeed()
+    {
+        return maxSpeed;
+    }
+
+    public float GetMovementInput()
+    {
+        return movementInput;
+    }
+
+    private void HandleMovement()
+    {
         if (movementInput != 0)
         {
+            // Appeler l'événement StopIdle lorsque le joueur recommence à bouger
+            if (isIdle)
+            {
+                onStopIdleEvent.Invoke(); // Déclenche l'événement pour arrêter les effets de vertige
+                isIdle = false;
+            }
+
+            // Réinitialiser le timer d'immobilité
+            idleTimer = 0f;
+
             // Vérifie si on a appuyé sur la même touche trop longtemps
             timePressingSameKey += Time.deltaTime;
+
             if (timePressingSameKey > maxPressTime)
             {
                 // Si on dépasse le temps limite, la vitesse redescend à 0
@@ -67,6 +107,16 @@ public class PlayerMovement : MonoBehaviour
         {
             // Si aucune touche n'est pressée, la vitesse redescend lentement
             moveSpeed = Mathf.Max(0f, moveSpeed - acceleration * Time.deltaTime);
+
+            idleTimer += Time.deltaTime;
+
+            // Si le joueur est immobile depuis assez longtemps
+            if (idleTimer >= timeBeforeVertigo && !isIdle)
+            {
+                // Déclenche l'événement d'immobilité
+                onIdleEvent.Invoke();
+                isIdle = true;
+            }
         }
 
         // Appliquer l'inclinaison à la caméra selon la vitesse
@@ -76,21 +126,6 @@ public class PlayerMovement : MonoBehaviour
         // Appliquer le mouvement du joueur en fonction de la vitesse
         Vector3 move = new Vector3(0, 0, moveSpeed) * Time.deltaTime;
         transform.Translate(move);
-    }
-
-    public float GetMoveSpeed()
-    {
-        return moveSpeed;
-    }
-
-    public float GetMaxSpeed()
-    {
-        return maxSpeed;
-    }
-
-    public float GetMovementInput()
-    {
-        return movementInput;
     }
 
     // Gestion de l'entrée de mouvement
