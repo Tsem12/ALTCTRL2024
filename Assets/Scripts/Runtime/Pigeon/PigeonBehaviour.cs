@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class PigeonBehaviour : MonoBehaviour
 {
     [SerializeField] private PigeonPaths _pigeonPaths;
+    [SerializeField] private AnimationCurve _mouvementCurve;
     [SerializeField] private float _timeToLand;
     [SerializeField] private float _timeToLookAtCam;
     private float _currentLandingTime;

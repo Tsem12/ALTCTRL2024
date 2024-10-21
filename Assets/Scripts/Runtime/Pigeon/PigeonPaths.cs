@@ -4,12 +4,9 @@ using UnityEngine.Serialization;
 
 public class PigeonPaths : MonoBehaviour
 {
-    
     [SerializeField, Range(0.01f, 1f)] private float _curveGizmoPrecision = 0.1f;
     [field:SerializeField] public Curve[] Paths { get; private set; }
-
-
-
+    
     private void OnDrawGizmos()
     {
         if(Paths == null)
