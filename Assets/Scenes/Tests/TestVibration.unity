@@ -133,9 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 367251818}
   - component: {fileID: 367251817}
+  - component: {fileID: 367251814}
   - component: {fileID: 367251816}
   - component: {fileID: 367251815}
-  - component: {fileID: 367251814}
   m_Layer: 0
   m_Name: Rumbling
   m_TagString: Untagged
@@ -156,11 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jc_ind: 0
-  isRumblingInfinitly: 1
-  low_frequence: 160
-  high_frequence: 320
-  amplitude: 0.6
-  timeInMillisec: 200
+  _rumblingData: {fileID: 11400000, guid: 31b1bf9a6541d9640bff2a2f6c6187ee, type: 2}
 --- !u!65 &367251815
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -202,7 +198,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 1788269377728665300, guid: e009236a9d8c38d48a16211812162bef, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -303,6 +299,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2009361147}
   - component: {fileID: 2009361146}
+  - component: {fileID: 2009361148}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -387,6 +384,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &2009361148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009361145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &2108127980
 GameObject:
   m_ObjectHideFlags: 0
