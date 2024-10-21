@@ -210,15 +210,15 @@ PrefabInstance:
     - target: {fileID: 5828171839083166639, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 57c7016348585d340a16681b393a5276, type: 2}
+      objectReference: {fileID: 2100000, guid: d23f82f648913cf4daa28cdd0969f72e, type: 2}
     - target: {fileID: 5943549011548903373, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 57c7016348585d340a16681b393a5276, type: 2}
+      objectReference: {fileID: 2100000, guid: d23f82f648913cf4daa28cdd0969f72e, type: 2}
     - target: {fileID: 6943897648654692481, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 57c7016348585d340a16681b393a5276, type: 2}
+      objectReference: {fileID: 2100000, guid: d23f82f648913cf4daa28cdd0969f72e, type: 2}
     - target: {fileID: 9012837626291718024, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.9369775
@@ -445,11 +445,11 @@ PrefabInstance:
     - target: {fileID: 5828171839083166639, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 96f2fc0aee2e8a74eae53f895c07e0dc, type: 2}
+      objectReference: {fileID: 2100000, guid: ef72d3cac8eefd14c8ca1fd6be57c2e0, type: 2}
     - target: {fileID: 5828171839083166639, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 57c7016348585d340a16681b393a5276, type: 2}
+      objectReference: {fileID: -876546973899608171, guid: 3da6fe7b487c0d448a5a07f98e7fd6c2, type: 3}
     - target: {fileID: 5943549011548903373, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
       propertyPath: m_Materials.Array.size
       value: 2
@@ -457,7 +457,7 @@ PrefabInstance:
     - target: {fileID: 5943549011548903373, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 96f2fc0aee2e8a74eae53f895c07e0dc, type: 2}
+      objectReference: {fileID: 2100000, guid: ef72d3cac8eefd14c8ca1fd6be57c2e0, type: 2}
     - target: {fileID: 5943549011548903373, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
@@ -469,11 +469,11 @@ PrefabInstance:
     - target: {fileID: 6943897648654692481, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 96f2fc0aee2e8a74eae53f895c07e0dc, type: 2}
+      objectReference: {fileID: 2100000, guid: ef72d3cac8eefd14c8ca1fd6be57c2e0, type: 2}
     - target: {fileID: 6943897648654692481, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 57c7016348585d340a16681b393a5276, type: 2}
+      objectReference: {fileID: 2100000, guid: d23f82f648913cf4daa28cdd0969f72e, type: 2}
     - target: {fileID: 9012837626291718024, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.9711343
@@ -555,8 +555,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 96f2fc0aee2e8a74eae53f895c07e0dc, type: 2}
-  - {fileID: 2100000, guid: 57c7016348585d340a16681b393a5276, type: 2}
+  - {fileID: 2100000, guid: ef72d3cac8eefd14c8ca1fd6be57c2e0, type: 2}
+  - {fileID: 2100000, guid: d23f82f648913cf4daa28cdd0969f72e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1524,7 +1524,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 57c7016348585d340a16681b393a5276, type: 2}
+  - {fileID: 2100000, guid: d23f82f648913cf4daa28cdd0969f72e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
