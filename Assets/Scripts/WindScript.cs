@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 public enum WindDirection
@@ -21,10 +22,45 @@ public class WindScript : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private AudioClip windSound;
     [SerializeField] private GameObject compassArrow;
+    [SerializeField] private AnimationCurve curve;
+    [SerializeField] private float compassRotationDuration = 0.5f;
+    [SerializeField] private float compassShakeIntensity=2;
+
+    private float compassRotationAngleDestination;
+    private float compassRotationAngleStart;
+
+    private bool isWindBlowing = false;
+    private bool isCompassRotating = false;
+    private float timeElapsed = 0f;
+
+
+    private void Awake()
+    {
+        windOrigin.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (isCompassRotating)
+        {
+            Rotate();
+            Debug.Log("Rotating compass");
+        }
+        else
+        {
+            if (isWindBlowing)
+            {
+                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, Random.Range(compassRotationAngleDestination - compassShakeIntensity, compassRotationAngleDestination + compassShakeIntensity));
+            }
+            else
+            {
+                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, compassRotationAngleDestination);
+            }
+        }
+    }
 
     private void Start()
     {
-        windOrigin.SetActive(false);
         PlayWindToDirection(WindDirection.East, 5);
     }
 
@@ -43,14 +79,16 @@ public class WindScript : MonoBehaviour
 
         windOrigin.SetActive(true);
         PlayWindSoundFromDirection(windDirection);
-        RotateCompass(windDirection);
+        RotateCompassWithDirection(windDirection);
         StartCoroutine(DisableWindAfterDuration(duration));
     }
 
     IEnumerator DisableWindAfterDuration(float duration)
     {
+        isWindBlowing = true;
         yield return new WaitForSeconds(duration);
         windOrigin.SetActive(false);
+        isWindBlowing = false;
     }
 
     private void PlayWindSoundFromDirection(WindDirection windDirection)
@@ -112,34 +150,64 @@ public class WindScript : MonoBehaviour
         }
     }
 
-    private void RotateCompass(WindDirection windDirection)
+    private void RotateCompassWithDirection(WindDirection windDirection)
     {
         switch (windDirection)
         {
             case WindDirection.North:
-                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 0);
+                RotateCompassActionJuicily(180);
                 break;
             case WindDirection.NorthEast:
-                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 45);
+                RotateCompassActionJuicily(135);
                 break;
             case WindDirection.East:
-                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 90);
-                break;
-            case WindDirection.West:
-                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 270);
-                break;
-            case WindDirection.South:
-                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 180);
+                RotateCompassActionJuicily(90);
                 break;
             case WindDirection.SouthEast:
-                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 135);
+                RotateCompassActionJuicily(45);
+                break;
+            case WindDirection.South:
+                RotateCompassActionJuicily(0);
                 break;
             case WindDirection.SouthWest:
-                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 225);
+                RotateCompassActionJuicily(225);
+                break;
+            case WindDirection.West:
+                RotateCompassActionJuicily(270);
                 break;
             case WindDirection.NorthWest:
-                compassArrow.transform.localRotation = Quaternion.Euler(90, 0, 315);
+                RotateCompassActionJuicily(315);
                 break;
+        }
+    }
+
+
+    private void RotateCompassActionJuicily(float angle)
+    {
+        isCompassRotating = true;
+        compassRotationAngleDestination = angle;
+        compassRotationAngleStart = compassArrow.transform.localRotation.eulerAngles.z;
+        StartCoroutine(DisableCompassRotationAfterDuration(compassRotationDuration));
+    }
+
+    IEnumerator DisableCompassRotationAfterDuration(float duration)
+    {
+        yield return new WaitForSeconds(duration - 0.2f);
+        isCompassRotating = false;
+    }
+
+    private void Rotate()
+    {
+        timeElapsed += Time.deltaTime;
+        float t = timeElapsed / compassRotationDuration;
+
+        float curvedT = curve.Evaluate(t);
+
+        compassArrow.transform.localRotation = Quaternion.Euler(90, 0, Mathf.Lerp(compassRotationAngleStart, compassRotationAngleDestination, curvedT));
+
+        if (timeElapsed >= compassRotationDuration)
+        {
+            timeElapsed = 0f;
         }
     }
 }
