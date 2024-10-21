@@ -4,6 +4,9 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;             // Référence à la caméra du joueur
 
+    [Header("MovementTilt")]
+    [SerializeField] private float cameraTiltAngle = 5f;            // Angle de rotation pour pencher la caméra latéralement
+
     [Header("Bobbing")]
     [SerializeField] private float bobbingSpeed = 0.1f;       // Vitesse du balancement
     [SerializeField] private float baseBobbingAmountX = 0.02f; // Amplitude de base du balancement latéral (gauche-droite)
@@ -27,8 +30,13 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        if (playerMovement != null)
+        if (playerMovement != null && playerMovement.GetMoveSpeed() != 0)
         {
+            // Appliquer l'inclinaison à la caméra selon la vitesse
+            Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(cameraTiltAngle * (playerMovement.GetMoveSpeed() / playerMovement.GetMaxSpeed()), 0, 0);
+            playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, 0.1f);
+
+
             // Calculer la quantité de bobbing en fonction de la vitesse du joueur
             float speedFactor = Mathf.Clamp01(playerMovement.GetMoveSpeed() / playerMovement.GetMaxSpeed());
             float bobbingAmountX = baseBobbingAmountX * speedFactor; // Amplitude basée sur la vitesse
