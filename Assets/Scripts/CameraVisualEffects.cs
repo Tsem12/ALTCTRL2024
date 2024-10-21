@@ -6,41 +6,41 @@ using System.Collections;
 public class URPCameraVisualEffects : MonoBehaviour
 {
     [Header("Camera Settings")]
-    public Camera playerCamera;                      // Référence à la caméra du joueur
-    public float cameraTiltAmount = 10f;             // Angle maximal d'inclinaison de la caméra vers le bas
-    public float cameraShakeIntensity = 0.1f;        // Intensité du tremblement de la caméra
+    public Camera playerCamera;                      // Rï¿½fï¿½rence ï¿½ la camï¿½ra du joueur
+    public float cameraTiltAmount = 10f;             // Angle maximal d'inclinaison de la camï¿½ra vers le bas
+    public float cameraShakeIntensity = 0.1f;        // Intensitï¿½ du tremblement de la camï¿½ra
 
     [Header("Post Processing Settings")]
-    public Volume postProcessVolume;                 // Référence au Volume de post-processing (URP)
+    public Volume postProcessVolume;                 // Rï¿½fï¿½rence au Volume de post-processing (URP)
     private MotionBlur motionBlur;                   // Composant Motion Blur (URP)
     private ChromaticAberration chromaticAberration; // Composant Chromatic Aberration (URP)
 
     [Header("Vertigo Effect Settings")]
     public float maxBlurAmount = 180f;               // Angle maximal de flou de mouvement
-    public float maxAberrationAmount = 1f;           // Intensité maximale de l'aberration chromatique
-    public float maxFOVChange = 20f;                 // FOV change max (ajouté à la FOV de base)
+    public float maxAberrationAmount = 1f;           // Intensitï¿½ maximale de l'aberration chromatique
+    public float maxFOVChange = 20f;                 // FOV change max (ajoutï¿½ ï¿½ la FOV de base)
 
-    public float transitionDuration = 2f;            // Durée de la transition des effets de vertige
+    public float transitionDuration = 2f;            // Durï¿½e de la transition des effets de vertige
 
-    private float initialFOV;                        // FOV initial de la caméra
-    private Quaternion initialCameraRotation;        // Rotation initiale de la caméra
+    private float initialFOV;                        // FOV initial de la camï¿½ra
+    private Quaternion initialCameraRotation;        // Rotation initiale de la camï¿½ra
     private bool isVertigoActive = false;            // Statut pour savoir si le vertige est en cours
 
     private void Start()
     {
-        // Stocker le FOV initial et la rotation initiale de la caméra
+        // Stocker le FOV initial et la rotation initiale de la camï¿½ra
         initialFOV = playerCamera.fieldOfView;
         initialCameraRotation = playerCamera.transform.localRotation;
 
-        // Récupérer les composants de post-processing (URP)
+        // Rï¿½cupï¿½rer les composants de post-processing (URP)
         if (postProcessVolume.profile.TryGet<MotionBlur>(out motionBlur))
         {
-            motionBlur.active = false; // Désactiver le motion blur au démarrage
+            motionBlur.active = false; // Dï¿½sactiver le motion blur au dï¿½marrage
         }
 
         if (postProcessVolume.profile.TryGet<ChromaticAberration>(out chromaticAberration))
         {
-            chromaticAberration.active = false; // Désactiver l'aberration chromatique au démarrage
+            chromaticAberration.active = false; // Dï¿½sactiver l'aberration chromatique au dï¿½marrage
         }
     }
 
@@ -71,7 +71,7 @@ public class URPCameraVisualEffects : MonoBehaviour
         if (chromaticAberration != null)
             chromaticAberration.active = true;
 
-        float elapsedTime = 0f; // Variable pour le temps écoulé
+        float elapsedTime = 0f; // Variable pour le temps ï¿½coulï¿½
 
         // Appliquer les effets progressivement
         while (elapsedTime < transitionDuration)
@@ -87,24 +87,24 @@ public class URPCameraVisualEffects : MonoBehaviour
 
             playerCamera.fieldOfView = Mathf.Lerp(initialFOV, initialFOV - maxFOVChange, lerpFactor);
 
-            // Incliner la caméra vers le bas
+            // Incliner la camï¿½ra vers le bas
             Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(cameraTiltAmount * lerpFactor, 0, 0);
             playerCamera.transform.localRotation = Quaternion.Slerp(playerCamera.transform.localRotation, targetRotation, Time.deltaTime * 5f);
 
-            // Ajouter un effet de tremblement de la caméra
-            playerCamera.transform.localPosition += Random.insideUnitSphere * cameraShakeIntensity;
+            // Ajouter un effet de tremblement de la camï¿½ra
+            playerCamera.transform.localPosition += Random.insideUnitSphere * Mathf.Lerp(0, cameraShakeIntensity, lerpFactor);
 
             yield return null; // Attendre une frame
         }
 
-        // Une fois la transition terminée, les effets restent à leur maximum
+        // Une fois la transition terminï¿½e, les effets restent ï¿½ leur maximum
         if (motionBlur != null)
             motionBlur.intensity.value = maxBlurAmount;
         if (chromaticAberration != null)
             chromaticAberration.intensity.value = maxAberrationAmount;
         playerCamera.fieldOfView = initialFOV - maxFOVChange;
 
-        // Continuer à appliquer le tremblement tant que l'effet est actif
+        // Continuer ï¿½ appliquer le tremblement tant que l'effet est actif
         while (isVertigoActive)
         {
             playerCamera.transform.localPosition += Random.insideUnitSphere * cameraShakeIntensity;
@@ -114,13 +114,13 @@ public class URPCameraVisualEffects : MonoBehaviour
 
     private void ResetVertigoEffects()
     {
-        // Réinitialiser les effets de post-processing
+        // Rï¿½initialiser les effets de post-processing
         if (motionBlur != null)
             motionBlur.active = false;
         if (chromaticAberration != null)
             chromaticAberration.active = false;
 
-        // Réinitialiser le FOV et la rotation de la caméra
+        // Rï¿½initialiser le FOV et la rotation de la camï¿½ra
         playerCamera.fieldOfView = initialFOV;
         playerCamera.transform.localRotation = initialCameraRotation;
         playerCamera.transform.localPosition = Vector3.zero;
