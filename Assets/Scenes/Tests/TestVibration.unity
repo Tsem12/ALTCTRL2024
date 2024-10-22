@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jc_ind: 0
-  _rumblingData: {fileID: 11400000, guid: 9267d1107d7667248b1ca6acc0840c9c, type: 2}
+  _rumblingData: {fileID: 11400000, guid: a15fbe2fdb690d1408908190f53974af, type: 2}
 --- !u!65 &367251815
 BoxCollider:
   m_ObjectHideFlags: 0
