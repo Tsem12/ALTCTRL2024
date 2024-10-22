@@ -429,6 +429,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1831652907093446333, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: _shakeTreshold
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2013898680695938317, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
       propertyPath: <Paths>k__BackingField.Array.data[0].LandingPoint
       value: 
@@ -577,9 +581,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4097162011334386207, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: onIdleEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4097162011334386207, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: onStopIdleEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4735325677546673917, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5534207750992559668, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7113421824255298554, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
       propertyPath: m_LocalPosition.x
@@ -595,6 +611,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7637018485017530688, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114037589025127951, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: _drawGizmoOnSelected
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8114037589025127951, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}

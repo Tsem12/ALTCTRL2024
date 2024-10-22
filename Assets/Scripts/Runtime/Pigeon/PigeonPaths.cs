@@ -13,12 +13,13 @@ public class PigeonPaths : MonoBehaviour
         public Transform LandingPoint;
     }
     
+    [SerializeField] private bool _drawGizmoOnSelected;
     [SerializeField, Range(0.01f, 1f)] private float _curveGizmoPrecision = 0.1f;
     [field:SerializeField] public Path[] Paths { get; private set; }
     
     private void OnDrawGizmos()
     {
-        if(Paths == null)
+        if(Paths == null || (_drawGizmoOnSelected && Selection.activeGameObject != gameObject))
             return;
         
         for (int i = 0; i < Paths.Length; i++)
