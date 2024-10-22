@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79d16bb9e289be4468b4cd07fca1b1de, type: 3}
-  m_Name: Rumble_int_1
+  m_Name: Rumble_Moyenne_to_Forte
   m_EditorClassIdentifier: 
-  _startToEndDuration: 4.99
+  _startToEndDuration: 5
   _startToEndCurve:
     serializedVersion: 2
     m_Curve:
@@ -37,11 +37,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _startLowFrequence: 80
-  _startHighFrequence: 160
-  _startAmplitude: 0.5
+  _startLowFrequence: 160
+  _startHighFrequence: 320
+  _startAmplitude: 0.6
   _startTimeInMillisec: 200
-  _endLowFrequence: 160
-  _endHighFrequence: 320
-  _endAmplitude: 0.5
+  _endLowFrequence: 320
+  _endHighFrequence: 640
+  _endAmplitude: 1.2
   _endTimeInMillisec: 200
