@@ -34,7 +34,6 @@ public class GyroControler : MonoBehaviour
 
     void Update () 
     {
-		Debug.Log($"Roll{GetPerchRoll} Pitch{GetPerchPitch}");
 		if (joycons.Count < 0)
 			return;
 		
