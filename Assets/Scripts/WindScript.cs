@@ -65,7 +65,7 @@ public class WindScript : MonoBehaviour
 
     private void Start()
     {
-        PlayWindToDirection(WindDirection.West, 5);
+        PlayWindToDirection(WindDirection.East, 50);
     }
 
     AudioClip ChooseRandomAudioClip()
