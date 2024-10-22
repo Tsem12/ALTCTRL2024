@@ -92,7 +92,7 @@ public class URPCameraVisualEffects : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Slerp(playerCamera.transform.localRotation, targetRotation, Time.deltaTime * 5f);
 
             // Ajouter un effet de tremblement de la caméra
-            playerCamera.transform.localPosition += Random.insideUnitSphere * cameraShakeIntensity;
+            playerCamera.transform.localPosition += Random.insideUnitSphere * Mathf.Lerp(0, cameraShakeIntensity, lerpFactor); ;
 
             yield return null; // Attendre une frame
         }
