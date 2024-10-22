@@ -20,7 +20,11 @@ public class WindScript : MonoBehaviour
 {
     [SerializeField] private GameObject windOrigin;
     [SerializeField] private GameObject player;
-    [SerializeField] private AudioClip windSound;
+    [SerializeField] private List<AudioClip> windSoundList;
+    [SerializeField] private List<GameObject> windEffectList;
+    private GameObject windEffect;
+
+    private AudioClip windSound;
     [SerializeField] private GameObject compassArrow;
     [SerializeField] private AnimationCurve curve;
     [SerializeField] private float compassRotationDuration = 0.5f;
@@ -61,11 +65,22 @@ public class WindScript : MonoBehaviour
 
     private void Start()
     {
-        PlayWindToDirection(WindDirection.East, 5);
+        PlayWindToDirection(WindDirection.West, 5);
+    }
+
+    AudioClip ChooseRandomAudioClip()
+    {
+        return windSoundList[Random.Range(0, windSoundList.Count)];
+    }
+
+    void ChooseRandomGameObject()
+    {
+         windEffect = windEffectList[Random.Range(0, windSoundList.Count)];
     }
 
     public void PlayWindToDirection(WindDirection windDirection, float duration)
     {
+        ChooseRandomGameObject();
         windOrigin.transform.position = GetWindOrigin(windDirection);
         Vector3 directionToPlayer = player.transform.position - windOrigin.transform.position;
         directionToPlayer.y = 0;
@@ -78,6 +93,7 @@ public class WindScript : MonoBehaviour
         }
 
         windOrigin.SetActive(true);
+        windEffect.SetActive(true);
         PlayWindSoundFromDirection(windDirection);
         RotateCompassWithDirection(windDirection);
         StartCoroutine(DisableWindAfterDuration(duration));
@@ -88,6 +104,7 @@ public class WindScript : MonoBehaviour
         isWindBlowing = true;
         yield return new WaitForSeconds(duration);
         windOrigin.SetActive(false);
+        windEffect.SetActive(false);
         isWindBlowing = false;
     }
 
@@ -96,28 +113,28 @@ public class WindScript : MonoBehaviour
         switch (windDirection)
         {
             case WindDirection.North:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.North, windSound);
+                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.North, ChooseRandomAudioClip());
                 break;
             case WindDirection.NorthEast:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.NorthEast, windSound);
+                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.NorthEast, ChooseRandomAudioClip());
                 break;
             case WindDirection.East:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.East, windSound);
+                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.East, ChooseRandomAudioClip());
                 break;
             case WindDirection.SouthEast:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.SouthEast, windSound);
+                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.SouthEast, ChooseRandomAudioClip());
                 break;
             case WindDirection.South:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.South, windSound);
+                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.South, ChooseRandomAudioClip());
                 break;
             case WindDirection.SouthWest:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.SouthWest, windSound);
+                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.SouthWest, ChooseRandomAudioClip());
                 break;
             case WindDirection.West:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.West, windSound);
+                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.West, ChooseRandomAudioClip());
                 break;
             case WindDirection.NorthWest:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.NorthWest, windSound);
+                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.NorthWest, ChooseRandomAudioClip());
                 break;
             default:
                 break;
