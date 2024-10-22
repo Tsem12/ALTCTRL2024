@@ -69,16 +69,16 @@ public class GyroControler : MonoBehaviour
 			300 * Time.deltaTime);
 			*/
 			transform.localRotation = rotationArroundRoll;	
-	        if (Mathf.Abs(accel.y) > _pitchTriggerTreshold)
-	        {
-		        float pitch = -Mathf.Lerp(-_maxPitch, _maxPitch, (accel.y + .5f) / 1f);
-		        _currentPitch = pitch;
-		        transform.localEulerAngles = new Vector3(pitch, transform.localEulerAngles.y ,transform.localEulerAngles.z);
-	        }
-	        else
-	        {
-		        _currentPitch = 0;
-	        }
+	        // if (Mathf.Abs(accel.y) > _pitchTriggerTreshold)
+	        // {
+		       //  float pitch = -Mathf.Lerp(-_maxPitch, _maxPitch, (accel.y + .5f) / 1f);
+		       //  _currentPitch = pitch;
+		       //  transform.localEulerAngles = new Vector3(pitch, transform.localEulerAngles.y ,transform.localEulerAngles.z);
+	        // }
+	        // else
+	        // {
+		       //  _currentPitch = 0;
+	        // }
         }
         
     }

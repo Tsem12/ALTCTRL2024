@@ -6,16 +6,20 @@ using Random = UnityEngine.Random;
 
 public class PigeonBehaviour : MonoBehaviour
 {
-    [SerializeField] private PigeonPaths _pigeonPaths;
     [SerializeField] private AnimationCurve _mouvementCurve;
     [SerializeField] private float _timeToLand;
     [SerializeField] private float _timeToLookAtCam;
+    
+    private PigeonPaths _pigeonPaths;
     private float _currentLandingTime;
     private Curve _curve;
-
-    private void Awake()
+    private PigeonPaths.Path _path;
+    
+    public void Init(PigeonPaths pigeonPaths)
     {
-        _curve = _pigeonPaths.Paths[Random.Range(0, _pigeonPaths.Paths.Length)];
+        _pigeonPaths = pigeonPaths;
+        _path = _pigeonPaths.Paths[Random.Range(0, _pigeonPaths.Paths.Length)];
+        _curve = _path.Curves[Random.Range(0, _path.Curves.Length)];
         transform.position = _curve.GetPosition(0f, _pigeonPaths.transform.localToWorldMatrix);
     }
 
@@ -40,11 +44,19 @@ public class PigeonBehaviour : MonoBehaviour
     IEnumerator LookCamRoutine()
     {
         float currentTime = 0;
+        Vector3 origin = transform.position;
         while (currentTime < _timeToLookAtCam)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Camera.main.transform.position), currentTime / _timeToLookAtCam);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Camera.main.transform.position, -_path.LandingPoint.right), currentTime / _timeToLookAtCam);
+            transform.position = Vector3.Lerp(origin,_path.LandingPoint.position , currentTime / _timeToLookAtCam);
             currentTime += Time.deltaTime;
             yield return null;
         }
+
+        transform.parent = _path.LandingPoint;
+        
+        //TEMP
+        yield return new WaitForSeconds(2);
+        Destroy(this);
     }
 }

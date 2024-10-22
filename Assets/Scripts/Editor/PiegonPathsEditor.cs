@@ -18,35 +18,39 @@ public class PiegonPathsEditor : Editor
         Matrix4x4 worldToLocalMatrix = localToWorldMatrix.inverse;
         for (int i = 0; i < _pigeonPaths.Paths.Length; i++)
         {
-            if(!_pigeonPaths.Paths[i].EnableEditPositionsOnScene)
-                continue;
+            for (int j = 0; j < _pigeonPaths.Paths[i].Curves.Length; j++)
+            {
+                if(!_pigeonPaths.Paths[i].Curves[j].EnableEditPositionsOnScene)
+                    continue;
 
-            if (!_pigeonPaths.Paths[i].EditPoints)
-            {
-                EditorGUI.BeginChangeCheck();
-                Vector3 vector = Handles.PositionHandle(localToWorldMatrix.MultiplyPoint(_pigeonPaths.Paths[i].Barycenter), Quaternion.identity);
-                Vector3 translation = worldToLocalMatrix.MultiplyPoint(vector) - _pigeonPaths.Paths[i].Barycenter;
-                if (EditorGUI.EndChangeCheck())
+                if (!_pigeonPaths.Paths[i].Curves[j].EditPoints)
                 {
-                    for (int j = 0; j < _pigeonPaths.Paths[i].Points.Length; j++)
-                    {
-                        Undo.RecordObject(_pigeonPaths, "Change FreeFollowView");
-                        _pigeonPaths.Paths[i].Points[j] +=  translation;
-                        EditorUtility.SetDirty(_pigeonPaths);
-                    }
-                }
-            }
-            else
-            {
-                for (int j = 0; j < _pigeonPaths.Paths[i].Points.Length; j++)
-                {
+                    
                     EditorGUI.BeginChangeCheck();
-                    Vector3 vector = Handles.PositionHandle(localToWorldMatrix.MultiplyPoint(_pigeonPaths.Paths[i].Points[j]), Quaternion.identity);
+                    Vector3 vector = Handles.PositionHandle(localToWorldMatrix.MultiplyPoint(_pigeonPaths.Paths[i].Curves[j].Barycenter), Quaternion.identity);
+                    Vector3 translation = worldToLocalMatrix.MultiplyPoint(vector) - _pigeonPaths.Paths[i].Curves[j].Barycenter;
                     if (EditorGUI.EndChangeCheck())
                     {
-                        Undo.RecordObject(_pigeonPaths, "Change FreeFollowView");
-                        _pigeonPaths.Paths[i].Points[j] = worldToLocalMatrix.MultiplyPoint(vector);
-                        EditorUtility.SetDirty(_pigeonPaths);
+                        for (int k = 0; k < _pigeonPaths.Paths[i].Curves[j].Points.Length; k++)
+                        {
+                            Undo.RecordObject(_pigeonPaths, "Change FreeFollowView");
+                            _pigeonPaths.Paths[i].Curves[j].Points[k] +=  translation;
+                            EditorUtility.SetDirty(_pigeonPaths);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int k = 0; k < _pigeonPaths.Paths[i].Curves[j].Points.Length; k++)
+                    {
+                        EditorGUI.BeginChangeCheck();
+                        Vector3 vector = Handles.PositionHandle(localToWorldMatrix.MultiplyPoint(_pigeonPaths.Paths[i].Curves[j].Points[k]), Quaternion.identity);
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            Undo.RecordObject(_pigeonPaths, "Change FreeFollowView");
+                            _pigeonPaths.Paths[i].Curves[j].Points[k] = worldToLocalMatrix.MultiplyPoint(vector);
+                            EditorUtility.SetDirty(_pigeonPaths);
+                        }
                     }
                 }
             }
