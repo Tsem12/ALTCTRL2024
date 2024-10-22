@@ -175,10 +175,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WindOrigin
       objectReference: {fileID: 0}
-    - target: {fileID: 6848680822082188880, guid: 61fb2220b5705404c8cc6a641937ac19, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8019812356528932433, guid: 61fb2220b5705404c8cc6a641937ac19, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.2
