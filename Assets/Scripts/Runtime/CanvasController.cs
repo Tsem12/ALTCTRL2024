@@ -8,6 +8,13 @@ public class CanvasController : MonoBehaviour
 
     public void OnLose()
     {
+        StartCoroutine(DebugLosingScreen());
+    }
+
+    private IEnumerator DebugLosingScreen()
+    {
         losingScreen.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        losingScreen.SetActive(false);
     }
 }

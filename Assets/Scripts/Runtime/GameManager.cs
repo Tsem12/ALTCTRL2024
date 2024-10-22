@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     {
         if(Mathf.Abs(gyroControler.GetPerchRoll) > limitAngle && Time.time > 3f)
         {
-            Debug.Log(gyroControler.GetPerchRoll);
             OnLoseEvent.Invoke();
         }
     }
