@@ -129,8 +129,7 @@ MonoBehaviour:
   maxSpeed: 0.5
   acceleration: 0.6
   maxPressTime: 1
-  timeBeforeVertigo: 1
-  effect: {fileID: 5534207750992559668}
+  timeBeforeVertigo: 0.6
   onIdleEvent:
     m_PersistentCalls:
       m_Calls:
@@ -174,7 +173,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 4362664053103500868}
-  effect: {fileID: 5534207750992559668}
   cameraTiltAngle: 10
   bobbingSpeed: 10
   baseBobbingAmountX: 0.02
@@ -332,7 +330,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
