@@ -35,14 +35,15 @@ public class Curve
         {
             Gizmos.DrawLine(GetPosition(i, localToWorldMatrix), GetPosition(i + 1f * curveGizmoPrecision, localToWorldMatrix));
         }
-
+        
+        if(!isSelected)
+            return;
+        
+        
         for (int i = 0; i < Points.Length; i++)
         {
             Gizmos.DrawSphere(localToWorldMatrix.MultiplyPoint(Points[i]), .1f);
         }
-
-        if(!isSelected)
-            return;
         
         GUIStyle style = new GUIStyle()
         {

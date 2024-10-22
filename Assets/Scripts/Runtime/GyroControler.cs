@@ -13,6 +13,14 @@ public class GyroControler : MonoBehaviour
 	[SerializeField] private float _pitchTriggerTreshold;
 	[SerializeField] private int _shakeTreshold;
     [SerializeField] private int jc_ind = 0;
+    
+    [Header("ShakeValues")]
+    [SerializeField] float _shakeDuration = .1f;
+    [SerializeField] Vector3 _shakeForce = new Vector3(0,.25f,0);
+    [SerializeField] int _shakeVibrato = 1;
+    [SerializeField] Ease _shakeEase = Ease.OutCubic;
+    [SerializeField] float _shakeRecoveryDuration = .5f;
+    [SerializeField] private Ease _shakeRecoveryEase = Ease.InOutExpo;
 
     // Values made available via Unity
     private Vector3 gyro;
@@ -21,6 +29,8 @@ public class GyroControler : MonoBehaviour
     private Vector3 _initPos;
     private Coroutine _shakeRoutine;
     private Tween _shakeTween;
+
+    public Action OnShakePerch;
     
     private float _currentPitch;
     public float GetPerchRoll => transform.localEulerAngles.z - 270;
@@ -88,17 +98,15 @@ public class GyroControler : MonoBehaviour
 
     IEnumerator ShakeRoutine()
     {
-	    Debug.Log("Start");
-	    
-	    _shakeTween = transform.DOShakePosition(.1f, new Vector3(0,.25f,0), 1).SetEase(Ease.OutCubic).SetLoops(-1, LoopType.Yoyo);
+	    OnShakePerch?.Invoke();
+	    _shakeTween = transform.DOShakePosition(_shakeDuration, _shakeVibrato).SetEase(_shakeEase).SetLoops(-1, LoopType.Yoyo);
 	    _shakeTween.Play();
-	    //yield return new WaitForSeconds(.5f);
 	    yield return new WaitUntil(() => accel.magnitude < 1);
 	    _shakeTween.Kill();
-	    transform.DOLocalMove(_initPos, .5f).SetEase(Ease.InOutExpo);
+	    transform.DOLocalMove(_initPos, _shakeRecoveryDuration).SetEase(_shakeRecoveryEase);
 	    _shakeRoutine = null;
 	    joycons[jc_ind].Recenter();
-	    Debug.Log("End");
+
     }
 
     private void OnGUI()
