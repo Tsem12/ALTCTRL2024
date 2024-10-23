@@ -1,21 +1,34 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class GyroControler : MonoBehaviour
 {
-private List<Joycon> joycons;
+	private List<Joycon> joycons;
+
+	[SerializeField] private bool _enableDebugLabels;
+	[SerializeField] private float _maxPitch;
+	[SerializeField] private float _pitchTriggerTreshold;
+	[SerializeField] private int _shakeTreshold;
+    [SerializeField] private int jc_ind = 0;
 
     // Values made available via Unity
-    public float[] stick;
-    public Vector3 gyro;
-    public Vector3 accel;
-    public int jc_ind = 0;
-    public Quaternion orientation;
-
+    private Vector3 gyro;
+    private Vector3 accel;
+    private Quaternion orientation;
+    private Vector3 _initPos;
+    private Coroutine _shakeRoutine;
+    private Tween _shakeTween;
+    
+    private float _currentPitch;
+    public float GetPerchRoll => transform.localEulerAngles.z - 270;
+    public float GetPerchPitch => _currentPitch;
+    
     void Start ()
     {
+	    _initPos = transform.localPosition;
         gyro = new Vector3(0, 0, 0);
         accel = new Vector3(0, 0, 0);
         // get the public Joycon array attached to the JoyconManager in scene
@@ -23,11 +36,11 @@ private List<Joycon> joycons;
 		if (joycons.Count < jc_ind+1){
 			Destroy(gameObject);
 		}
-	}
+    }
 
 
-    void Update () {
-
+    void Update () 
+    {
 		if (joycons.Count < 0)
 			return;
 		
@@ -41,9 +54,6 @@ private List<Joycon> joycons;
 			// Joycon has no magnetometer, so it cannot accurately determine its yaw value. Joycon.Recenter allows the user to reset the yaw value.
 			j.Recenter ();
 		}
-		
-
-        stick = j.GetStick();
 
         // Gyro values: x, y, z axis values (in radians per second)
         gyro = j.GetGyro();
@@ -53,16 +63,52 @@ private List<Joycon> joycons;
 
         orientation = j.GetVector();
         
-        gameObject.transform.rotation = new Quaternion(orientation.z, orientation.y, orientation.x, orientation.w);
+        orientation.ToAngleAxis(out float angle, out Vector3 axis);
+
+        if (accel.y < .95f && accel.y > -.95f && _shakeRoutine == null)
+        {
+	        Quaternion rotationArroundRoll = Quaternion.AngleAxis(angle * axis.x, Vector3.forward);
+	        transform.localRotation = rotationArroundRoll;	
+	        gameObject.transform.localRotation = Quaternion.RotateTowards(
+		        gameObject.transform.localRotation,
+		        rotationArroundRoll,
+		        10);
+			//transform.localRotation = rotationArroundRoll;	
+        }
+
+        if (accel.magnitude >= _shakeTreshold)
+        {
+	        if (_shakeRoutine == null)
+	        {
+		        _shakeRoutine = StartCoroutine(ShakeRoutine());
+	        }
+        }
+        
+    }
+
+    IEnumerator ShakeRoutine()
+    {
+	    Debug.Log("Start");
+	    
+	    _shakeTween = transform.DOShakePosition(.1f, new Vector3(0,.25f,0), 1).SetEase(Ease.OutCubic).SetLoops(-1, LoopType.Yoyo);
+	    _shakeTween.Play();
+	    //yield return new WaitForSeconds(.5f);
+	    yield return new WaitUntil(() => accel.magnitude < 1);
+	    _shakeTween.Kill();
+	    transform.DOLocalMove(_initPos, .5f).SetEase(Ease.InOutExpo);
+	    _shakeRoutine = null;
+	    joycons[jc_ind].Recenter();
+	    Debug.Log("End");
     }
 
     private void OnGUI()
     {
-	    bool isGyroStable = ToolBox.Approximately(0, gyro.x, ToolBox.Epsilone) && ToolBox.Approximately(0, gyro.y, ToolBox.Epsilone) && ToolBox.Approximately(0, gyro.z, ToolBox.Epsilone);
-	    string gyroStability = isGyroStable ? "Stable" : "Not stable";
+	    if(!_enableDebugLabels)
+		    return;
 	    
 	    bool isAccelAlign = ToolBox.Approximately(0, accel.x, .01f) && ToolBox.Approximately(0, accel.y, .01f) && ToolBox.Approximately(-1f, accel.z, .01f);
 	    string accelAlign = isAccelAlign ? "Aligned" : "Not aligned";
-	    GUILayout.Label($"Gyroscope Values => {gyroStability} => {gyro.ToString()} \n"+ $"Acceleration Values => {accelAlign} =>  {accel}", new GUIStyle(){fontSize = 60});
+	    GUILayout.Label($"Shake value => {(int)accel.magnitude}", new GUIStyle(){fontSize = 60});
+	    Debug.Log($"Shake value => {(int)accel.magnitude}");
     }
 }
