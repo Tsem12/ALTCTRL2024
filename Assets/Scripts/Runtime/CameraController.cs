@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class CameraController : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float baseBobbingAmountX = 0.02f; // Amplitude de base du balancement latéral (gauche-droite)
     [SerializeField] private float baseBobbingAmountY = 0.01f; // Amplitude de base du balancement vertical (haut-bas)
     [SerializeField] private float tiltAngle = 5f;            // Angle de rotation pour pencher la caméra latéralement
+
+    [Header("Fall")]
+    [SerializeField] private float fallHeight;
+    [SerializeField] private float sideFall;
+    [SerializeField] private float fallDuration;
 
     private PlayerMovement playerMovement;  // Référence au script PlayerMovement
     private float timer = 0.0f;             // Timer pour l'oscillation
@@ -47,6 +53,10 @@ public class CameraController : MonoBehaviour
 
             // Gérer l'inclinaison de la caméra en fonction de l'input
             ApplyCameraTilt();
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            ApplyDeathCameraEffect(true);
         }
     }
 
@@ -88,6 +98,50 @@ public class CameraController : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, Time.deltaTime);
         }
     }
+
+    //bool = gauche/droite
+    public void ApplyDeathCameraEffect(bool side)
+    {
+        // Commence une coroutine pour animer la chute de la caméra
+        StartCoroutine(DeathCameraFall(side));
+    }
+
+    private IEnumerator DeathCameraFall(bool side)
+    {
+        float elapsedTime = 0f;
+
+        // Déterminer la direction de la chute (gauche ou droite)
+        float tiltDirection = side ? 90f : -90f; // 90 degrés à gauche ou à droite
+
+        // Ajuster la translation horizontale (X) en fonction de la direction de la chute
+        float horizontalShift = side ? sideFall : -sideFall; // Tomber plus loin sur le côté (1.5 unités à gauche ou à droite)
+
+        // Position et rotation finales après la chute
+        Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(0, 0, tiltDirection);
+
+        // Ajouter un décalage plus prononcé vers le bas (-3 unités sur Y) et sur le côté en fonction du paramètre 'side'
+        Vector3 targetPosition = initialCameraPosition + new Vector3(horizontalShift, -fallHeight, 0);
+
+        // Animer la chute
+        while (elapsedTime < fallDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / fallDuration;
+
+            // Lerp la rotation vers la cible
+            playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, t);
+
+            // Lerp la position vers la cible (tomber vers le bas et à gauche/droite)
+            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, targetPosition, t);
+
+            yield return null; // Attendre la prochaine frame
+        }
+
+        // Assurer que la caméra termine exactement dans sa position finale
+        playerCamera.transform.localRotation = targetRotation;
+        playerCamera.transform.localPosition = targetPosition;
+    }
+
 
     public void ResetCamera()
     {
