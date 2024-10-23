@@ -6,15 +6,18 @@ using Random = UnityEngine.Random;
 
 public class PigeonBehaviour : MonoBehaviour
 {
+    [SerializeField] private Animator _animator;
     [SerializeField] private AnimationCurve _mouvementCurve;
     [SerializeField] private float _timeToLand;
     [SerializeField] private float _timeToLookAtCam;
+
     
     private PigeonPaths _pigeonPaths;
     private float _currentLandingTime;
     private Curve _curve;
     private PigeonPaths.Path _path;
     
+
     public void Init(PigeonPaths pigeonPaths)
     {
         _pigeonPaths = pigeonPaths;
@@ -38,6 +41,7 @@ public class PigeonBehaviour : MonoBehaviour
         if (_currentLandingTime >= _timeToLand)
         {
             StartCoroutine(LookCamRoutine());
+            _animator.SetTrigger("TriggerLand");
         }
     }
 

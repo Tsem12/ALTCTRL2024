@@ -28,15 +28,19 @@ public class WindScript : MonoBehaviour
     [SerializeField] private GameObject compassArrow;
     [SerializeField] private AnimationCurve curve;
     [SerializeField] private float compassRotationDuration = 0.5f;
-    [SerializeField] private float compassShakeIntensity=2;
+    [SerializeField] private float compassShakeIntensity = 2;
 
     private float compassRotationAngleDestination;
     private float compassRotationAngleStart;
 
-    private bool isWindBlowing = false;
     private bool isCompassRotating = false;
     private float timeElapsed = 0f;
 
+
+    [HideInInspector]
+    public bool isWindBlowing = false;
+    [HideInInspector]
+    public WindDirection _windDirection;
 
     private void Awake()
     {
@@ -61,11 +65,14 @@ public class WindScript : MonoBehaviour
                 compassArrow.transform.localRotation = Quaternion.Euler(90, 0, compassRotationAngleDestination);
             }
         }
+
     }
 
     private void Start()
     {
-        PlayWindToDirection(WindDirection.West, 5);
+        PlayWindToDirection(WindDirection.West, 50);
+
+
     }
 
     AudioClip ChooseRandomAudioClip()
@@ -75,11 +82,12 @@ public class WindScript : MonoBehaviour
 
     void ChooseRandomGameObject()
     {
-         windEffect = windEffectList[Random.Range(0, windSoundList.Count)];
+        windEffect = windEffectList[Random.Range(0, windSoundList.Count)];
     }
 
     public void PlayWindToDirection(WindDirection windDirection, float duration)
     {
+        _windDirection = windDirection;
         ChooseRandomGameObject();
         windOrigin.transform.position = GetWindOrigin(windDirection);
         Vector3 directionToPlayer = player.transform.position - windOrigin.transform.position;
@@ -97,6 +105,17 @@ public class WindScript : MonoBehaviour
         PlayWindSoundFromDirection(windDirection);
         RotateCompassWithDirection(windDirection);
         StartCoroutine(DisableWindAfterDuration(duration));
+    }
+
+    public void StopWind()
+    {
+        if (windEffect != null)
+        {
+            windOrigin.SetActive(false);
+            isWindBlowing = false;
+            isCompassRotating = false;
+            SpatializedSoundScript.Instance.StopCurrentAudioSource();
+        }
     }
 
     IEnumerator DisableWindAfterDuration(float duration)

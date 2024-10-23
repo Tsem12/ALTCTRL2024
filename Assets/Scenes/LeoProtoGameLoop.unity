@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &180513081 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1302992809943624191, guid: 1e39848767b08e945bb282b5330a2cde, type: 3}
+  m_PrefabInstance: {fileID: 811438780}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05ee44e0d437a7f489f3939e0c694e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &290982530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -255,10 +266,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1239236513489409544, guid: 1e39848767b08e945bb282b5330a2cde, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1302992809943624191, guid: 1e39848767b08e945bb282b5330a2cde, type: 3}
       propertyPath: player
       value: 
@@ -321,28 +328,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4735325677546673917, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
   m_PrefabInstance: {fileID: 1607351918}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &910169775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 910169769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9e35101c02f5be438b4966faa45840d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 1428645266}
-  bobbingSpeed: 10
-  baseBobbingAmountX: 0.02
-  baseBobbingAmountY: 0.01
-  tiltAngle: 15
---- !u!20 &1428645266 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 4362664053103500868, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
-  m_PrefabInstance: {fileID: 1607351918}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1555584794
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,6 +338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1555584796}
   - component: {fileID: 1555584795}
+  - component: {fileID: 1555584797}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -437,6 +423,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1555584797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555584794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1001 &1607351918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -565,6 +574,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3115113866994391322, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115113866994391322, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: _windScript
+      value: 
+      objectReference: {fileID: 180513081}
+    - target: {fileID: 3115113866994391322, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115113866994391322, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: windTiltMultiplier
+      value: 1.44
+      objectReference: {fileID: 0}
     - target: {fileID: 4097162011334386207, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
       propertyPath: maxSpeed
       value: 0.5
@@ -597,6 +622,14 @@ PrefabInstance:
       propertyPath: baseBobbingAmountY
       value: 0.005
       objectReference: {fileID: 0}
+    - target: {fileID: 4097162011334386207, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: onIdleEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4097162011334386207, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: onStopIdleEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4735325677546673917, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
       propertyPath: m_Name
       value: Player
@@ -611,6 +644,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5121110673564679788, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
       propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5534207750992559668, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6183582211468320593, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
@@ -637,6 +674,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6554201777248104711, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646681193865687018, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: -6652209265254514547, guid: 7fc03c6ca00f73041b8b4fa1420258b8, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7218449114566138950, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
@@ -649,10 +694,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1973238192407141673, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1889770536}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4735325677546673917, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 910169775}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
 --- !u!4 &1607351919 stripped
 Transform:
