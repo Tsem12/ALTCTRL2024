@@ -48,10 +48,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2217842919615798021, guid: e009236a9d8c38d48a16211812162bef, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5f99daa3acde9b34587dcca44fd8d53b, type: 2}
     - target: {fileID: 919132149155446097, guid: e009236a9d8c38d48a16211812162bef, type: 3}
       propertyPath: m_Name
       value: Clocher
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e009236a9d8c38d48a16211812162bef, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5100068591777345685, guid: e009236a9d8c38d48a16211812162bef, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 796de3b023205ee4d928b963163746c1, type: 2}
+    - target: {fileID: 5100068591777345685, guid: e009236a9d8c38d48a16211812162bef, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: c7c5e9fe980381346b2093ddb17ae844, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -117,6 +133,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Horloge
       objectReference: {fileID: 0}
+    - target: {fileID: 5828171839083166639, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d23f82f648913cf4daa28cdd0969f72e, type: 2}
+    - target: {fileID: 5943549011548903373, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d23f82f648913cf4daa28cdd0969f72e, type: 2}
+    - target: {fileID: 6943897648654692481, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d23f82f648913cf4daa28cdd0969f72e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

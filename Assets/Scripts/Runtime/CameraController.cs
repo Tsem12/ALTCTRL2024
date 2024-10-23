@@ -88,4 +88,10 @@ public class CameraController : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, Time.deltaTime);
         }
     }
+
+    public void ResetCamera()
+    {
+        playerCamera.transform.localPosition = initialCameraPosition;
+        playerCamera.transform.localRotation = initialCameraRotation;
+    }
 }
