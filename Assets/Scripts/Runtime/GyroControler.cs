@@ -15,6 +15,7 @@ public class GyroControler : MonoBehaviour
     [SerializeField] private JoyconIdConfig jc_ind;
     
     [Header("ShakeValues")]
+    [SerializeField] float _minTimeToShake = .5f;
     [SerializeField] float _shakeDuration = .1f;
     [SerializeField] Vector3 _shakeForce = new Vector3(0,.25f,0);
     [SerializeField] int _shakeVibrato = 1;
@@ -98,10 +99,18 @@ public class GyroControler : MonoBehaviour
 
     IEnumerator ShakeRoutine()
     {
-	    OnShakePerch?.Invoke();
 	    _shakeTween = transform.DOShakePosition(_shakeDuration, _shakeVibrato).SetEase(_shakeEase).SetLoops(-1, LoopType.Yoyo);
 	    _shakeTween.Play();
-	    yield return new WaitUntil(() => accel.magnitude < 1);
+	    float timer = 0f;
+	    while (accel.magnitude > 1)
+	    {
+		    timer += Time.deltaTime;
+		    if (timer >= _minTimeToShake)
+		    {
+				OnShakePerch?.Invoke();
+		    }
+		    yield return null;
+	    }
 	    _shakeTween.Kill();
 	    transform.DOLocalMove(_initPos, _shakeRecoveryDuration).SetEase(_shakeRecoveryEase);
 	    _shakeRoutine = null;
