@@ -63,7 +63,7 @@ public class CameraController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             ApplyDeathCameraEffect(true);
-
+        }
         if (_windScript != null && _windScript.isWindBlowing)
         {
             // Appliquer une rotation sur l'axe Z (roll) selon la vitesse du vent
