@@ -25,6 +25,9 @@ public class PlayerMovement : MonoBehaviour
     public UnityEvent onIdleEvent;
     public UnityEvent onStopIdleEvent;
 
+    private Vector3 initialPlayerPosition;
+    private Quaternion initialPlayerRotation;
+
     private void Awake()
     {
         // Initialisation des contrôles
@@ -33,6 +36,9 @@ public class PlayerMovement : MonoBehaviour
         // Lier l'action Move à une méthode pour capturer la valeur d'entrée
         controls.Player.Move.performed += ctx => OnMove(ctx.ReadValue<float>());
         controls.Player.Move.canceled += ctx => OnStopMove();
+
+        initialPlayerPosition = transform.position;
+        initialPlayerRotation = transform.rotation;
     }
 
     private void OnEnable()
@@ -138,5 +144,11 @@ public class PlayerMovement : MonoBehaviour
     private void OnStopMove()
     {
         movementInput = 0f; // Arrêter le mouvement
+    }
+
+    public void ResetPlayerTransform()
+    {
+        transform.position = initialPlayerPosition;
+        transform.rotation = initialPlayerRotation;
     }
 }

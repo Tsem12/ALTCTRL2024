@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 4097162011334386207}
   - component: {fileID: 3115113866994391322}
   - component: {fileID: 5534207750992559668}
-  - component: {fileID: 6554201777248104711}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -130,7 +129,7 @@ MonoBehaviour:
   maxSpeed: 0.5
   acceleration: 0.6
   maxPressTime: 1
-  timeBeforeVertigo: 3
+  timeBeforeVertigo: 0.6
   onIdleEvent:
     m_PersistentCalls:
       m_Calls:
@@ -193,30 +192,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 4362664053103500868}
   cameraTiltAmount: 20
-  cameraShakeIntensity: 0.01
+  cameraShakeIntensity: 0.005
   postProcessVolume: {fileID: 0}
   maxBlurAmount: 180
-  maxAberrationAmount: 1
+  maxAberrationAmount: 0.4
   maxFOVChange: 5
-  transitionDuration: 2
---- !u!114 &6554201777248104711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4735325677546673917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9e35101c02f5be438b4966faa45840d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 4362664053103500868}
-  cameraTiltAngle: 5
-  bobbingSpeed: 10
-  baseBobbingAmountX: 0.02
-  baseBobbingAmountY: 0.01
-  tiltAngle: 15
+  maxLensDistorsionIntensity: -0.4
+  maxVignetteIntensity: 0.5
+  transitionDuration: 5
 --- !u!1 &5869545729608037241
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,7 +330,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
