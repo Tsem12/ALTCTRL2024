@@ -6,6 +6,7 @@ using UnityEngine;
 public class JoyconRumblingManager : MonoBehaviour
 {
     public static JoyconRumblingManager Instance;
+    [SerializeField] private bool _enbleRumbling;
     [SerializeField] private JoyconIdConfig _joyconIdConfig;
 
     private Coroutine _leftRumbleRoutine;
@@ -25,7 +26,7 @@ public class JoyconRumblingManager : MonoBehaviour
 
         Instance = this;
 
-        OnRumbleReceived += SetupRumble;
+        OnRumbleReceived += StartRumble;
         OnRumbleStop += StopRumble;
     }
     
@@ -41,8 +42,11 @@ public class JoyconRumblingManager : MonoBehaviour
 
     #region RoutinesSetup
 
-    private void SetupRumble(Rumbling rumble)
+    private void StartRumble(Rumbling rumble)
     {
+        if(!_enbleRumbling)
+            return;
+        
         switch (rumble.Localisation)
         {
             case JoyconLocalisation.left:
@@ -60,6 +64,9 @@ public class JoyconRumblingManager : MonoBehaviour
     }
     private void StopRumble(JoyconLocalisation joyconLocalisation)
     {
+        if(!_enbleRumbling)
+            return;
+
         switch (joyconLocalisation)
         {
             case JoyconLocalisation.left:
@@ -82,7 +89,7 @@ public class JoyconRumblingManager : MonoBehaviour
             StopCoroutine(_leftRumbleRoutine);
             routine = null;
         }
-        routine = StartCoroutine(ComputeVibrationRoutine(data, joyconId));
+        routine = StartCoroutine(ComputeRumbleRoutine(data, joyconId));
     }
     private void StopRoutine(ref Coroutine routine)
     {
@@ -93,11 +100,12 @@ public class JoyconRumblingManager : MonoBehaviour
 
     #endregion
     
-    private IEnumerator ComputeVibrationRoutine(RumblingData data, int joyconId)
+    private IEnumerator ComputeRumbleRoutine(RumblingData data, int joyconId)
     {
-        if(!_areJoyconsConneted)
-            throw new Exception("one of the joy cons aren't connected");
-        
+        if (joyconId >= _joycons.Count)
+        {
+            throw new Exception($"No Joycon connected for id {joyconId}");
+        }
         Joycon j = _joycons[joyconId];
         float timer = 0;
         while (true)
