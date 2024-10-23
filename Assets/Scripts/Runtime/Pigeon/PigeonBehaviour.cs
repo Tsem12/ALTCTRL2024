@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class PigeonBehaviour : MonoBehaviour
 {
+    [field:SerializeField] public RumblingData RumblingData { get; private set; }
     [SerializeField] private Animator _animator;
     [SerializeField] private AnimationCurve _mouvementCurve;
     [SerializeField] private float _timeToLand;
@@ -16,6 +17,8 @@ public class PigeonBehaviour : MonoBehaviour
     private float _currentLandingTime;
     private Curve _curve;
     private PigeonPaths.Path _path;
+
+    public Action<PigeonBehaviour> OnPigeonLanded;
     
 
     public void Init(PigeonPaths pigeonPaths, int pathId)
@@ -47,6 +50,7 @@ public class PigeonBehaviour : MonoBehaviour
         {
             StartCoroutine(LookCamRoutine());
             _animator.SetTrigger("TriggerLand");
+            OnPigeonLanded?.Invoke(this);
         }
     }
 

@@ -10,7 +10,8 @@ public class PigeonManager : MonoBehaviour
     public class PigeonSlot
     {
         public PigeonBehaviour currentPigeon;
-        public int pigeonPathPathId;
+        [field: SerializeField] public int PigeonPathPathId { get; private set; }
+        [field: SerializeField] public JoyconLocalisation Localisation { get; private set; }
     }
     
     [SerializeField] private GyroControler _gyroControler;
@@ -35,6 +36,7 @@ public class PigeonManager : MonoBehaviour
         foreach (PigeonSlot pigeon in _pigeonSlots)
         {
             pigeon.currentPigeon.ShakePigeon();
+            JoyconRumblingManager.Instance.OnRumbleStop?.Invoke(pigeon.Localisation);
         }
     }
 
@@ -46,8 +48,14 @@ public class PigeonManager : MonoBehaviour
         PigeonBehaviour pigeon = Instantiate(_pigeonPrefabs[Random.Range(0, _pigeonPrefabs.Length)]);
         List<PigeonSlot> freeSlots = _pigeonSlots.Where(x => x.currentPigeon == null).ToList();
         PigeonSlot slot = freeSlots[Random.Range(0, freeSlots.Count)];
-        pigeon.Init(_pigeonPaths, slot.pigeonPathPathId);
+        pigeon.Init(_pigeonPaths, slot.PigeonPathPathId);
         return true;
+    }
+
+    private void RumblingSender(PigeonBehaviour pigeon)
+    {
+        JoyconLocalisation loca = _pigeonSlots.Find(x => x.currentPigeon == pigeon).Localisation;
+        JoyconRumblingManager.Instance.OnRumbleReceived?.Invoke(new Rumbling(pigeon.RumblingData, loca));
     }
     
     private void Update()

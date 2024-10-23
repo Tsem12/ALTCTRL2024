@@ -3,9 +3,9 @@ using UnityEngine;
 [CreateAssetMenu]
 public class JoyconIdConfig : ScriptableObject
 {
-    [field: SerializeField] public int _centerJoyconId { get; private set; }
-    [field: SerializeField] public int _leftJoyconId { get; private set; }
-    [field: SerializeField] public int _rightJoyconId { get; private set; }
+    [field: SerializeField] public int CenterJoyconId { get; private set; }
+    [field: SerializeField] public int LeftJoyconId { get; private set; }
+    [field: SerializeField] public int RightJoyconId { get; private set; }
 
-    public int GetMaxId => Mathf.Max(new int[]{ _centerJoyconId, _leftJoyconId, _rightJoyconId });
+    public int GetMaxId => Mathf.Max(new int[]{ CenterJoyconId, LeftJoyconId, RightJoyconId });
 }

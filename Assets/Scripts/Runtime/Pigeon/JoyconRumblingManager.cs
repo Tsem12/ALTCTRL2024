@@ -5,15 +5,32 @@ using UnityEngine;
 
 public class JoyconRumblingManager : MonoBehaviour
 {
+    public static JoyconRumblingManager Instance;
     [SerializeField] private JoyconIdConfig _joyconIdConfig;
+
+    private Coroutine _leftRumbleRoutine;
+    private Coroutine _rightRumbleRoutine;
+    private Coroutine _centerRumbleRoutine;
 
     private List<Joycon> _joycons;
     private bool _areJoyconsConneted = true;
 
-    public Func<Rumbling> OnRumbleReceived; 
+    public Action<Rumbling> OnRumbleReceived;
+    public Action<JoyconLocalisation> OnRumbleStop;
+
+    private void Awake()
+    {
+        if(Instance != null)
+            Destroy(gameObject);
+
+        Instance = this;
+
+        OnRumbleReceived += SetupRumble;
+        OnRumbleStop += StopRumble;
+    }
+    
     void Start ()
     {
-        // get the public Joycon array attached to the JoyconManager in scene
         _joycons = JoyconManager.Instance.j;
         if (_joycons.Count > _joyconIdConfig.GetMaxId)
         {
@@ -21,40 +38,78 @@ public class JoyconRumblingManager : MonoBehaviour
             _areJoyconsConneted = false;
         }
     }
-    
-    
-    void ComputeVibration(int joyconId) {
-        // make sure the Joycon only gets checked if attached
-        Joycon j = _joycons[joyconId];
 
-        if (j.GetButtonDown (Joycon.Button.DPAD_DOWN)) {
-            Debug.Log ("Rumble");
-            _startPigeon = true;
-            _currentTimer = 0;
-        }
-		
-        if (j.GetButtonDown (Joycon.Button.DPAD_UP)) {
-            Debug.Log ("Rumble");
-            _startPigeon = false;
-        }
+    #region RoutinesSetup
 
-        if (_startPigeon)
+    private void SetupRumble(Rumbling rumble)
+    {
+        switch (rumble.Localisation)
         {
-            _currentTimer += Time.deltaTime;
-            float low_frequence = Mathf.Lerp(_rumblingData.StartLowFrequence, _rumblingData.EndLowFrequence, _rumblingData.StartToEndCurve.Evaluate(_currentTimer / _rumblingData.StartToEndDuration));
-            float high_frequence = Mathf.Lerp(_rumblingData.StartHighFrequence, _rumblingData.EndHighFrequence, _rumblingData.StartToEndCurve.Evaluate(_currentTimer / _rumblingData.StartToEndDuration));
-            float amplitude = Mathf.Lerp(_rumblingData.StartAmplitude, _rumblingData.EndAmplitude, _rumblingData.StartToEndCurve.Evaluate(_currentTimer / _rumblingData.StartToEndDuration));
-            int timeInMillisec = (int)Mathf.Lerp(_rumblingData.StartTimeInMillisec, _rumblingData.EndTimeInMillisec, _rumblingData.StartToEndCurve.Evaluate(_currentTimer / _rumblingData.StartToEndDuration));
-			
-            // Rumble for 200 milliseconds, with low frequency rumble at 160 Hz and high frequency rumble at 320 Hz. For more information check:
-            // https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering/blob/master/rumble_data_table.md
-
-            j.SetRumble (low_frequence, high_frequence, amplitude, timeInMillisec);
-
-            // The last argument (time) in SetRumble is optional. Call it with three arguments to turn it on without telling it when to turn off.
-            // (Useful for dynamically changing rumble values.)
-            // Then call SetRumble(0,0,0) when you want to turn it off.
+            case JoyconLocalisation.left:
+                SetupRoutines(rumble.RumblingData, ref _leftRumbleRoutine, _joyconIdConfig.LeftJoyconId);
+                break;
+            case JoyconLocalisation.right:
+                SetupRoutines(rumble.RumblingData, ref _rightRumbleRoutine, _joyconIdConfig.RightJoyconId);
+                break;
+            case JoyconLocalisation.middle:
+                SetupRoutines(rumble.RumblingData, ref _centerRumbleRoutine, _joyconIdConfig.CenterJoyconId);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
+    }
+    private void StopRumble(JoyconLocalisation joyconLocalisation)
+    {
+        switch (joyconLocalisation)
+        {
+            case JoyconLocalisation.left:
+                StopRoutine(ref _leftRumbleRoutine);
+                break;
+            case JoyconLocalisation.right:
+                StopRoutine(ref _rightRumbleRoutine);
+                break;
+            case JoyconLocalisation.middle:
+                StopRoutine(ref _centerRumbleRoutine);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(joyconLocalisation), joyconLocalisation, null);
+        }
+    }
+    private void SetupRoutines(RumblingData data, ref Coroutine routine, int joyconId)
+    {
+        if (routine != null)
+        {
+            StopCoroutine(_leftRumbleRoutine);
+            routine = null;
+        }
+        routine = StartCoroutine(ComputeVibrationRoutine(data, joyconId));
+    }
+    private void StopRoutine(ref Coroutine routine)
+    {
+        StopCoroutine(routine);
+        routine = null;
+    }
+
+    #endregion
+    
+    private IEnumerator ComputeVibrationRoutine(RumblingData data, int joyconId)
+    {
+        if(!_areJoyconsConneted)
+            throw new Exception("one of the joy cons aren't connected");
         
+        Joycon j = _joycons[joyconId];
+        float timer = 0;
+        while (true)
+        {
+            timer += Time.deltaTime;
+            float percentage = timer / data.StartToEndDuration;
+            float low_frequence = Mathf.Lerp(data.StartLowFrequence, data.EndLowFrequence, data.StartToEndCurve.Evaluate(percentage));
+            float high_frequence = Mathf.Lerp(data.StartHighFrequence, data.EndHighFrequence, data.StartToEndCurve.Evaluate(percentage));
+            float amplitude = Mathf.Lerp(data.StartAmplitude, data.EndAmplitude, data.StartToEndCurve.Evaluate(percentage));
+            int timeInMillisec = (int)Mathf.Lerp(data.StartTimeInMillisec, data.EndTimeInMillisec, data.StartToEndCurve.Evaluate(percentage));
+            
+            j.SetRumble (low_frequence, high_frequence, amplitude, timeInMillisec);
+            yield return null;
+        }
     }
 }
