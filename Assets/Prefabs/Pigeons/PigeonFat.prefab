@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a7b12d5a55f8b4da8eee3f5cbbb8c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <RumblingData>k__BackingField: {fileID: 11400000, guid: 31b1bf9a6541d9640bff2a2f6c6187ee, type: 2}
   _animator: {fileID: 3871147929309218780}
   _mouvementCurve:
     serializedVersion: 2
@@ -73,6 +74,7 @@ MonoBehaviour:
   _timeToLand: 2.5
   _timeToLookAtCam: 0.25
   _fleeSpeed: 5
+  _fleeTimeUtilDestroy: 10
 --- !u!1001 &8736161383132378370
 PrefabInstance:
   m_ObjectHideFlags: 0

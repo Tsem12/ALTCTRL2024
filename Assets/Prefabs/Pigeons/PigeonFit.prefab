@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a7b12d5a55f8b4da8eee3f5cbbb8c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <RumblingData>k__BackingField: {fileID: 11400000, guid: 9267d1107d7667248b1ca6acc0840c9c, type: 2}
   _animator: {fileID: 5946054241828743595}
   _mouvementCurve:
     serializedVersion: 2

@@ -86,6 +86,7 @@ public class JoyconRumblingManager : MonoBehaviour
     }
     private void StopRoutine(ref Coroutine routine)
     {
+        
         StopCoroutine(routine);
         routine = null;
     }

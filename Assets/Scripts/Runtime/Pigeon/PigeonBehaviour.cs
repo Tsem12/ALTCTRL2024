@@ -19,6 +19,7 @@ public class PigeonBehaviour : MonoBehaviour
     private float _currentLandingTime;
     private Curve _curve;
     private PigeonPaths.Path _path;
+    public bool IsLanded { get; private set; }
 
     public Action<PigeonBehaviour> OnPigeonLanded;
     
@@ -53,6 +54,7 @@ public class PigeonBehaviour : MonoBehaviour
             StartCoroutine(LookCamRoutine());
             _animator.SetTrigger("TriggerLand");
             OnPigeonLanded?.Invoke(this);
+            IsLanded = true;
         }
     }
 
@@ -73,6 +75,7 @@ public class PigeonBehaviour : MonoBehaviour
 
     IEnumerator FleeRoutine()
     {
+        IsLanded = false;
         Vector3 Direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
         _animator.SetTrigger("TriggerFly");
         _animator.speed = 3;

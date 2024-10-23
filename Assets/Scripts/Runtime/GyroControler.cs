@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class GyroControler : MonoBehaviour
@@ -117,6 +118,9 @@ public class GyroControler : MonoBehaviour
 	    joycons[jc_ind.CenterJoyconId].Recenter();
 
     }
+    
+    [Button]
+    public void TestShake() => OnShakePerch?.Invoke();
 
     private void OnGUI()
     {
