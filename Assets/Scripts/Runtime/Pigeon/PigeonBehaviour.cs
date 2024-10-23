@@ -18,14 +18,19 @@ public class PigeonBehaviour : MonoBehaviour
     private PigeonPaths.Path _path;
     
 
-    public void Init(PigeonPaths pigeonPaths)
+    public void Init(PigeonPaths pigeonPaths, int pathId)
     {
         _pigeonPaths = pigeonPaths;
-        _path = _pigeonPaths.Paths[Random.Range(0, _pigeonPaths.Paths.Length)];
+        _path = _pigeonPaths.Paths[pathId];
         _curve = _path.Curves[Random.Range(0, _path.Curves.Length)];
         transform.position = _curve.GetPosition(0f, _pigeonPaths.transform.localToWorldMatrix);
     }
 
+    public void ShakePigeon()
+    {
+        Destroy(this);
+    }
+    
     private void Update()
     {
         if(_currentLandingTime >= _timeToLand)

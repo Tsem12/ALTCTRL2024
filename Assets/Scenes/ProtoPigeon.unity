@@ -682,6 +682,10 @@ PrefabInstance:
       propertyPath: _pigeonPaths
       value: 
       objectReference: {fileID: 736782517}
+    - target: {fileID: 7446947867109809737, guid: 10772dec6bf3dd944ae71b17864e3912, type: 3}
+      propertyPath: _pigeonSlots.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
