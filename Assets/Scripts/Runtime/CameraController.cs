@@ -25,16 +25,14 @@ public class CameraController : MonoBehaviour
     private Quaternion initialCameraRotation; // Stocker la rotation initiale de la cam�ra
 
     [Header("Wind Settings")]
+    [SerializeField] private WindScript _windScript;
     [SerializeField] private float windSpeed = 10f;        
     [SerializeField] private float windTiltMultiplier = 1f;
-
-    [SerializeField] private WindScript _windScript;
 
     private void Start()
     {
         // Obtenir la r�f�rence au script PlayerMovement
         playerMovement = GetComponent<PlayerMovement>();
-
         // Stocker la position initiale et la rotation initiale de la cam�ra
         initialCameraPosition = playerCamera.transform.localPosition;
         initialCameraRotation = playerCamera.transform.localRotation;
@@ -64,6 +62,7 @@ public class CameraController : MonoBehaviour
         {
             ApplyDeathCameraEffect(true);
         }
+        /*
         if (_windScript != null && _windScript.isWindBlowing)
         {
             // Appliquer une rotation sur l'axe Z (roll) selon la vitesse du vent
@@ -86,6 +85,7 @@ public class CameraController : MonoBehaviour
             Quaternion resetRotation = initialCameraRotation; // Retour � la rotation initiale (sans inclinaison)
             playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, resetRotation, 0.1f);
         }
+        */
     }
 
     private void ApplyHeadBobbing(float bobbingAmountX, float bobbingAmountY)
