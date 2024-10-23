@@ -94,6 +94,9 @@ public class URPCameraVisualEffects : MonoBehaviour
 
         float elapsedTime = 0f; // Variable pour le temps écoulé
 
+        Quaternion startingRotation = playerCamera.transform.localRotation;
+        Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(cameraTiltAmount, 0, 0);
+
         // Appliquer les effets progressivement
         while (elapsedTime < transitionDuration)
         {
@@ -101,20 +104,14 @@ public class URPCameraVisualEffects : MonoBehaviour
             float lerpFactor = Mathf.Clamp01(elapsedTime / transitionDuration);
 
             // Appliquer les effets avec lerp
-            if (motionBlur != null)
-                motionBlur.intensity.value = Mathf.Lerp(0, maxBlurAmount, lerpFactor);
-            if (chromaticAberration != null)
-                chromaticAberration.intensity.value = Mathf.Lerp(0, maxAberrationAmount, lerpFactor);
-            if (lensDistorsion != null)
-                lensDistorsion.intensity.value = Mathf.Lerp(0, maxLensDistorsionIntensity, lerpFactor);
-            if (vignette != null)
-                vignette.intensity.value = Mathf.Lerp(0, maxVignetteIntensity, lerpFactor);
-
+            motionBlur.intensity.value = Mathf.Lerp(0, maxBlurAmount, lerpFactor);
+            chromaticAberration.intensity.value = Mathf.Lerp(0, maxAberrationAmount, lerpFactor);
+            lensDistorsion.intensity.value = Mathf.Lerp(0, maxLensDistorsionIntensity, lerpFactor);
+            vignette.intensity.value = Mathf.Lerp(0, maxVignetteIntensity, lerpFactor);
             playerCamera.fieldOfView = Mathf.Lerp(initialFOV, initialFOV - maxFOVChange, lerpFactor);
 
             // Incliner la caméra vers le bas
-            Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(cameraTiltAmount * lerpFactor, 0, 0);
-            playerCamera.transform.localRotation = Quaternion.Slerp(playerCamera.transform.localRotation, targetRotation, Time.deltaTime * 5f);
+            playerCamera.transform.localRotation = Quaternion.Slerp(startingRotation, targetRotation, lerpFactor);
 
             // Ajouter un effet de tremblement de la caméra
             playerCamera.transform.localPosition += Random.insideUnitSphere * Mathf.Lerp(0, cameraShakeIntensity, lerpFactor); ;
@@ -174,5 +171,20 @@ public class URPCameraVisualEffects : MonoBehaviour
         playerCamera.fieldOfView = initialFOV;
         playerCamera.transform.localRotation = initialCameraRotation;
         playerCamera.transform.localPosition = initialCameraLocalPosition;
+    }
+
+    public void InstantStopVertigoEffects()
+    {
+        isVertigoActive = false;
+        StopAllCoroutines();
+        // Désactiver les effets de post-processing
+        if (motionBlur != null)
+            motionBlur.active = false;
+        if (chromaticAberration != null)
+            chromaticAberration.active = false;
+        if (lensDistorsion != null)
+            lensDistorsion.active = false;
+        if (vignette != null)
+            vignette.active = false;
     }
 }

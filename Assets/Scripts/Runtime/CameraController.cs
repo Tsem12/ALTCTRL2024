@@ -4,6 +4,7 @@ using System.Collections;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;             // R�f�rence � la cam�ra du joueur
+    [SerializeField] private URPCameraVisualEffects effects;
 
     [Header("MovementTilt")]
     [SerializeField] private float cameraTiltAngle = 5f;            // Angle de rotation pour pencher la cam�ra lat�ralement
@@ -19,6 +20,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float sideFall;
     [SerializeField] private float fallDuration;
 
+    private Coroutine fallCoroutine = null;
+
     private PlayerMovement playerMovement;  // R�f�rence au script PlayerMovement
     private float timer = 0.0f;             // Timer pour l'oscillation
     private Vector3 initialCameraPosition;   // Stocker la position initiale de la cam�ra
@@ -26,7 +29,7 @@ public class CameraController : MonoBehaviour
 
     [Header("Wind Settings")]
     [SerializeField] private WindScript _windScript;
-    [SerializeField] private float windSpeed = 10f;        
+    [SerializeField] private float windSpeed = 10f;
     [SerializeField] private float windTiltMultiplier = 1f;
 
     private void Start()
@@ -40,27 +43,21 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        if (playerMovement != null && playerMovement.GetMoveSpeed() != 0)
-        {
-            // Appliquer l'inclinaison � la cam�ra selon la vitesse
-            Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(cameraTiltAngle * (playerMovement.GetMoveSpeed() / playerMovement.GetMaxSpeed()), 0, 0);
-            playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, 0.1f);
-
-
-            // Calculer la quantit� de bobbing en fonction de la vitesse du joueur
-            float speedFactor = Mathf.Clamp01(playerMovement.GetMoveSpeed() / playerMovement.GetMaxSpeed());
-            float bobbingAmountX = baseBobbingAmountX * speedFactor; // Amplitude bas�e sur la vitesse
-            float bobbingAmountY = baseBobbingAmountY * speedFactor; // Amplitude bas�e sur la vitesse
-
-            // Appliquer le head bobbing
-            ApplyHeadBobbing(bobbingAmountX, bobbingAmountY);
-
-            // G�rer l'inclinaison de la cam�ra en fonction de l'input
-            ApplyCameraTilt();
-        }
-        if (Input.GetKeyDown(KeyCode.F))
+        //Si le joueur est mort
+        if (!GameManager.instance.GetIsPlayerAlive())
         {
             ApplyDeathCameraEffect(true);
+            return;
+        }
+        //Si ya du vent
+        if (_windScript.isWindBlowing)
+        {
+            //Gerer le vent
+            return;
+        }
+        if (playerMovement.GetMoveSpeed() != 0)
+        {
+            ApplyMovementCamera();
         }
         /*
         if (_windScript != null && _windScript.isWindBlowing)
@@ -88,6 +85,25 @@ public class CameraController : MonoBehaviour
         */
     }
 
+    private void ApplyMovementCamera()
+    {
+        // Appliquer l'inclinaison � la cam�ra selon la vitesse
+        Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(cameraTiltAngle * (playerMovement.GetMoveSpeed() / playerMovement.GetMaxSpeed()), 0, 0);
+        playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, 0.1f);
+
+
+        // Calculer la quantit� de bobbing en fonction de la vitesse du joueur
+        float speedFactor = Mathf.Clamp01(playerMovement.GetMoveSpeed() / playerMovement.GetMaxSpeed());
+        float bobbingAmountX = baseBobbingAmountX * speedFactor; // Amplitude bas�e sur la vitesse
+        float bobbingAmountY = baseBobbingAmountY * speedFactor; // Amplitude bas�e sur la vitesse
+
+        // Appliquer le head bobbing
+        ApplyHeadBobbing(bobbingAmountX, bobbingAmountY);
+
+        // G�rer l'inclinaison de la cam�ra en fonction de l'input
+        ApplyCameraTilt();
+    }
+
     private void ApplyHeadBobbing(float bobbingAmountX, float bobbingAmountY)
     {
         // Mettre � jour le timer
@@ -98,44 +114,37 @@ public class CameraController : MonoBehaviour
         float offsetY = Mathf.Sin(timer) * bobbingAmountY; // Oscillation sur l'axe Y
 
         // Appliquer le mouvement de bobbing � la position de la cam�ra en conservant la position initiale
-        playerCamera.transform.localPosition = new Vector3(
-            initialCameraPosition.x + offsetX,  // Ajout du d�calage X � la position initiale X
-            initialCameraPosition.y + offsetY,  // Ajout du d�calage Y � la position initiale Y
-            initialCameraPosition.z             // La position Z reste la m�me
-        );
+        playerCamera.transform.localPosition = new Vector3(initialCameraPosition.x + offsetX, initialCameraPosition.y + offsetY, initialCameraPosition.z);
     }
 
     private void ApplyCameraTilt()
     {
-        // Incliner la cam�ra en fonction de l'input du joueur
-        if (playerMovement != null)
+        float tilt = 0f;
+        float movementInput = playerMovement.GetMovementInput();
+        if (movementInput > 0) // Fl�che du haut maintenue
         {
-            float tilt = 0f;
-            float movementInput = playerMovement.GetMovementInput();
-            if (movementInput > 0) // Fl�che du haut maintenue
-            {
-                tilt = -tiltAngle; // Pencher � gauche
-            }
-            else if (movementInput < 0) // Fl�che du bas maintenue
-            {
-                tilt = tiltAngle;  // Pencher � droite
-            }
-
-            // Appliquer l'inclinaison sur l'axe Z
-            Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(0, 0, tilt);
-            playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, Time.deltaTime);
+            tilt = -tiltAngle; // Pencher � gauche
         }
+        else if (movementInput < 0) // Fl�che du bas maintenue
+        {
+            tilt = tiltAngle;  // Pencher � droite
+        }
+
+        // Appliquer l'inclinaison sur l'axe Z
+        Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(0, 0, tilt);
+        playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, Time.deltaTime);
     }
 
-    //bool = gauche/droite
     public void ApplyDeathCameraEffect(bool side)
     {
+        if (fallCoroutine != null) return;
         // Commence une coroutine pour animer la chute de la cam�ra
-        StartCoroutine(DeathCameraFall(side));
+        fallCoroutine = StartCoroutine(DeathCameraFall(side));
     }
 
     private IEnumerator DeathCameraFall(bool side)
     {
+        effects.InstantStopVertigoEffects();
         float elapsedTime = 0f;
 
         // D�terminer la direction de la chute (gauche ou droite)
@@ -143,6 +152,9 @@ public class CameraController : MonoBehaviour
 
         // Ajuster la translation horizontale (X) en fonction de la direction de la chute
         float horizontalShift = side ? sideFall : -sideFall; // Tomber plus loin sur le c�t� (1.5 unit�s � gauche ou � droite)
+
+        Quaternion startingRotation = playerCamera.transform.localRotation;
+        Vector3 startingPosition = playerCamera.transform.localPosition;
 
         // Position et rotation finales apr�s la chute
         Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(0, 0, tiltDirection);
@@ -157,10 +169,10 @@ public class CameraController : MonoBehaviour
             float t = elapsedTime / fallDuration;
 
             // Lerp la rotation vers la cible
-            playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, t);
+            playerCamera.transform.localRotation = Quaternion.Lerp(startingRotation, targetRotation, t);
 
             // Lerp la position vers la cible (tomber vers le bas et � gauche/droite)
-            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, targetPosition, t);
+            playerCamera.transform.localPosition = Vector3.Lerp(startingPosition, targetPosition, t);
 
             yield return null; // Attendre la prochaine frame
         }
@@ -168,6 +180,13 @@ public class CameraController : MonoBehaviour
         // Assurer que la cam�ra termine exactement dans sa position finale
         playerCamera.transform.localRotation = targetRotation;
         playerCamera.transform.localPosition = targetPosition;
+
+        //Reset la Camera au spawn
+        ResetCamera();
+        GameManager.instance.SetIsPlayerAlive(true);
+        GameManager.instance.SetHasMoved(false);
+        fallCoroutine = null;
+        Debug.Log("quoicoubeh");
     }
 
 

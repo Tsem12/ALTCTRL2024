@@ -77,6 +77,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (movementInput != 0)
         {
+            if (!GameManager.instance.GetHasMoved())
+            {
+                GameManager.instance.SetHasMoved(true);
+            }
             // Appeler l'événement StopIdle lorsque le joueur recommence à bouger
             if (isIdle)
             {
@@ -110,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
             idleTimer += Time.deltaTime;
 
             // Si le joueur est immobile depuis assez longtemps
-            if (idleTimer >= timeBeforeVertigo && !isIdle)
+            if (idleTimer >= timeBeforeVertigo && !isIdle && GameManager.instance.GetHasMoved())
             {
                 // Déclenche l'événement d'immobilité
                 onIdleEvent.Invoke();

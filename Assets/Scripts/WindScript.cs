@@ -52,7 +52,6 @@ public class WindScript : MonoBehaviour
         if (isCompassRotating)
         {
             Rotate();
-            Debug.Log("Rotating compass");
         }
         else
         {
@@ -65,15 +64,17 @@ public class WindScript : MonoBehaviour
                 compassArrow.transform.localRotation = Quaternion.Euler(90, 0, compassRotationAngleDestination);
             }
         }
-
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            PlayWindToDirection(WindDirection.West, 10);
+        }
     }
-
+    /*
     private void Start()
     {
-        PlayWindToDirection(WindDirection.West, 50);
-
-
+        PlayWindToDirection(WindDirection.West, 10);
     }
+    */
 
     AudioClip ChooseRandomAudioClip()
     {
