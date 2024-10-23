@@ -46,7 +46,7 @@ public class GyroControler : MonoBehaviour
         joycons = JoyconManager.Instance.j;
 		if (joycons.Count < jc_ind.CenterJoyconId+1)
 		{
-			Debug.LogError("No joycon founded");
+			Debug.LogError("No Joycon for Gyroscope");
 		}
     }
 
