@@ -3,33 +3,39 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private Camera playerCamera;             // Référence à la caméra du joueur
+    [SerializeField] private Camera playerCamera;             // Rï¿½fï¿½rence ï¿½ la camï¿½ra du joueur
 
     [Header("MovementTilt")]
-    [SerializeField] private float cameraTiltAngle = 5f;            // Angle de rotation pour pencher la caméra latéralement
+    [SerializeField] private float cameraTiltAngle = 5f;            // Angle de rotation pour pencher la camï¿½ra latï¿½ralement
 
     [Header("Bobbing")]
     [SerializeField] private float bobbingSpeed = 0.1f;       // Vitesse du balancement
-    [SerializeField] private float baseBobbingAmountX = 0.02f; // Amplitude de base du balancement latéral (gauche-droite)
+    [SerializeField] private float baseBobbingAmountX = 0.02f; // Amplitude de base du balancement latï¿½ral (gauche-droite)
     [SerializeField] private float baseBobbingAmountY = 0.01f; // Amplitude de base du balancement vertical (haut-bas)
-    [SerializeField] private float tiltAngle = 5f;            // Angle de rotation pour pencher la caméra latéralement
+    [SerializeField] private float tiltAngle = 5f;            // Angle de rotation pour pencher la camï¿½ra latï¿½ralement
 
     [Header("Fall")]
     [SerializeField] private float fallHeight;
     [SerializeField] private float sideFall;
     [SerializeField] private float fallDuration;
 
-    private PlayerMovement playerMovement;  // Référence au script PlayerMovement
+    private PlayerMovement playerMovement;  // Rï¿½fï¿½rence au script PlayerMovement
     private float timer = 0.0f;             // Timer pour l'oscillation
-    private Vector3 initialCameraPosition;  // Stocker la position initiale de la caméra
-    private Quaternion initialCameraRotation; // Stocker la rotation initiale de la caméra
+    private Vector3 initialCameraPosition;   // Stocker la position initiale de la camï¿½ra
+    private Quaternion initialCameraRotation; // Stocker la rotation initiale de la camï¿½ra
+
+    [Header("Wind Settings")]
+    [SerializeField] private float windSpeed = 10f;        
+    [SerializeField] private float windTiltMultiplier = 1f;
+
+    [SerializeField] private WindScript _windScript;
 
     private void Start()
     {
-        // Obtenir la référence au script PlayerMovement
+        // Obtenir la rï¿½fï¿½rence au script PlayerMovement
         playerMovement = GetComponent<PlayerMovement>();
 
-        // Stocker la position initiale et la rotation initiale de la caméra
+        // Stocker la position initiale et la rotation initiale de la camï¿½ra
         initialCameraPosition = playerCamera.transform.localPosition;
         initialCameraRotation = playerCamera.transform.localRotation;
     }
@@ -38,59 +44,81 @@ public class CameraController : MonoBehaviour
     {
         if (playerMovement != null && playerMovement.GetMoveSpeed() != 0)
         {
-            // Appliquer l'inclinaison à la caméra selon la vitesse
+            // Appliquer l'inclinaison ï¿½ la camï¿½ra selon la vitesse
             Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(cameraTiltAngle * (playerMovement.GetMoveSpeed() / playerMovement.GetMaxSpeed()), 0, 0);
             playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, 0.1f);
 
 
-            // Calculer la quantité de bobbing en fonction de la vitesse du joueur
+            // Calculer la quantitï¿½ de bobbing en fonction de la vitesse du joueur
             float speedFactor = Mathf.Clamp01(playerMovement.GetMoveSpeed() / playerMovement.GetMaxSpeed());
-            float bobbingAmountX = baseBobbingAmountX * speedFactor; // Amplitude basée sur la vitesse
-            float bobbingAmountY = baseBobbingAmountY * speedFactor; // Amplitude basée sur la vitesse
+            float bobbingAmountX = baseBobbingAmountX * speedFactor; // Amplitude basï¿½e sur la vitesse
+            float bobbingAmountY = baseBobbingAmountY * speedFactor; // Amplitude basï¿½e sur la vitesse
 
             // Appliquer le head bobbing
             ApplyHeadBobbing(bobbingAmountX, bobbingAmountY);
 
-            // Gérer l'inclinaison de la caméra en fonction de l'input
+            // Gï¿½rer l'inclinaison de la camï¿½ra en fonction de l'input
             ApplyCameraTilt();
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
             ApplyDeathCameraEffect(true);
+
+        if (_windScript != null && _windScript.isWindBlowing)
+        {
+            // Appliquer une rotation sur l'axe Z (roll) selon la vitesse du vent
+            float windRollAngle = cameraTiltAngle * windSpeed * windTiltMultiplier; // Calcul du roll en fonction de la vitesse du vent
+
+            if(_windScript._windDirection == WindDirection.West || _windScript._windDirection == WindDirection.NorthWest || _windScript._windDirection == WindDirection.SouthWest)
+            {
+                windRollAngle = -windRollAngle;
+            }
+
+            // Inclure l'effet de roll dans la rotation de la camï¿½ra
+            Quaternion windRotation = initialCameraRotation * Quaternion.Euler(0, 0, windRollAngle);
+
+            // Appliquer la rotation ï¿½ la camï¿½ra (roll + rotation dï¿½jï¿½ dï¿½finie par la vitesse du joueur)
+            playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, windRotation, 0.1f);
+        }
+        else
+        {
+            // Remettre le roll ï¿½ zï¿½ro de maniï¿½re fluide quand le vent ne souffle pas
+            Quaternion resetRotation = initialCameraRotation; // Retour ï¿½ la rotation initiale (sans inclinaison)
+            playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, resetRotation, 0.1f);
         }
     }
 
     private void ApplyHeadBobbing(float bobbingAmountX, float bobbingAmountY)
     {
-        // Mettre à jour le timer
+        // Mettre ï¿½ jour le timer
         timer += Time.deltaTime * bobbingSpeed;
 
-        // Calculer les nouvelles positions basées sur le timer
+        // Calculer les nouvelles positions basï¿½es sur le timer
         float offsetX = Mathf.Sin(timer) * bobbingAmountX; // Oscillation sur l'axe X
         float offsetY = Mathf.Sin(timer) * bobbingAmountY; // Oscillation sur l'axe Y
 
-        // Appliquer le mouvement de bobbing à la position de la caméra en conservant la position initiale
+        // Appliquer le mouvement de bobbing ï¿½ la position de la camï¿½ra en conservant la position initiale
         playerCamera.transform.localPosition = new Vector3(
-            initialCameraPosition.x + offsetX,  // Ajout du décalage X à la position initiale X
-            initialCameraPosition.y + offsetY,  // Ajout du décalage Y à la position initiale Y
-            initialCameraPosition.z             // La position Z reste la même
+            initialCameraPosition.x + offsetX,  // Ajout du dï¿½calage X ï¿½ la position initiale X
+            initialCameraPosition.y + offsetY,  // Ajout du dï¿½calage Y ï¿½ la position initiale Y
+            initialCameraPosition.z             // La position Z reste la mï¿½me
         );
     }
 
     private void ApplyCameraTilt()
     {
-        // Incliner la caméra en fonction de l'input du joueur
+        // Incliner la camï¿½ra en fonction de l'input du joueur
         if (playerMovement != null)
         {
             float tilt = 0f;
             float movementInput = playerMovement.GetMovementInput();
-            if (movementInput > 0) // Flèche du haut maintenue
+            if (movementInput > 0) // Flï¿½che du haut maintenue
             {
-                tilt = -tiltAngle; // Pencher à gauche
+                tilt = -tiltAngle; // Pencher ï¿½ gauche
             }
-            else if (movementInput < 0) // Flèche du bas maintenue
+            else if (movementInput < 0) // Flï¿½che du bas maintenue
             {
-                tilt = tiltAngle;  // Pencher à droite
+                tilt = tiltAngle;  // Pencher ï¿½ droite
             }
 
             // Appliquer l'inclinaison sur l'axe Z
@@ -102,7 +130,7 @@ public class CameraController : MonoBehaviour
     //bool = gauche/droite
     public void ApplyDeathCameraEffect(bool side)
     {
-        // Commence une coroutine pour animer la chute de la caméra
+        // Commence une coroutine pour animer la chute de la camï¿½ra
         StartCoroutine(DeathCameraFall(side));
     }
 
@@ -110,16 +138,16 @@ public class CameraController : MonoBehaviour
     {
         float elapsedTime = 0f;
 
-        // Déterminer la direction de la chute (gauche ou droite)
-        float tiltDirection = side ? 90f : -90f; // 90 degrés à gauche ou à droite
+        // Dï¿½terminer la direction de la chute (gauche ou droite)
+        float tiltDirection = side ? 90f : -90f; // 90 degrï¿½s ï¿½ gauche ou ï¿½ droite
 
         // Ajuster la translation horizontale (X) en fonction de la direction de la chute
-        float horizontalShift = side ? sideFall : -sideFall; // Tomber plus loin sur le côté (1.5 unités à gauche ou à droite)
+        float horizontalShift = side ? sideFall : -sideFall; // Tomber plus loin sur le cï¿½tï¿½ (1.5 unitï¿½s ï¿½ gauche ou ï¿½ droite)
 
-        // Position et rotation finales après la chute
+        // Position et rotation finales aprï¿½s la chute
         Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(0, 0, tiltDirection);
 
-        // Ajouter un décalage plus prononcé vers le bas (-3 unités sur Y) et sur le côté en fonction du paramètre 'side'
+        // Ajouter un dï¿½calage plus prononcï¿½ vers le bas (-3 unitï¿½s sur Y) et sur le cï¿½tï¿½ en fonction du paramï¿½tre 'side'
         Vector3 targetPosition = initialCameraPosition + new Vector3(horizontalShift, -fallHeight, 0);
 
         // Animer la chute
@@ -131,13 +159,13 @@ public class CameraController : MonoBehaviour
             // Lerp la rotation vers la cible
             playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, t);
 
-            // Lerp la position vers la cible (tomber vers le bas et à gauche/droite)
+            // Lerp la position vers la cible (tomber vers le bas et ï¿½ gauche/droite)
             playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, targetPosition, t);
 
             yield return null; // Attendre la prochaine frame
         }
 
-        // Assurer que la caméra termine exactement dans sa position finale
+        // Assurer que la camï¿½ra termine exactement dans sa position finale
         playerCamera.transform.localRotation = targetRotation;
         playerCamera.transform.localPosition = targetPosition;
     }
