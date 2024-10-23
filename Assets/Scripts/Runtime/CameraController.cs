@@ -15,8 +15,14 @@ public class CameraController : MonoBehaviour
 
     private PlayerMovement playerMovement;  // Référence au script PlayerMovement
     private float timer = 0.0f;             // Timer pour l'oscillation
-    private Vector3 initialCameraPosition;  // Stocker la position initiale de la caméra
+    private Vector3 initialCameraPosition;   // Stocker la position initiale de la caméra
     private Quaternion initialCameraRotation; // Stocker la rotation initiale de la caméra
+
+    [Header("Wind Settings")]
+    [SerializeField] private float windSpeed = 10f;        
+    [SerializeField] private float windTiltMultiplier = 1f;
+
+    [SerializeField] private WindScript _windScript;
 
     private void Start()
     {
@@ -47,6 +53,29 @@ public class CameraController : MonoBehaviour
 
             // Gérer l'inclinaison de la caméra en fonction de l'input
             ApplyCameraTilt();
+        }
+
+        if (_windScript != null && _windScript.isWindBlowing)
+        {
+            // Appliquer une rotation sur l'axe Z (roll) selon la vitesse du vent
+            float windRollAngle = cameraTiltAngle * windSpeed * windTiltMultiplier; // Calcul du roll en fonction de la vitesse du vent
+
+            if(_windScript._windDirection == WindDirection.West || _windScript._windDirection == WindDirection.NorthWest || _windScript._windDirection == WindDirection.SouthWest)
+            {
+                windRollAngle = -windRollAngle;
+            }
+
+            // Inclure l'effet de roll dans la rotation de la caméra
+            Quaternion windRotation = initialCameraRotation * Quaternion.Euler(0, 0, windRollAngle);
+
+            // Appliquer la rotation à la caméra (roll + rotation déjà définie par la vitesse du joueur)
+            playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, windRotation, 0.1f);
+        }
+        else
+        {
+            // Remettre le roll à zéro de manière fluide quand le vent ne souffle pas
+            Quaternion resetRotation = initialCameraRotation; // Retour à la rotation initiale (sans inclinaison)
+            playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, resetRotation, 0.1f);
         }
     }
 

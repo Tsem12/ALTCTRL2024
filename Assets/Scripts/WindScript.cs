@@ -33,11 +33,14 @@ public class WindScript : MonoBehaviour
     private float compassRotationAngleDestination;
     private float compassRotationAngleStart;
 
-    private bool isWindBlowing = false;
     private bool isCompassRotating = false;
     private float timeElapsed = 0f;
 
 
+    [HideInInspector]
+    public bool isWindBlowing = false;
+    [HideInInspector]
+    public WindDirection _windDirection;
 
     private void Awake()
     {
@@ -67,7 +70,7 @@ public class WindScript : MonoBehaviour
 
     private void Start()
     {
-        PlayWindToDirection(WindDirection.East, 50);
+        PlayWindToDirection(WindDirection.West, 50);
 
 
     }
@@ -84,6 +87,7 @@ public class WindScript : MonoBehaviour
 
     public void PlayWindToDirection(WindDirection windDirection, float duration)
     {
+        _windDirection = windDirection;
         ChooseRandomGameObject();
         windOrigin.transform.position = GetWindOrigin(windDirection);
         Vector3 directionToPlayer = player.transform.position - windOrigin.transform.position;
