@@ -1,9 +1,18 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PigeonManager : MonoBehaviour
 {
+    [SerializeField] private GyroControler _gyroControler;
     [SerializeField] private PigeonPaths _pigeonPaths;
     [SerializeField] private PigeonBehaviour[] _pigeonPrefabs;
+
+
+    private void Awake()
+    {
+        //_gyroControler.OnShakePerch += 
+    }
 
     private void Update()
     {
