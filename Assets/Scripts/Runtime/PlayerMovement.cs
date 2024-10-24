@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed;              // Vitesse actuelle du joueur
     [SerializeField] private float maxSpeed;               // Vitesse maximale
     [SerializeField] private float acceleration;           // Taux d'accélération
+    [SerializeField] private float distance;
 
     // Variables pour la gestion du contrôle par alternance
     private float timePressingSameKey = 0f;  // Temps passé à maintenir la même touche
@@ -137,8 +138,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Appliquer le mouvement du joueur en fonction de la vitesse
+        int numberOfPigeon = PigeonManager.instance.PigeonAmountOnPerch;
         Vector3 move = new Vector3(0, 0, moveSpeed) * Time.deltaTime;
         transform.Translate(move);
+        distance += moveSpeed * Time.deltaTime;
     }
 
     public void PlayRandomVertigoSound()
@@ -174,5 +177,10 @@ public class PlayerMovement : MonoBehaviour
     {
         transform.position = initialPlayerPosition;
         transform.rotation = initialPlayerRotation;
+    }
+
+    public float GetDistance()
+    {
+        return distance;
     }
 }
