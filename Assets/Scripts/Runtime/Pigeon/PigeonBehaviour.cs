@@ -14,6 +14,7 @@ public class PigeonBehaviour : MonoBehaviour
     [SerializeField] private float _fleeSpeed = 5;
     [SerializeField] private float _fleeTimeUtilDestroy = 10;
 
+    [SerializeField] private AudioClip _pigeonFlyAwaySound;
     
     private PigeonPaths _pigeonPaths;
     private float _currentLandingTime;
@@ -75,6 +76,7 @@ public class PigeonBehaviour : MonoBehaviour
 
     IEnumerator FleeRoutine()
     {
+        AudioSource.PlayClipAtPoint(_pigeonFlyAwaySound, Camera.main.transform.position);
         IsLanded = false;
         Vector3 Direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
         _animator.SetTrigger("TriggerFly");
