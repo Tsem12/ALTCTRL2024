@@ -44,7 +44,7 @@ public class PigeonBehaviour : MonoBehaviour
         
         _currentLandingTime += Time.deltaTime;
         Vector3 targetPosition = _curve.GetPosition(_mouvementCurve.Evaluate(_currentLandingTime / _timeToLand), _pigeonPaths.transform.localToWorldMatrix);
-        Vector3 targetPositionDirection = _curve.GetPosition(_mouvementCurve.Evaluate(_currentLandingTime + Time.deltaTime / _timeToLand), _pigeonPaths.transform.localToWorldMatrix);
+        Vector3 targetPositionDirection = _curve.GetPosition(_mouvementCurve.Evaluate((_currentLandingTime + Time.deltaTime) / _timeToLand), _pigeonPaths.transform.localToWorldMatrix);
         
         transform.position = targetPosition;
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetPositionDirection - targetPosition), 10f);

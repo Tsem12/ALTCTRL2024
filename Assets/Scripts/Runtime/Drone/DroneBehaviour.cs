@@ -42,15 +42,15 @@ public class DroneBehaviour : MonoBehaviour
         {
             _currentTimeOnCurve += Time.deltaTime;
             Vector3 targetPosition = _curve.GetPosition(_mouvementCurve.Evaluate(_currentTimeOnCurve / _timeToTravelCurve), _dronePath.transform.localToWorldMatrix);
-            Vector3 targetPositionDirection = _curve.GetPosition(_mouvementCurve.Evaluate(_currentTimeOnCurve + Time.deltaTime / _timeToTravelCurve), _dronePath.transform.localToWorldMatrix);
+            Vector3 targetPositionDirection = _curve.GetPosition(_mouvementCurve.Evaluate((_currentTimeOnCurve + Time.deltaTime) / _timeToTravelCurve), _dronePath.transform.localToWorldMatrix);
             
             transform.position = targetPosition;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetPositionDirection - targetPosition), 10f);
         }
         else
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(-_dronePath.transform.right), Time.deltaTime * 5);
-            transform.position += transform.forward * (Time.deltaTime * _droneSpeedOutOfCurve);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(-_dronePath.transform.right), Time.deltaTime);
+            transform.position += -_dronePath.transform.right * (Time.deltaTime * _droneSpeedOutOfCurve);
         }
 
         if (transform.position.x < Camera.main.transform.position.z && _killRoutine == null)

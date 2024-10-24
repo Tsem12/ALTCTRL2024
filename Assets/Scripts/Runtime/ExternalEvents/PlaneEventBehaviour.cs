@@ -28,7 +28,7 @@ public class PlaneEventBehaviour : MonoBehaviour
         {
             _currentTimeOnCurve += Time.deltaTime;
             Vector3 targetPosition = _curve.GetPosition(_mouvementCurve.Evaluate(_currentTimeOnCurve / _timeToTravelCurve), _planePath.transform.localToWorldMatrix);
-            Vector3 targetPositionDirection = _curve.GetPosition(_mouvementCurve.Evaluate(_currentTimeOnCurve + Time.deltaTime / _timeToTravelCurve), _planePath.transform.localToWorldMatrix);
+            Vector3 targetPositionDirection = _curve.GetPosition(_mouvementCurve.Evaluate((_currentTimeOnCurve + Time.deltaTime) / _timeToTravelCurve), _planePath.transform.localToWorldMatrix);
             
             transform.position = targetPosition;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetPositionDirection - targetPosition), 10f);
