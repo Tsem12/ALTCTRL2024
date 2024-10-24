@@ -12,7 +12,7 @@ public class GyroControler : MonoBehaviour
 	[SerializeField] private bool _enableDebugLabels;
 	[SerializeField] private float _maxPitch;
 	[SerializeField] private float _pitchTriggerTreshold;
-	[SerializeField] private int _shakeTreshold;
+	[SerializeField] private float _shakeTreshold;
     [SerializeField] private JoyconIdConfig jc_ind;
     
     [Header("ShakeValues")]
@@ -102,14 +102,11 @@ public class GyroControler : MonoBehaviour
     {
 	    _shakeTween = transform.DOShakePosition(_shakeDuration, _shakeVibrato).SetEase(_shakeEase).SetLoops(-1, LoopType.Yoyo);
 	    _shakeTween.Play();
-	    float timer = 0f;
+
+	    yield return new WaitForSeconds(_minTimeToShake);
+		OnShakePerch?.Invoke();
 	    while (accel.magnitude > 1)
 	    {
-		    timer += Time.deltaTime;
-		    if (timer >= _minTimeToShake)
-		    {
-				OnShakePerch?.Invoke();
-		    }
 		    yield return null;
 	    }
 	    _shakeTween.Kill();
@@ -129,7 +126,7 @@ public class GyroControler : MonoBehaviour
 	    
 	    bool isAccelAlign = ToolBox.Approximately(0, accel.x, .01f) && ToolBox.Approximately(0, accel.y, .01f) && ToolBox.Approximately(-1f, accel.z, .01f);
 	    string accelAlign = isAccelAlign ? "Aligned" : "Not aligned";
-	    GUILayout.Label($"Shake value => {(int)accel.magnitude}", new GUIStyle(){fontSize = 60});
+	    GUILayout.Label($"Shake value => {accel.magnitude}", new GUIStyle(){fontSize = 60});
 	    Debug.Log($"Shake value => {(int)accel.magnitude}");
     }
 }

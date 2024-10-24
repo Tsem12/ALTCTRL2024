@@ -11,8 +11,13 @@ public class DroneManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            DroneBehaviour drone = Instantiate(_dronePrefab, transform);
-            drone.Init(_paths);
+            SpawnDrone();
         }
+    }
+
+    public void SpawnDrone()
+    {
+        DroneBehaviour drone = Instantiate(_dronePrefab, transform);
+        drone.Init(_paths);
     }
 }

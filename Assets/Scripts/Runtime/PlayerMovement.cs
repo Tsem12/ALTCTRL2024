@@ -1,12 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private List<AudioClip> vertigeSound;
+
     [Header("Speed")]
     [SerializeField] private float moveSpeed;              // Vitesse actuelle du joueur
     [SerializeField] private float maxSpeed;               // Vitesse maximale
     [SerializeField] private float acceleration;           // Taux d'accélération
+    [SerializeField] private float distance;
 
     // Variables pour la gestion du contrôle par alternance
     private float timePressingSameKey = 0f;  // Temps passé à maintenir la même touche
@@ -19,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Idle Settings")]
     [SerializeField] private float timeBeforeVertigo = 3f; // Temps avant de déclencher les effets de vertige
     private float idleTimer = 0f;                          // Temps d'immobilité
-    private bool isIdle = false;                           // Savoir si le joueur est immobile
+    [SerializeField] private bool isIdle = false;                           // Savoir si le joueur est immobile
 
     [Header("Unity Events")]
     public UnityEvent onIdleEvent;
@@ -77,15 +81,20 @@ public class PlayerMovement : MonoBehaviour
     {
         if (movementInput != 0)
         {
+            if (!GameManager.instance.GetHasMoved())
+            {
+                GameManager.instance.SetHasMoved(true);
+            }
+
             // Appeler l'événement StopIdle lorsque le joueur recommence à bouger
-            if (isIdle)
+            if (isIdle && moveSpeed != 0)
             {
                 onStopIdleEvent.Invoke(); // Déclenche l'événement pour arrêter les effets de vertige
                 isIdle = false;
+                // Réinitialiser le timer d'immobilité
+                idleTimer = 0f;
             }
 
-            // Réinitialiser le timer d'immobilité
-            idleTimer = 0f;
 
             // Vérifie si on a appuyé sur la même touche trop longtemps
             timePressingSameKey += Time.deltaTime;
@@ -93,7 +102,8 @@ public class PlayerMovement : MonoBehaviour
             if (timePressingSameKey > maxPressTime)
             {
                 // Si on dépasse le temps limite, la vitesse redescend à 0
-                moveSpeed = Mathf.Max(0f, moveSpeed - acceleration * Time.deltaTime * 2); // Perte de vitesse
+                //moveSpeed = Mathf.Max(0f, moveSpeed - acceleration * Time.deltaTime * 2); // Perte de vitesse
+                moveSpeed = 0f;
             }
             else
             {
@@ -106,21 +116,38 @@ public class PlayerMovement : MonoBehaviour
         {
             // Si aucune touche n'est pressée, la vitesse redescend lentement
             moveSpeed = Mathf.Max(0f, moveSpeed - acceleration * Time.deltaTime);
+        }
 
+        // *** MISE À JOUR IMPORTANTE : Incrémenter l'idleTimer en fonction de la vitesse réelle ***
+        if (moveSpeed == 0)
+        {
             idleTimer += Time.deltaTime;
-
             // Si le joueur est immobile depuis assez longtemps
-            if (idleTimer >= timeBeforeVertigo && !isIdle)
+            if (idleTimer >= timeBeforeVertigo && !isIdle && GameManager.instance.GetHasMoved())
             {
                 // Déclenche l'événement d'immobilité
                 onIdleEvent.Invoke();
                 isIdle = true;
+                
             }
+        }
+        else
+        {
+            // Réinitialiser l'idleTimer si la vitesse n'est pas nulle
+            idleTimer = 0f;
         }
 
         // Appliquer le mouvement du joueur en fonction de la vitesse
+        int numberOfPigeon = PigeonManager.instance.PigeonAmountOnPerch;
         Vector3 move = new Vector3(0, 0, moveSpeed) * Time.deltaTime;
         transform.Translate(move);
+        distance += moveSpeed * Time.deltaTime;
+    }
+
+    public void PlayRandomVertigoSound()
+    {
+        AudioClip clip = vertigeSound[Random.Range(0, vertigeSound.Count)];
+        AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
     }
 
     // Gestion de l'entrée de mouvement
@@ -150,5 +177,10 @@ public class PlayerMovement : MonoBehaviour
     {
         transform.position = initialPlayerPosition;
         transform.rotation = initialPlayerRotation;
+    }
+
+    public float GetDistance()
+    {
+        return distance;
     }
 }
