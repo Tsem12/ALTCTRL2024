@@ -10,8 +10,12 @@ public class GameManager : MonoBehaviour
 
     public GyroControler gyroControler;
     public UnityEvent OnLoseEvent;
+    public UnityEvent OnWinEvent;
     public bool test;
     [SerializeField] private float limitAngle;
+    [SerializeField] private PlayerMovement playerMovement;
+
+    [SerializeField] private AudioClip _victorySound;
 
     private bool isPlayerAlive = true;
     private bool hasMoved = false;
@@ -33,7 +37,13 @@ public class GameManager : MonoBehaviour
             isPlayerAlive = false;
             OnLoseEvent.Invoke();
         }
+        if(playerMovement.GetDistance() >= 130f)
+        {
+            AudioSource.PlayClipAtPoint(_victorySound, Camera.main.transform.position);
+            OnWinEvent.Invoke();
+        }
     }
+
 
     public bool GetIsPlayerAlive()
     {

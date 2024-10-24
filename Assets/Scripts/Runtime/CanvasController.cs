@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using NaughtyAttributes;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CanvasController : MonoBehaviour
 {
     [SerializeField] private GameObject losingScreen;
+
+    [SerializeField] private TextMeshProUGUI losingText;
 
     [SerializeField] private List<AudioClip> losingSound;
     [SerializeField] private AudioClip fallSound;
@@ -35,6 +38,12 @@ public class CanvasController : MonoBehaviour
         }
         yield return new WaitForSeconds(3f);
         losingScreen.SetActive(false);
+    }
+
+    public void OnWin()
+    {
+        losingText.text = "Ty as gagné le sang (avec tt le respect)";
+        losingScreen.SetActive(true);
     }
 
     void PlayRandomAudioClip()
