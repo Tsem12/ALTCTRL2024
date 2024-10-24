@@ -26,7 +26,6 @@ public class DroneBehaviour : MonoBehaviour
     
     private void Update()
     {
-        
         if (_currentTimeOnCurve < _timeToTravelCurve)
         {
             _currentTimeOnCurve += Time.deltaTime;
