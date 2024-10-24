@@ -85,14 +85,14 @@ public class PigeonManager : MonoBehaviour
         JoyconRumblingManager.Instance.OnRumbleReceived?.Invoke(new Rumbling(pigeon.RumblingData, loca));
     }
     
-    /*
+    
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             TrySpawnPigeon();
         }
     }
-    */
+    
 }
 

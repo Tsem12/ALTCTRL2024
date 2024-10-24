@@ -705,9 +705,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 736782517}
     - target: {fileID: 7446947867109809737, guid: 10772dec6bf3dd944ae71b17864e3912, type: 3}
+      propertyPath: _pigeonSound
+      value: 
+      objectReference: {fileID: 8300000, guid: c9cf1d75ef13cd44db94d97feafe0b50, type: 3}
+    - target: {fileID: 7446947867109809737, guid: 10772dec6bf3dd944ae71b17864e3912, type: 3}
       propertyPath: _gyroControler
       value: 
       objectReference: {fileID: 1607351921}
+    - target: {fileID: 7446947867109809737, guid: 10772dec6bf3dd944ae71b17864e3912, type: 3}
+      propertyPath: _pigeonFlyAwaySound
+      value: 
+      objectReference: {fileID: 8300000, guid: c9cf1d75ef13cd44db94d97feafe0b50, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
