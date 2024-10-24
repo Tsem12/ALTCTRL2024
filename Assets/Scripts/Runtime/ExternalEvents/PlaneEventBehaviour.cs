@@ -35,7 +35,7 @@ public class PlaneEventBehaviour : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 10f);
         }
     }
 
