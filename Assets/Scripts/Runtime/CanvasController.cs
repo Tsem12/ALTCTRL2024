@@ -18,11 +18,11 @@ public class CanvasController : MonoBehaviour
     private IEnumerator DebugLosingScreen()
     {
         losingScreen.SetActive(true);
-        yield return new WaitForSeconds(3f);
         if (losingSound != null && losingSound.Count > 0)
         {
             PlayRandomAudioClip();
         }
+        yield return new WaitForSeconds(3f);
         losingScreen.SetActive(false);
     }
 

@@ -259,7 +259,6 @@ public class CameraController : MonoBehaviour
 
     private IEnumerator JumpCoroutine()
     {
-        Debug.Log("je saute");
         isJumping = true;
         yield return new WaitForSeconds(1f);
         isJumping = false;
@@ -267,7 +266,6 @@ public class CameraController : MonoBehaviour
 
     public void OnDroneEventFct()
     {
-        Debug.Log("fonction");
         if (!isJumping)
         {
             GameManager.instance.OnLoseEvent?.Invoke();
