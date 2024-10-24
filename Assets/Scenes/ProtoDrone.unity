@@ -242,17 +242,17 @@ MonoBehaviour:
     hideGizmo: 0
     Curves:
     - <EnableEditPositionsOnScene>k__BackingField: 1
-      <EditPoints>k__BackingField: 0
+      <EditPoints>k__BackingField: 1
       <Points>k__BackingField:
-      - {x: -527.8, y: 94.67859, z: 402.5487}
+      - {x: -704.8022, y: 94.67859, z: 278.0669}
       - {x: 0.1, y: 94.67859, z: 995.35}
-      - {x: 530.2, y: 94.67859, z: 402.5487}
+      - {x: 659.8527, y: 94.67859, z: 287.2965}
     - <EnableEditPositionsOnScene>k__BackingField: 1
-      <EditPoints>k__BackingField: 0
+      <EditPoints>k__BackingField: 1
       <Points>k__BackingField:
-      - {x: 530.2, y: 94.67859, z: 482.6327}
+      - {x: 675.9947, y: 94.67859, z: 355.4345}
       - {x: 0.09995506, y: 94.67859, z: 1075.434}
-      - {x: -527.8, y: 94.67859, z: 482.6327}
+      - {x: -730.94226, y: 94.67859, z: 354.1576}
 --- !u!1001 &290982530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -905,6 +905,18 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
+      propertyPath: _clips.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
+      propertyPath: _clips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: e84266157e324de40bb42eff82e26e9a, type: 3}
+    - target: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
+      propertyPath: _clips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1fd8f69297f3dc143a2277638e11f2b4, type: 3}
+    - target: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
       propertyPath: OnPlaneSpawed.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -913,14 +925,41 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
+      propertyPath: OnPlaneSpawed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2453715733844654713}
+    - target: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
       propertyPath: OnPlaneSpawed.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
+      propertyPath: OnPlaneSpawed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlaySound
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
+      propertyPath: OnPlaneSpawed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlaneEventManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
+      propertyPath: OnPlaneSpawed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
+--- !u!114 &2453715733844654713 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
+  m_PrefabInstance: {fileID: 2453715733844654712}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8b398b19cb7054ea34a1ca15949ed5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2483147641410100377
 PrefabInstance:
   m_ObjectHideFlags: 0
