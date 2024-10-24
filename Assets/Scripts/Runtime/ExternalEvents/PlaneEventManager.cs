@@ -8,7 +8,7 @@ public class PlaneEventManager : MonoBehaviour
     [SerializeField] private PlaneEventPaths _paths;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             SpawnPlane();
         }
