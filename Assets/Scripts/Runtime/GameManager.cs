@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
             isPlayerAlive = false;
             OnLoseEvent.Invoke();
         }
-        if(playerMovement.GetDistance() >= 10f && isStillInGame == true)
+        if(playerMovement.GetDistance() >= 135f && isStillInGame == true)
         {
             isStillInGame = false;
             AudioSource.PlayClipAtPoint(_victorySound, Camera.main.transform.position);

@@ -19,6 +19,7 @@ public class DronePaths : MonoBehaviour
     
     private void OnDrawGizmos()
     {
+        #if UNITY_EDITOR
         if(Paths.Curves == null || (_drawGizmoOnSelected && Selection.activeGameObject != gameObject))
             return;
         
@@ -31,5 +32,6 @@ public class DronePaths : MonoBehaviour
             Color color = Color.HSVToRGB(hue, 1f, 1f);
             Paths.Curves[i].DrawGizmo(color, transform.localToWorldMatrix, Selection.activeGameObject == gameObject, _curveGizmoPrecision);
         }
+        #endif
     }
 }

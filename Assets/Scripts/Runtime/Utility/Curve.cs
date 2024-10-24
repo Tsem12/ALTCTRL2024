@@ -28,6 +28,7 @@ public class Curve
 
     public void DrawGizmo(Color c, Matrix4x4 localToWorldMatrix, bool isSelected, float curveGizmoPrecision)
     {
+        #if UNITY_EDITOR
         Gizmos.color = c;
         if (curveGizmoPrecision <= 0)
             curveGizmoPrecision = 0.1f;
@@ -55,5 +56,6 @@ public class Curve
         {
             Handles.Label(localToWorldMatrix.MultiplyPoint(Points[i]) - new Vector3(-.25f, -.25f, 0), i.ToString(), style);
         }
+        #endif
     }
 }
