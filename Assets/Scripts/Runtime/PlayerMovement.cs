@@ -121,7 +121,6 @@ public class PlayerMovement : MonoBehaviour
             // Si le joueur est immobile depuis assez longtemps
             if (idleTimer >= timeBeforeVertigo && !isIdle && GameManager.instance.GetHasMoved())
             {
-                Debug.Log("quoicoubeh");
                 // Déclenche l'événement d'immobilité
                 onIdleEvent.Invoke();
                 isIdle = true;
