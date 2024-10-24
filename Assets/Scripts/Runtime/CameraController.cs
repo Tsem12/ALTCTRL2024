@@ -1,10 +1,15 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;             // R�f�rence � la cam�ra du joueur
     [SerializeField] private URPCameraVisualEffects effects;
+
+    // New Input System
+    private PlayerControls controls;
 
     [Header("MovementTilt")]
     [SerializeField] private float cameraTiltAngle = 5f;            // Angle de rotation pour pencher la cam�ra lat�ralement
@@ -33,9 +38,17 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float windTiltMultiplier = 1f;
     [SerializeField] private float windTranslationMultiplier = 0.1f;
 
+    public static UnityEvent OnDroneEvent = new UnityEvent();
 
     private bool isAlive = true;
     private bool isWindBlowing = false;
+    private bool isJumping = false;
+
+    private void Awake()
+    {
+        // Initialisation des Input Actions
+        controls = new PlayerControls();
+    }
 
     private void Start()
     {
@@ -44,6 +57,31 @@ public class CameraController : MonoBehaviour
         // Stocker la position initiale et la rotation initiale de la cam�ra
         initialCameraPosition = playerCamera.transform.localPosition;
         initialCameraRotation = playerCamera.transform.localRotation;
+    }
+
+    private void OnEnable()
+    {
+        // Activer les actions du joueur quand l'objet est activé
+        controls.Player.Enable();
+
+        // Assigner l'action "Jump" à une méthode de callback
+        controls.Player.Jump.performed += OnJumpPerformed;
+        OnDroneEvent.AddListener(OnDroneEventFct);
+    }
+
+    private void OnDisable()
+    {
+        // Désactiver les actions du joueur quand l'objet est désactivé
+        controls.Player.Disable();
+
+        // Désabonner la méthode de callback pour éviter les erreurs
+        controls.Player.Jump.performed -= OnJumpPerformed;
+        OnDroneEvent.RemoveAllListeners();
+    }
+
+    private void OnJumpPerformed(InputAction.CallbackContext context)
+    {
+        StartCoroutine(JumpCoroutine());
     }
 
     private void Update()
@@ -217,5 +255,22 @@ public class CameraController : MonoBehaviour
     {
         playerCamera.transform.localPosition = initialCameraPosition;
         playerCamera.transform.localRotation = initialCameraRotation;
+    }
+
+    private IEnumerator JumpCoroutine()
+    {
+        Debug.Log("je saute");
+        isJumping = true;
+        yield return new WaitForSeconds(1f);
+        isJumping = false;
+    }
+
+    public void OnDroneEventFct()
+    {
+        Debug.Log("fonction");
+        if (!isJumping)
+        {
+            GameManager.instance.OnLoseEvent?.Invoke();
+        }
     }
 }
