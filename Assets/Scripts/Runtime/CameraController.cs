@@ -256,6 +256,7 @@ public class CameraController : MonoBehaviour
         //Reset la Camera au spawn
         ResetCamera();
         GameManager.instance.SetIsPlayerAlive(true);
+        playerMovement.SetDistance(0f);
         isAlive = true;
         fallCoroutine = null;
     }

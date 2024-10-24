@@ -185,4 +185,9 @@ public class PlayerMovement : MonoBehaviour
     {
         return distance;
     }
+
+    public void SetDistance(float newDistance)
+    {
+        distance = newDistance;
+    }
 }

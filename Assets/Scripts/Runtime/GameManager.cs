@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     private bool isPlayerAlive = true;
     private bool hasMoved = false;
+    private bool isStillInGame = true;
 
     private void Awake()
     {
@@ -37,8 +38,9 @@ public class GameManager : MonoBehaviour
             isPlayerAlive = false;
             OnLoseEvent.Invoke();
         }
-        if(playerMovement.GetDistance() >= 130f)
+        if(playerMovement.GetDistance() >= 10f && isStillInGame == true)
         {
+            isStillInGame = false;
             AudioSource.PlayClipAtPoint(_victorySound, Camera.main.transform.position);
             OnWinEvent.Invoke();
         }
