@@ -1,12 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DroneBehaviour : MonoBehaviour
 {
     [SerializeField] private float _timeToTravelCurve;
     [SerializeField] private float _droneSpeedOutOfCurve = 10f;
-    [SerializeField] private AnimationCurve _mouvementCurve; 
+    [SerializeField] private AnimationCurve _mouvementCurve;
+
+    [Header("Collision Conditions")]
+    [SerializeField] private float distanceForJump;
+    [SerializeField] private float timeToJump;
+    private bool _hasEventStarted = false;
+    public UnityEvent OnDroneEvent;
+
     private float _currentTimeOnCurve;
     
     private DronePaths _dronePath;
@@ -26,6 +34,10 @@ public class DroneBehaviour : MonoBehaviour
     
     private void Update()
     {
+        if (DistanceToPlayer < distanceForJump && !_hasEventStarted)
+        {
+            
+        }
         if (_currentTimeOnCurve < _timeToTravelCurve)
         {
             _currentTimeOnCurve += Time.deltaTime;

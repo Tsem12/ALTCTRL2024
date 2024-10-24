@@ -139,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Appliquer le mouvement du joueur en fonction de la vitesse
         int numberOfPigeon = PigeonManager.instance.PigeonAmountOnPerch;
-        Vector3 move = new Vector3(0, 0, moveSpeed) * Time.deltaTime;
+        Vector3 move = new Vector3(0, 0, moveSpeed * Mathf.Pow(0.8f, numberOfPigeon) * Time.deltaTime);
         transform.Translate(move);
         distance += moveSpeed * Time.deltaTime;
     }
