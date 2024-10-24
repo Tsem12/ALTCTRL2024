@@ -70,7 +70,7 @@ public class WindScript : MonoBehaviour
 
     private void Start()
     {
-        PlayWindToDirection(WindDirection.West, 50);
+        PlayWindToDirection(WindDirection.West, 5);
 
 
     }

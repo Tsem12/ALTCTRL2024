@@ -21,6 +21,7 @@ public class CameraController : MonoBehaviour
     [Header("Wind Settings")]
     [SerializeField] private float windSpeed = 10f;        
     [SerializeField] private float windTiltMultiplier = 1f;
+    [SerializeField] private float windTranslationMultiplier = 0.1f; 
 
     [SerializeField] private WindScript _windScript;
 
@@ -60,7 +61,7 @@ public class CameraController : MonoBehaviour
             // Appliquer une rotation sur l'axe Z (roll) selon la vitesse du vent
             float windRollAngle = cameraTiltAngle * windSpeed * windTiltMultiplier; // Calcul du roll en fonction de la vitesse du vent
 
-            if(_windScript._windDirection == WindDirection.West || _windScript._windDirection == WindDirection.NorthWest || _windScript._windDirection == WindDirection.SouthWest)
+            if (_windScript._windDirection == WindDirection.West || _windScript._windDirection == WindDirection.NorthWest || _windScript._windDirection == WindDirection.SouthWest)
             {
                 windRollAngle = -windRollAngle;
             }
@@ -68,14 +69,42 @@ public class CameraController : MonoBehaviour
             // Inclure l'effet de roll dans la rotation de la caméra
             Quaternion windRotation = initialCameraRotation * Quaternion.Euler(0, 0, windRollAngle);
 
-            // Appliquer la rotation à la caméra (roll + rotation déjà définie par la vitesse du joueur)
+            // Calculer la translation latérale en fonction de la direction du vent
+            float windTranslationX = 0f;  // Variable pour stocker la translation en X
+
+            if (_windScript._windDirection == WindDirection.West || _windScript._windDirection == WindDirection.NorthWest || _windScript._windDirection == WindDirection.SouthWest)
+            {
+                windTranslationX = windTranslationMultiplier;  // Translation vers la gauche
+            }
+            else if (_windScript._windDirection == WindDirection.East || _windScript._windDirection == WindDirection.NorthEast || _windScript._windDirection == WindDirection.SouthEast)
+            {
+                windTranslationX = -windTranslationMultiplier;  // Translation vers la droite
+            }
+
+            // Appliquer le déplacement latéral en plus de la rotation
+            Vector3 targetPosition = new Vector3(
+                initialCameraPosition.x + windTranslationX, // Décalage latéral
+                playerCamera.transform.localPosition.y,     // Garder la position Y actuelle
+                playerCamera.transform.localPosition.z      // Garder la position Z actuelle
+            );
+
+            // Appliquer la rotation et la position de la caméra de manière fluide
             playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, windRotation, 0.1f);
+            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, targetPosition, 0.1f);
         }
         else
         {
-            // Remettre le roll à zéro de manière fluide quand le vent ne souffle pas
+            // Remettre le roll et la translation latérale à zéro de manière fluide quand le vent ne souffle pas
             Quaternion resetRotation = initialCameraRotation; // Retour à la rotation initiale (sans inclinaison)
             playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, resetRotation, 0.1f);
+
+            Vector3 resetPosition = new Vector3(
+                initialCameraPosition.x, // Retour à la position initiale X
+                playerCamera.transform.localPosition.y,  // Garder la position Y actuelle
+                playerCamera.transform.localPosition.z   // Garder la position Z actuelle
+            );
+
+            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, resetPosition, 0.1f);
         }
     }
 
