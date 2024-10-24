@@ -3,7 +3,22 @@ guid: 12cd780c21b98274e9c9020d3b46b7f5
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Acier
+    second: {fileID: 2100000, guid: 13956ff20d3bb8e40a81872c5ab3e739, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light
+    second: {fileID: 2100000, guid: c52360cdb2ae72d43b686ea17e098d60, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Route
+    second: {fileID: 2100000, guid: ceff2e1c16abfa848a0aaa9f52200cba, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
