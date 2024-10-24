@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -55,6 +56,21 @@ public class PigeonManager : MonoBehaviour
         }
         AudioSource.PlayClipAtPoint(_pigeonFlyAwaySound, Camera.main.transform.position);
 
+    }
+
+    [Button]
+    public void ClearPigeonAfterDeath()
+    {
+        foreach (PigeonSlot pigeon in _pigeonSlots)
+        {
+            if(pigeon.currentPigeon == null)
+                continue;
+            
+            PigeonAmountOnPerch--;
+            Destroy(pigeon.currentPigeon.gameObject);
+            pigeon.currentPigeon = null;
+            JoyconRumblingManager.Instance.OnRumbleStop?.Invoke(pigeon.Localisation);
+        }
     }
 
     public void TrySpawnPigeonEvent()
