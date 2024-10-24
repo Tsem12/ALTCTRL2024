@@ -103,8 +103,34 @@ public class WindScript : MonoBehaviour
 
     public void TriggerWind()
     {
-        PlayWindToDirection(WindDirection.West, 7);
-        OnWindBlowing.Invoke();
+        int windDirInt = Random.Range(1,7);
+        switch (windDirInt)
+        {
+            case 1:
+                PlayWindToDirection(WindDirection.NorthWest, 7);
+                OnWindBlowing.Invoke();
+                break;
+            case 2:
+                PlayWindToDirection(WindDirection.West, 7);
+                OnWindBlowing.Invoke();
+                break;
+            case 3:
+                PlayWindToDirection(WindDirection.SouthWest, 7);
+                OnWindBlowing.Invoke();
+                break;
+            case 4:
+                PlayWindToDirection(WindDirection.NorthEast, 7);
+                OnWindBlowing.Invoke();
+                break;
+            case 5:
+                PlayWindToDirection(WindDirection.East, 7);
+                OnWindBlowing.Invoke();
+                break;
+            case 6:
+                PlayWindToDirection(WindDirection.SouthEast, 7);
+                OnWindBlowing.Invoke();
+                break;
+        }
     }
     /*
     private void Start()
