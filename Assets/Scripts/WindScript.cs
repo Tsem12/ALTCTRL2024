@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum WindDirection
 {
@@ -36,11 +37,15 @@ public class WindScript : MonoBehaviour
     private bool isCompassRotating = false;
     private float timeElapsed = 0f;
 
+    public UnityEvent OnWindBlowing;
+    public UnityEvent OnWindStopBlowing;
 
     [HideInInspector]
     public bool isWindBlowing = false;
     [HideInInspector]
     public WindDirection _windDirection;
+
+    public bool test;
 
     private void Awake()
     {
@@ -52,7 +57,6 @@ public class WindScript : MonoBehaviour
         if (isCompassRotating)
         {
             Rotate();
-            Debug.Log("Rotating compass");
         }
         else
         {
@@ -65,15 +69,18 @@ public class WindScript : MonoBehaviour
                 compassArrow.transform.localRotation = Quaternion.Euler(90, 0, compassRotationAngleDestination);
             }
         }
-
+        if (test)
+        {
+            PlayWindToDirection(WindDirection.West, 10);
+            OnWindBlowing.Invoke();
+        }
     }
-
+    /*
     private void Start()
     {
-        PlayWindToDirection(WindDirection.West, 50);
-
-
+        PlayWindToDirection(WindDirection.West, 10);
     }
+    */
 
     AudioClip ChooseRandomAudioClip()
     {
@@ -87,6 +94,7 @@ public class WindScript : MonoBehaviour
 
     public void PlayWindToDirection(WindDirection windDirection, float duration)
     {
+        Debug.Log("allez le vent");
         _windDirection = windDirection;
         ChooseRandomGameObject();
         windOrigin.transform.position = GetWindOrigin(windDirection);
@@ -125,6 +133,7 @@ public class WindScript : MonoBehaviour
         windOrigin.SetActive(false);
         windEffect.SetActive(false);
         isWindBlowing = false;
+        OnWindStopBlowing.Invoke();
     }
 
     private void PlayWindSoundFromDirection(WindDirection windDirection)

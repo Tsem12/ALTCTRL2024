@@ -270,11 +270,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 4362664053103500868}
+  effects: {fileID: 5534207750992559668}
   cameraTiltAngle: 10
   bobbingSpeed: 10
   baseBobbingAmountX: 0.02
   baseBobbingAmountY: 0.01
   tiltAngle: 15
+  fallHeight: 0
+  sideFall: 0
+  fallDuration: 0
+  _windScript: {fileID: 0}
+  windSpeed: 10
+  windTiltMultiplier: 1
 --- !u!114 &5534207750992559668
 MonoBehaviour:
   m_ObjectHideFlags: 0
