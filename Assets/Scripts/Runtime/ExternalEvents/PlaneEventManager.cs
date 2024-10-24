@@ -27,7 +27,7 @@ public class PlaneEventManager : MonoBehaviour
 
     public void PlaySound()
     {
-        AudioSource.PlayClipAtPoint(_clips[Random.Range(0, _clips.Length)], Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(_clips[Random.Range(0, _clips.Length)], Camera.main.transform.position + Vector3.up * 50);
     }
     
     private IEnumerator SpawnPlaneEventRoutine()
