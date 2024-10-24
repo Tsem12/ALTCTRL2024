@@ -26,6 +26,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float fallDuration;
     [SerializeField] private AnimationCurve fallCurve;
 
+    [Header("Jump")]
+    [SerializeField] private float jumpHeight;
+    [SerializeField] private float jumpDuration;
+
     private Coroutine fallCoroutine = null;
 
     private PlayerMovement playerMovement;  // R�f�rence au script PlayerMovement
@@ -82,7 +86,14 @@ public class CameraController : MonoBehaviour
 
     private void OnJumpPerformed(InputAction.CallbackContext context)
     {
-        StartCoroutine(JumpCoroutine());
+        if (isWindBlowing)
+        {
+            GameManager.instance.OnLoseEvent?.Invoke();
+        }
+        else
+        {
+            StartCoroutine(JumpCoroutine());
+        }
     }
 
     private void Update()
@@ -266,7 +277,35 @@ public class CameraController : MonoBehaviour
     private IEnumerator JumpCoroutine()
     {
         isJumping = true;
-        yield return new WaitForSeconds(1f);
+
+        // Sauvegarder la position initiale de la caméra avant le saut
+        Vector3 startPosition = transform.localPosition;
+
+        float elapsedTime = 0f;
+
+        // L'effet du saut consiste à monter puis à redescendre, donc on va animer cela en deux phases (aller-retour)
+        while (elapsedTime < jumpDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / jumpDuration;
+
+            // Utiliser un facteur sinusoïdal pour simuler un mouvement de saut réaliste (monter puis redescendre)
+            float heightOffset = Mathf.Sin(t * Mathf.PI) * jumpHeight;
+
+            // Appliquer la position verticale pendant le saut (en ajoutant l'offset à la position initiale)
+            transform.localPosition = new Vector3(
+                startPosition.x,                     // Garder la position X constante
+                startPosition.y + heightOffset,       // Appliquer l'offset pour le saut sur Y
+                startPosition.z                      // Garder la position Z constante
+            );
+
+            // Attendre la prochaine frame avant de continuer
+            yield return null;
+        }
+
+        // S'assurer que la caméra revient exactement à sa position initiale à la fin du saut
+        transform.localPosition = startPosition;
+
         isJumping = false;
     }
 
