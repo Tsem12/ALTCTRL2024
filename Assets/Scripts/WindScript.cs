@@ -19,6 +19,7 @@ public enum WindDirection
 
 public class WindScript : MonoBehaviour
 {
+    [SerializeField] private GyroControler gyroControler;
     [SerializeField] private GameObject windOrigin;
     [SerializeField] private GameObject player;
     [SerializeField] private List<AudioClip> windSoundList;
@@ -31,6 +32,7 @@ public class WindScript : MonoBehaviour
     [SerializeField] private float compassRotationDuration = 0.5f;
     [SerializeField] private float compassShakeIntensity = 2;
 
+    [SerializeField] private float treshold;
     private float compassRotationAngleDestination;
     private float compassRotationAngleStart;
 
@@ -69,6 +71,27 @@ public class WindScript : MonoBehaviour
                 compassArrow.transform.localRotation = Quaternion.Euler(90, 0, compassRotationAngleDestination);
             }
         }
+
+        if (isWindBlowing)
+        {
+            float perchRoll = gyroControler.GetPerchRoll;
+            if (_windDirection == WindDirection.West || _windDirection == WindDirection.NorthWest || _windDirection == WindDirection.SouthWest)
+            {
+                if(perchRoll > treshold)
+                {
+                    StopWind();
+                    OnWindStopBlowing?.Invoke();
+                }
+            }
+            else if (_windDirection == WindDirection.East || _windDirection == WindDirection.NorthEast || _windDirection == WindDirection.SouthEast)
+            {
+                if(perchRoll< -treshold)
+                {
+                    StopWind();
+                    OnWindStopBlowing?.Invoke();
+                }
+            }
+        }
         /*
         if (test)
         {
@@ -80,7 +103,7 @@ public class WindScript : MonoBehaviour
 
     public void TriggerWind()
     {
-        PlayWindToDirection(WindDirection.West, 10);
+        PlayWindToDirection(WindDirection.West, 7);
         OnWindBlowing.Invoke();
     }
     /*
@@ -137,10 +160,14 @@ public class WindScript : MonoBehaviour
     {
         isWindBlowing = true;
         yield return new WaitForSeconds(duration);
-        windOrigin.SetActive(false);
-        windEffect.SetActive(false);
-        isWindBlowing = false;
-        OnWindStopBlowing.Invoke();
+        if (isWindBlowing)
+        {
+            windOrigin.SetActive(false);
+            windEffect.SetActive(false);
+            isWindBlowing = false;
+            OnWindStopBlowing.Invoke();
+            GameManager.instance.OnLoseEvent?.Invoke();
+        }
     }
 
     private void PlayWindSoundFromDirection(WindDirection windDirection)

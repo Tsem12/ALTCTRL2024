@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DroneBehaviour : MonoBehaviour
 {
     [SerializeField] private float _timeToTravelCurve;
     [SerializeField] private float _droneSpeedOutOfCurve = 10f;
-    [SerializeField] private AnimationCurve _mouvementCurve; 
+    [SerializeField] private AnimationCurve _mouvementCurve;
+
     private float _currentTimeOnCurve;
     
     private DronePaths _dronePath;
@@ -14,6 +16,10 @@ public class DroneBehaviour : MonoBehaviour
     private Curve _curve;
 
     private Coroutine _killRoutine;
+
+    private CameraController _cameraController;
+
+    private bool hasDroneEventStarted;
 
     public float DistanceToPlayer => Vector3.Distance(transform.position, Camera.main.transform.position);
     public void Init(DronePaths dronePaths)
@@ -23,9 +29,20 @@ public class DroneBehaviour : MonoBehaviour
         _curve = _path.Curves[Random.Range(0, _path.Curves.Length)];
         transform.position = _curve.GetPosition(0f, _dronePath.transform.localToWorldMatrix);
     }
-    
+
+    private void Awake()
+    {
+        _cameraController = FindObjectOfType<CameraController>();
+    }
+
     private void Update()
     {
+        if (ToolBox.Approximately(DistanceToPlayer, 0f, 1f) && !hasDroneEventStarted)
+        {
+            Debug.Log("apagnan");
+            hasDroneEventStarted = true;
+            CameraController.OnDroneEvent?.Invoke();
+        }
         if (_currentTimeOnCurve < _timeToTravelCurve)
         {
             _currentTimeOnCurve += Time.deltaTime;

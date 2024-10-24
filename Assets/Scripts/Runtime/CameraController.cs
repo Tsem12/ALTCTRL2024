@@ -1,10 +1,15 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;             // R�f�rence � la cam�ra du joueur
     [SerializeField] private URPCameraVisualEffects effects;
+
+    // New Input System
+    private PlayerControls controls;
 
     [Header("MovementTilt")]
     [SerializeField] private float cameraTiltAngle = 5f;            // Angle de rotation pour pencher la cam�ra lat�ralement
@@ -19,6 +24,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float fallHeight;
     [SerializeField] private float sideFall;
     [SerializeField] private float fallDuration;
+    [SerializeField] private AnimationCurve fallCurve;
 
     private Coroutine fallCoroutine = null;
 
@@ -33,9 +39,17 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float windTiltMultiplier = 1f;
     [SerializeField] private float windTranslationMultiplier = 0.1f;
 
+    public static UnityEvent OnDroneEvent = new UnityEvent();
 
     private bool isAlive = true;
     private bool isWindBlowing = false;
+    private bool isJumping = false;
+
+    private void Awake()
+    {
+        // Initialisation des Input Actions
+        controls = new PlayerControls();
+    }
 
     private void Start()
     {
@@ -46,8 +60,83 @@ public class CameraController : MonoBehaviour
         initialCameraRotation = playerCamera.transform.localRotation;
     }
 
+    private void OnEnable()
+    {
+        // Activer les actions du joueur quand l'objet est activé
+        controls.Player.Enable();
+
+        // Assigner l'action "Jump" à une méthode de callback
+        controls.Player.Jump.performed += OnJumpPerformed;
+        OnDroneEvent.AddListener(OnDroneEventFct);
+    }
+
+    private void OnDisable()
+    {
+        // Désactiver les actions du joueur quand l'objet est désactivé
+        controls.Player.Disable();
+
+        // Désabonner la méthode de callback pour éviter les erreurs
+        controls.Player.Jump.performed -= OnJumpPerformed;
+        OnDroneEvent.RemoveAllListeners();
+    }
+
+    private void OnJumpPerformed(InputAction.CallbackContext context)
+    {
+        StartCoroutine(JumpCoroutine());
+    }
+
     private void Update()
     {
+        if (isWindBlowing)
+        {
+            // Appliquer une rotation sur l'axe Z (roll) selon la vitesse du vent
+            float windRollAngle = cameraTiltAngle * windSpeed * windTiltMultiplier; // Calcul du roll en fonction de la vitesse du vent
+
+            if (_windScript._windDirection == WindDirection.West || _windScript._windDirection == WindDirection.NorthWest || _windScript._windDirection == WindDirection.SouthWest)
+            {
+                windRollAngle = -windRollAngle;
+            }
+
+            // Inclure l'effet de roll dans la rotation de la caméra
+            Quaternion windRotation = initialCameraRotation * Quaternion.Euler(0, 0, windRollAngle);
+
+            // Calculer la translation latérale en fonction de la direction du vent
+            float windTranslationX = 0f;  // Variable pour stocker la translation en X
+
+            if (_windScript._windDirection == WindDirection.West || _windScript._windDirection == WindDirection.NorthWest || _windScript._windDirection == WindDirection.SouthWest)
+            {
+                windTranslationX = windTranslationMultiplier;  // Translation vers la gauche
+            }
+            else if (_windScript._windDirection == WindDirection.East || _windScript._windDirection == WindDirection.NorthEast || _windScript._windDirection == WindDirection.SouthEast)
+            {
+                windTranslationX = -windTranslationMultiplier;  // Translation vers la droite
+            }
+
+            // Appliquer le déplacement latéral en plus de la rotation
+            Vector3 targetPosition = new Vector3(
+                initialCameraPosition.x + windTranslationX, // Décalage latéral
+                playerCamera.transform.localPosition.y,     // Garder la position Y actuelle
+                playerCamera.transform.localPosition.z      // Garder la position Z actuelle
+            );
+
+            // Appliquer la rotation et la position de la caméra de manière fluide
+            playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, windRotation, 0.1f);
+            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, targetPosition, 0.1f);
+        }
+        else
+        {
+            // Remettre le roll et la translation latérale à zéro de manière fluide quand le vent ne souffle pas
+            Quaternion resetRotation = initialCameraRotation; // Retour à la rotation initiale (sans inclinaison)
+            playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, resetRotation, 0.1f);
+
+            Vector3 resetPosition = new Vector3(
+                initialCameraPosition.x, // Retour à la position initiale X
+                playerCamera.transform.localPosition.y,  // Garder la position Y actuelle
+                playerCamera.transform.localPosition.z   // Garder la position Z actuelle
+            );
+
+            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, resetPosition, 0.1f);
+        }
         if (playerMovement.GetMoveSpeed() != 0 && isAlive && !isWindBlowing)
         {
             ApplyMovementCamera();
@@ -139,10 +228,10 @@ public class CameraController : MonoBehaviour
             float t = elapsedTime / fallDuration;
 
             // Lerp la rotation vers la cible
-            playerCamera.transform.localRotation = Quaternion.Lerp(startingRotation, targetRotation, t);
+            playerCamera.transform.localRotation = Quaternion.Lerp(startingRotation, targetRotation, fallCurve.Evaluate(t));
 
             // Lerp la position vers la cible (tomber vers le bas et � gauche/droite)
-            playerCamera.transform.localPosition = Vector3.Lerp(startingPosition, targetPosition, t);
+            playerCamera.transform.localPosition = Vector3.Lerp(startingPosition, targetPosition, fallCurve.Evaluate(t));
 
             yield return null; // Attendre la prochaine frame
         }
@@ -161,55 +250,10 @@ public class CameraController : MonoBehaviour
     public void ApplyWindMovement()
     {
         isWindBlowing = true;
-        // Appliquer une rotation sur l'axe Z (roll) selon la vitesse du vent
-        float windRollAngle = cameraTiltAngle * windSpeed * windTiltMultiplier; // Calcul du roll en fonction de la vitesse du vent
-
-        if (_windScript._windDirection == WindDirection.West || _windScript._windDirection == WindDirection.NorthWest || _windScript._windDirection == WindDirection.SouthWest)
-        {
-            windRollAngle = -windRollAngle;
-        }
-
-        // Inclure l'effet de roll dans la rotation de la caméra
-        Quaternion windRotation = initialCameraRotation * Quaternion.Euler(0, 0, windRollAngle);
-
-        // Calculer la translation latérale en fonction de la direction du vent
-        float windTranslationX = 0f;  // Variable pour stocker la translation en X
-
-        if (_windScript._windDirection == WindDirection.West || _windScript._windDirection == WindDirection.NorthWest || _windScript._windDirection == WindDirection.SouthWest)
-        {
-            windTranslationX = windTranslationMultiplier;  // Translation vers la gauche
-        }
-        else if (_windScript._windDirection == WindDirection.East || _windScript._windDirection == WindDirection.NorthEast || _windScript._windDirection == WindDirection.SouthEast)
-        {
-            windTranslationX = -windTranslationMultiplier;  // Translation vers la droite
-        }
-
-        // Appliquer le déplacement latéral en plus de la rotation
-        Vector3 targetPosition = new Vector3(
-            initialCameraPosition.x + windTranslationX, // Décalage latéral
-            playerCamera.transform.localPosition.y,     // Garder la position Y actuelle
-            playerCamera.transform.localPosition.z      // Garder la position Z actuelle
-        );
-
-        // Appliquer la rotation et la position de la caméra de manière fluide
-        playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, windRotation, 0.1f);
-        playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, targetPosition, 0.1f);
     }
 
     public void ResetWindMovement()
     {
-        // Remettre le roll et la translation latérale à zéro de manière fluide quand le vent ne souffle pas
-        Quaternion resetRotation = initialCameraRotation; // Retour à la rotation initiale (sans inclinaison)
-        playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, resetRotation, 0.1f);
-
-        Vector3 resetPosition = new Vector3(
-            initialCameraPosition.x, // Retour à la position initiale X
-            playerCamera.transform.localPosition.y,  // Garder la position Y actuelle
-            playerCamera.transform.localPosition.z   // Garder la position Z actuelle
-        );
-
-        playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, resetPosition, 0.1f);
-
         isWindBlowing = false;
     }
 
@@ -217,5 +261,20 @@ public class CameraController : MonoBehaviour
     {
         playerCamera.transform.localPosition = initialCameraPosition;
         playerCamera.transform.localRotation = initialCameraRotation;
+    }
+
+    private IEnumerator JumpCoroutine()
+    {
+        isJumping = true;
+        yield return new WaitForSeconds(1f);
+        isJumping = false;
+    }
+
+    public void OnDroneEventFct()
+    {
+        if (!isJumping)
+        {
+            GameManager.instance.OnLoseEvent?.Invoke();
+        }
     }
 }
