@@ -75,6 +75,7 @@ MonoBehaviour:
   _timeToLookAtCam: 0.25
   _fleeSpeed: 5
   _fleeTimeUtilDestroy: 10
+  _pigeonFlyAwaySound: {fileID: 8300000, guid: 8d8e1807041838c4991380ee1d262e6f, type: 3}
 --- !u!1001 &8736161383132378370
 PrefabInstance:
   m_ObjectHideFlags: 0

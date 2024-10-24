@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;             // R�f�rence � la cam�ra du joueur
     [SerializeField] private URPCameraVisualEffects effects;
+    [SerializeField] private CanvasController _canvasController;
 
     // New Input System
     private PlayerControls controls;
@@ -221,6 +222,7 @@ public class CameraController : MonoBehaviour
         // Ajouter un d�calage plus prononc� vers le bas (-3 unit�s sur Y) et sur le c�t� en fonction du param�tre 'side'
         Vector3 targetPosition = initialCameraPosition + new Vector3(horizontalShift, -fallHeight, 0);
 
+        _canvasController.FallFade(fallDuration);
         // Animer la chute
         while (elapsedTime < fallDuration)
         {
@@ -261,6 +263,7 @@ public class CameraController : MonoBehaviour
     {
         playerCamera.transform.localPosition = initialCameraPosition;
         playerCamera.transform.localRotation = initialCameraRotation;
+        _canvasController.RespawnFade(0.2f);
     }
 
     private IEnumerator JumpCoroutine()
