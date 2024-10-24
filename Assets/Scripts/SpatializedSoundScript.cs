@@ -72,6 +72,14 @@ public class SpatializedSoundScript : MonoBehaviour
         }
     }
 
+    public void StopCurrentAudioSource()
+    {
+        if (currentAudioSource != null)
+        {
+            currentAudioSource.Stop();
+        }
+    }
+
     private AudioSource GetAudioSourceByDirection(Direction direction)
     {
         return direction switch
