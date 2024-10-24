@@ -896,6 +896,26 @@ PrefabInstance:
       propertyPath: _paths
       value: 
       objectReference: {fileID: 37579585}
+    - target: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
+      propertyPath: _maxSpawnTime
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
+      propertyPath: _minSpawnTime
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
+      propertyPath: OnPlaneSpawed.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
+      propertyPath: OnPlaneSpawed.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277333683232298144, guid: 879f0b6b371b1a947a8e04ff80239e5a, type: 3}
+      propertyPath: OnPlaneSpawed.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
