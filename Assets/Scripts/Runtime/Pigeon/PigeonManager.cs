@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -57,6 +58,21 @@ public class PigeonManager : MonoBehaviour
 
     }
 
+    [Button]
+    public void ClearPigeonAfterDeath()
+    {
+        foreach (PigeonSlot pigeon in _pigeonSlots)
+        {
+            if(pigeon.currentPigeon == null)
+                continue;
+            
+            PigeonAmountOnPerch--;
+            Destroy(pigeon.currentPigeon.gameObject);
+            pigeon.currentPigeon = null;
+            JoyconRumblingManager.Instance.OnRumbleStop?.Invoke(pigeon.Localisation);
+        }
+    }
+
     public void TrySpawnPigeonEvent()
     {
         bool quoicoubeh = TrySpawnPigeon();
@@ -85,14 +101,14 @@ public class PigeonManager : MonoBehaviour
         JoyconRumblingManager.Instance.OnRumbleReceived?.Invoke(new Rumbling(pigeon.RumblingData, loca));
     }
     
-    /*
+    
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             TrySpawnPigeon();
         }
     }
-    */
+    
 }
 
