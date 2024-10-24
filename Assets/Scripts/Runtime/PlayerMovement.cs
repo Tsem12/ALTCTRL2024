@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private List<AudioClip> vertigeSound;
+
     [Header("Speed")]
     [SerializeField] private float moveSpeed;              // Vitesse actuelle du joueur
     [SerializeField] private float maxSpeed;               // Vitesse maximale
@@ -124,6 +127,7 @@ public class PlayerMovement : MonoBehaviour
                 // Déclenche l'événement d'immobilité
                 onIdleEvent.Invoke();
                 isIdle = true;
+                
             }
         }
         else
@@ -137,7 +141,11 @@ public class PlayerMovement : MonoBehaviour
         transform.Translate(move);
     }
 
-
+    public void PlayRandomVertigoSound()
+    {
+        AudioClip clip = vertigeSound[Random.Range(0, vertigeSound.Count)];
+        AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
+    }
 
     // Gestion de l'entrée de mouvement
     private void OnMove(float input)

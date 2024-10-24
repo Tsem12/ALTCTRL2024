@@ -17,7 +17,8 @@ public class PigeonManager : MonoBehaviour
     [SerializeField] private GyroControler _gyroControler;
     [SerializeField] private PigeonPaths _pigeonPaths;
     [SerializeField] private PigeonBehaviour[] _pigeonPrefabs;
-
+    [SerializeField] private AudioClip _pigeonSound;
+    [SerializeField] private AudioClip _pigeonFlyAwaySound;
     [SerializeField] private List<PigeonSlot> _pigeonSlots = new List<PigeonSlot>();
     
     public int PigeonAmountOnPerch { get; private set; }
@@ -45,6 +46,8 @@ public class PigeonManager : MonoBehaviour
             pigeon.currentPigeon = null;
             JoyconRumblingManager.Instance.OnRumbleStop?.Invoke(pigeon.Localisation);
         }
+        AudioSource.PlayClipAtPoint(_pigeonFlyAwaySound, Camera.main.transform.position);
+
     }
 
     public bool TrySpawnPigeon()
@@ -58,6 +61,7 @@ public class PigeonManager : MonoBehaviour
         slot.currentPigeon = pigeon;
         pigeon.OnPigeonLanded += RumblingSender;
         pigeon.Init(_pigeonPaths, slot.PigeonPathPathId);
+        AudioSource.PlayClipAtPoint(_pigeonSound, Camera.main.transform.position);
         return true;
     }
     

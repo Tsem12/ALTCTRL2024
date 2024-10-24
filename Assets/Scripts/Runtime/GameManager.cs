@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     public GyroControler gyroControler;
     public UnityEvent OnLoseEvent;
-
+    public bool test;
     [SerializeField] private float limitAngle;
 
     private bool isPlayerAlive = true;
@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
             isPlayerAlive = false;
             OnLoseEvent.Invoke();
         }
+
+
     }
 
     public bool GetIsPlayerAlive()
