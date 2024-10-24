@@ -46,3 +46,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _planePrefab: {fileID: 377763273963288204, guid: 0e52629dac2a1d3478c3fcfcd8ae7bc3, type: 3}
   _paths: {fileID: 0}
+  _minSpawnTime: 15
+  _maxSpawnTime: 35
+  _clips:
+  - {fileID: 8300000, guid: e84266157e324de40bb42eff82e26e9a, type: 3}
+  - {fileID: 8300000, guid: 1fd8f69297f3dc143a2277638e11f2b4, type: 3}
+  OnPlaneSpawed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8277333683232298144}
+        m_TargetAssemblyTypeName: PlaneEventManager, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
