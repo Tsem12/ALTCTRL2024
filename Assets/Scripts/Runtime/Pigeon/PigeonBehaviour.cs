@@ -6,26 +6,37 @@ using Random = UnityEngine.Random;
 
 public class PigeonBehaviour : MonoBehaviour
 {
+    [field:SerializeField] public RumblingData RumblingData { get; private set; }
     [SerializeField] private Animator _animator;
     [SerializeField] private AnimationCurve _mouvementCurve;
     [SerializeField] private float _timeToLand;
     [SerializeField] private float _timeToLookAtCam;
+    [SerializeField] private float _fleeSpeed = 5;
+    [SerializeField] private float _fleeTimeUtilDestroy = 10;
 
     
     private PigeonPaths _pigeonPaths;
     private float _currentLandingTime;
     private Curve _curve;
     private PigeonPaths.Path _path;
+    public bool IsLanded { get; private set; }
+
+    public Action<PigeonBehaviour> OnPigeonLanded;
     
 
-    public void Init(PigeonPaths pigeonPaths)
+    public void Init(PigeonPaths pigeonPaths, int pathId)
     {
         _pigeonPaths = pigeonPaths;
-        _path = _pigeonPaths.Paths[Random.Range(0, _pigeonPaths.Paths.Length)];
+        _path = _pigeonPaths.Paths[pathId];
         _curve = _path.Curves[Random.Range(0, _path.Curves.Length)];
         transform.position = _curve.GetPosition(0f, _pigeonPaths.transform.localToWorldMatrix);
     }
 
+    public void ShakePigeon()
+    {
+        StartCoroutine(FleeRoutine());
+    }
+    
     private void Update()
     {
         if(_currentLandingTime >= _timeToLand)
@@ -42,6 +53,8 @@ public class PigeonBehaviour : MonoBehaviour
         {
             StartCoroutine(LookCamRoutine());
             _animator.SetTrigger("TriggerLand");
+            OnPigeonLanded?.Invoke(this);
+            IsLanded = true;
         }
     }
 
@@ -58,9 +71,27 @@ public class PigeonBehaviour : MonoBehaviour
         }
 
         transform.parent = _path.LandingPoint;
-        
-        //TEMP
-        yield return new WaitForSeconds(2);
-        Destroy(this);
+    }
+
+    IEnumerator FleeRoutine()
+    {
+        IsLanded = false;
+        Vector3 Direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+        _animator.SetTrigger("TriggerFly");
+        _animator.speed = 3;
+        float timer = 0;
+        while (true)
+        {
+            if (timer > _fleeTimeUtilDestroy)
+            {
+                Destroy(gameObject);
+                yield break;
+            }
+            timer += Time.deltaTime;
+            transform.parent = null;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Direction), Time.deltaTime * 10);
+            transform.position += Direction * (Time.deltaTime * _fleeSpeed);
+            yield return null;
+        }
     }
 }

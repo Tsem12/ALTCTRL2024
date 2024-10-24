@@ -44,6 +44,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ccbd972d8db224caed4b8d4aeb5eb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gyroControler: {fileID: 0}
   _pigeonPaths: {fileID: 0}
   _pigeonPrefabs:
   - {fileID: 3415046972211730362, guid: b457a0cf484578f4a9f2f0ed31f710e5, type: 3}
+  - {fileID: 3415046972211730362, guid: 40307e13d79ac44498d1591d8eca5fe2, type: 3}
+  _pigeonSlots:
+  - currentPigeon: {fileID: 0}
+    <PigeonPathPathId>k__BackingField: 0
+    <Localisation>k__BackingField: 2
+  - currentPigeon: {fileID: 0}
+    <PigeonPathPathId>k__BackingField: 1
+    <Localisation>k__BackingField: 0
+  - currentPigeon: {fileID: 0}
+    <PigeonPathPathId>k__BackingField: 2
+    <Localisation>k__BackingField: 1

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class GyroControler : MonoBehaviour
@@ -12,9 +13,10 @@ public class GyroControler : MonoBehaviour
 	[SerializeField] private float _maxPitch;
 	[SerializeField] private float _pitchTriggerTreshold;
 	[SerializeField] private int _shakeTreshold;
-    [SerializeField] private int jc_ind = 0;
+    [SerializeField] private JoyconIdConfig jc_ind;
     
     [Header("ShakeValues")]
+    [SerializeField] float _minTimeToShake = .5f;
     [SerializeField] float _shakeDuration = .1f;
     [SerializeField] Vector3 _shakeForce = new Vector3(0,.25f,0);
     [SerializeField] int _shakeVibrato = 1;
@@ -34,7 +36,6 @@ public class GyroControler : MonoBehaviour
     
     private float _currentPitch;
     public float GetPerchRoll => transform.localEulerAngles.z - 270;
-    public float GetPerchPitch => _currentPitch;
     
     void Start ()
     {
@@ -43,8 +44,9 @@ public class GyroControler : MonoBehaviour
         accel = new Vector3(0, 0, 0);
         // get the public Joycon array attached to the JoyconManager in scene
         joycons = JoyconManager.Instance.j;
-		if (joycons.Count < jc_ind+1){
-			Debug.LogError("Np joycon founded");
+		if (joycons.Count < jc_ind.CenterJoyconId+1)
+		{
+			Debug.LogError("No Joycon for Gyroscope");
 		}
     }
 
@@ -54,7 +56,7 @@ public class GyroControler : MonoBehaviour
 		if (joycons.Count < 0)
 			return;
 		
-		Joycon j = joycons [jc_ind];
+		Joycon j = joycons [jc_ind.CenterJoyconId];
 		if (j.GetButtonDown(Joycon.Button.SHOULDER_2))
 		{
 			Debug.Log ("Shoulder button 2 pressed");
@@ -98,16 +100,27 @@ public class GyroControler : MonoBehaviour
 
     IEnumerator ShakeRoutine()
     {
-	    OnShakePerch?.Invoke();
 	    _shakeTween = transform.DOShakePosition(_shakeDuration, _shakeVibrato).SetEase(_shakeEase).SetLoops(-1, LoopType.Yoyo);
 	    _shakeTween.Play();
-	    yield return new WaitUntil(() => accel.magnitude < 1);
+	    float timer = 0f;
+	    while (accel.magnitude > 1)
+	    {
+		    timer += Time.deltaTime;
+		    if (timer >= _minTimeToShake)
+		    {
+				OnShakePerch?.Invoke();
+		    }
+		    yield return null;
+	    }
 	    _shakeTween.Kill();
 	    transform.DOLocalMove(_initPos, _shakeRecoveryDuration).SetEase(_shakeRecoveryEase);
 	    _shakeRoutine = null;
-	    joycons[jc_ind].Recenter();
+	    joycons[jc_ind.CenterJoyconId].Recenter();
 
     }
+    
+    [Button]
+    public void TestShake() => OnShakePerch?.Invoke();
 
     private void OnGUI()
     {
