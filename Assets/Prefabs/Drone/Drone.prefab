@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeToTravelCurve: 2.5
-  _droneSpeedOutOfCurve: 10
+  _droneSpeedOutOfCurve: 30
   _mouvementCurve:
     serializedVersion: 2
     m_Curve:

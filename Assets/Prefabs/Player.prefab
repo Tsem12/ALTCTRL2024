@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 3985225228795032043}
+  m_Father: {fileID: 2622880704729216771}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &1370506174982865012
 Light:
@@ -253,6 +253,7 @@ Transform:
   - {fileID: 8147723190727182222}
   - {fileID: 1973238192407141673}
   - {fileID: 4631086478034253956}
+  - {fileID: 3946678345918274513}
   - {fileID: 3985225228795032043}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -341,6 +342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28f21e43e350ad34d9a56ae40cf4d1f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vertigeSound: []
   moveSpeed: 0
   maxSpeed: 0.5
   acceleration: 0.6
@@ -457,7 +459,6 @@ Transform:
   - {fileID: 8350614047909583228}
   - {fileID: 7768946201146073596}
   - {fileID: 2819866609733923590}
-  - {fileID: 3946678345918274513}
   - {fileID: 7373904025838228361}
   - {fileID: 7921764351404530070}
   - {fileID: 5459021966096859518}

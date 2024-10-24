@@ -33,8 +33,6 @@ public class GameManager : MonoBehaviour
             isPlayerAlive = false;
             OnLoseEvent.Invoke();
         }
-
-
     }
 
     public bool GetIsPlayerAlive()
