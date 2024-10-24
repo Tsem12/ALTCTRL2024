@@ -24,6 +24,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float fallHeight;
     [SerializeField] private float sideFall;
     [SerializeField] private float fallDuration;
+    [SerializeField] private AnimationCurve fallCurve;
 
     private Coroutine fallCoroutine = null;
 
@@ -227,10 +228,10 @@ public class CameraController : MonoBehaviour
             float t = elapsedTime / fallDuration;
 
             // Lerp la rotation vers la cible
-            playerCamera.transform.localRotation = Quaternion.Lerp(startingRotation, targetRotation, t);
+            playerCamera.transform.localRotation = Quaternion.Lerp(startingRotation, targetRotation, fallCurve.Evaluate(t));
 
             // Lerp la position vers la cible (tomber vers le bas et � gauche/droite)
-            playerCamera.transform.localPosition = Vector3.Lerp(startingPosition, targetPosition, t);
+            playerCamera.transform.localPosition = Vector3.Lerp(startingPosition, targetPosition, fallCurve.Evaluate(t));
 
             yield return null; // Attendre la prochaine frame
         }
