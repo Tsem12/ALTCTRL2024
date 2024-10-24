@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private List<AudioClip> vertigeSound;
+
     [Header("Speed")]
     [SerializeField] private float moveSpeed;              // Vitesse actuelle du joueur
     [SerializeField] private float maxSpeed;               // Vitesse maximale
