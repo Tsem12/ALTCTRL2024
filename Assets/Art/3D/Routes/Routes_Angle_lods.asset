@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!43 &-7324016462280497848
+--- !u!43 &-658258789935895589
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,8 +151,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: -0.00053849607, y: 0.000034198863, z: -0.00065346475}
-    m_Extent: {x: 0.008312513, y: 0.0074702473, z: 0.0020105764}
+    m_Center: {x: -0.059535623, y: 0.1596675, z: -0.30031133}
+    m_Extent: {x: 0.8312513, y: 0.20105766, z: 0.7470248}
   m_MeshUsageFlags: 0
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
@@ -196,7 +196,7 @@ MonoBehaviour:
   lod5: []
   lod6: []
   lod7: []
---- !u!43 &3223915927324628738
+--- !u!43 &5980680915533868622
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -347,8 +347,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: -0.00053849607, y: 0.000034198863, z: -0.00065346475}
-    m_Extent: {x: 0.008312513, y: 0.0074702473, z: 0.0020105764}
+    m_Center: {x: -0.059535623, y: 0.1596675, z: -0.30031133}
+    m_Extent: {x: 0.8312513, y: 0.20105766, z: 0.7470248}
   m_MeshUsageFlags: 0
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!43 &-5672715452835523009
+--- !u!43 &-6137861118918119841
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,8 +151,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 0, y: 0.0000000027939677, z: -0.0006826747}
-    m_Extent: {x: 0.0045478367, y: 0.028764885, z: 0.0020105755}
+    m_Center: {x: 0.31693193, y: 0.1596676, z: 0.0042253733}
+    m_Extent: {x: 0.45478365, y: 0.20105757, z: 2.8764887}
   m_MeshUsageFlags: 0
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
@@ -165,38 +165,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e927627221206e04dba83232f13d1949, type: 3}
-  m_Name: Routes_Droite_lods
-  m_EditorClassIdentifier: 
-  overrideDefaults: 0
-  importSettings:
-    generateOnImport: 1
-    meshSimplifier: Unity.AutoLOD.QuadricMeshSimplifier, Unity.AutoLOD.Editor, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-    batcher: 
-    maxLODGenerated: 2
-    initialLODMaxPolyCount: 500000
-  lod0:
-  - {fileID: -7511558181221131132, guid: 6987c77abedeaaf4a9d9f159779a19d7, type: 3}
-  lod1:
-  - {fileID: 5045199171696610187, guid: 6987c77abedeaaf4a9d9f159779a19d7, type: 3}
-  lod2:
-  - {fileID: 7943002809684600684, guid: 6987c77abedeaaf4a9d9f159779a19d7, type: 3}
-  lod3: []
-  lod4: []
-  lod5: []
-  lod6: []
-  lod7: []
---- !u!43 &9024304910625603774
+--- !u!43 &-2302695704418881038
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -347,8 +316,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 0, y: 0.0000000027939677, z: -0.0006826747}
-    m_Extent: {x: 0.0045478367, y: 0.028764885, z: 0.0020105755}
+    m_Center: {x: 0.31693193, y: 0.1596676, z: 0.0042253733}
+    m_Extent: {x: 0.45478365, y: 0.20105757, z: 2.8764887}
   m_MeshUsageFlags: 0
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
@@ -361,3 +330,34 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e927627221206e04dba83232f13d1949, type: 3}
+  m_Name: Routes_Droite_lods
+  m_EditorClassIdentifier: 
+  overrideDefaults: 0
+  importSettings:
+    generateOnImport: 1
+    meshSimplifier: Unity.AutoLOD.QuadricMeshSimplifier, Unity.AutoLOD.Editor, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    batcher: 
+    maxLODGenerated: 2
+    initialLODMaxPolyCount: 500000
+  lod0:
+  - {fileID: -7511558181221131132, guid: 6987c77abedeaaf4a9d9f159779a19d7, type: 3}
+  lod1:
+  - {fileID: 5045199171696610187, guid: 6987c77abedeaaf4a9d9f159779a19d7, type: 3}
+  lod2:
+  - {fileID: 7943002809684600684, guid: 6987c77abedeaaf4a9d9f159779a19d7, type: 3}
+  lod3: []
+  lod4: []
+  lod5: []
+  lod6: []
+  lod7: []

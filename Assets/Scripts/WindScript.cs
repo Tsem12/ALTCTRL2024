@@ -45,7 +45,7 @@ public class WindScript : MonoBehaviour
     [HideInInspector]
     public WindDirection _windDirection;
 
-    public bool test;
+    //public bool test;
 
     private void Awake()
     {
@@ -69,11 +69,19 @@ public class WindScript : MonoBehaviour
                 compassArrow.transform.localRotation = Quaternion.Euler(90, 0, compassRotationAngleDestination);
             }
         }
+        /*
         if (test)
         {
             PlayWindToDirection(WindDirection.West, 10);
             OnWindBlowing.Invoke();
         }
+        */
+    }
+
+    public void TriggerWind()
+    {
+        PlayWindToDirection(WindDirection.West, 10);
+        OnWindBlowing.Invoke();
     }
     /*
     private void Start()
@@ -94,7 +102,6 @@ public class WindScript : MonoBehaviour
 
     public void PlayWindToDirection(WindDirection windDirection, float duration)
     {
-        Debug.Log("allez le vent");
         _windDirection = windDirection;
         ChooseRandomGameObject();
         windOrigin.transform.position = GetWindOrigin(windDirection);
