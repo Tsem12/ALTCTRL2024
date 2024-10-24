@@ -6,6 +6,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private List<AudioClip> vertigeSound;
 
+    [SerializeField] private WindScript windScript;
+
     [Header("Speed")]
     [SerializeField] private float moveSpeed;              // Vitesse actuelle du joueur
     [SerializeField] private float maxSpeed;               // Vitesse maximale
@@ -123,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
         {
             idleTimer += Time.deltaTime;
             // Si le joueur est immobile depuis assez longtemps
-            if (idleTimer >= timeBeforeVertigo && !isIdle && GameManager.instance.GetHasMoved())
+            if (idleTimer >= timeBeforeVertigo && !isIdle && GameManager.instance.GetHasMoved() && !windScript.isWindBlowing)
             {
                 // Déclenche l'événement d'immobilité
                 onIdleEvent.Invoke();
