@@ -30819,6 +30819,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -89.25
       objectReference: {fileID: 0}
+    - target: {fileID: 1905563067170408030, guid: 49c707b00c6c52047ab224489d62bb41, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3ead160c7ae3b4c48ae0b0472f80f328, type: 2}
     - target: {fileID: 2031410439450555962, guid: 49c707b00c6c52047ab224489d62bb41, type: 3}
       propertyPath: m_Name
       value: Batiment_B (33)
@@ -161534,6 +161538,14 @@ PrefabInstance:
       propertyPath: _paths
       value: 
       objectReference: {fileID: 602534412}
+    - target: {fileID: 500642120372911904, guid: b53349063314a544cb0766fce4394a3d, type: 3}
+      propertyPath: _maxSpawnTime
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 500642120372911904, guid: b53349063314a544cb0766fce4394a3d, type: 3}
+      propertyPath: _minSpawnTime
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1175464709123991221, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: _victorySound
       value: 

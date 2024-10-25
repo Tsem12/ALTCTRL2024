@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8700617353114198275, guid: e009236a9d8c38d48a16211812162bef, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e009236a9d8c38d48a16211812162bef, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.6238966
@@ -60,6 +64,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e009236a9d8c38d48a16211812162bef, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 5100068591777345685, guid: e009236a9d8c38d48a16211812162bef, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -68,6 +76,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: c7c5e9fe980381346b2093ddb17ae844, type: 2}
+    - target: {fileID: 6662559930471136817, guid: e009236a9d8c38d48a16211812162bef, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7583984430245430355, guid: e009236a9d8c38d48a16211812162bef, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -129,9 +145,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4689816226419786477, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
       propertyPath: m_Name
       value: Horloge
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1052172029176993115, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 5828171839083166639, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -145,6 +173,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d23f82f648913cf4daa28cdd0969f72e, type: 2}
+    - target: {fileID: 7389157918490685021, guid: 9f467b95dc79e454eac8a33cdd0f5104, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
