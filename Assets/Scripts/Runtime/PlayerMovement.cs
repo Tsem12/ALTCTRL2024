@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxSpeed;               // Vitesse maximale
     [SerializeField] private float acceleration;           // Taux d'accélération
     [SerializeField] private float distance;
+    [SerializeField] private List<AudioClip> footStepsSounds;
+    private Coroutine footStepSoundCoroutine = null;
 
     // Variables pour la gestion du contrôle par alternance
     private float timePressingSameKey = 0f;  // Temps passé à maintenir la même touche
@@ -79,6 +82,13 @@ public class PlayerMovement : MonoBehaviour
         return movementInput;
     }
 
+    void PlayRandomFootStepSound()
+    {
+        Debug.Log("caca");
+        AudioClip clip = footStepsSounds[Random.Range(0, footStepsSounds.Count)];
+        AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
+    }
+
     private void HandleMovement()
     {
         if (movementInput != 0)
@@ -141,9 +151,23 @@ public class PlayerMovement : MonoBehaviour
 
         // Appliquer le mouvement du joueur en fonction de la vitesse
         int numberOfPigeon = PigeonManager.instance.PigeonAmountOnPerch;
+         if(moveSpeed != 0)
+        {
+            if(footStepSoundCoroutine == null)
+            {
+                footStepSoundCoroutine = StartCoroutine(FootStepSoundCoroutine());
+            }
+        }
         Vector3 move = new Vector3(0, 0, moveSpeed * Mathf.Pow(0.8f, numberOfPigeon) * Time.deltaTime);
         transform.Translate(move);
         distance += moveSpeed * Time.deltaTime;
+    }
+
+    private IEnumerator FootStepSoundCoroutine()
+    {
+        PlayRandomFootStepSound();
+        yield return new WaitForSeconds(3f);
+        footStepSoundCoroutine = null;
     }
 
     public void PlayRandomVertigoSound()
@@ -188,6 +212,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetDistance(float newDistance)
     {
-        distance = newDistance;
+        distance = newDistance ;
     }
 }

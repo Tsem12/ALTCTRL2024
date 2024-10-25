@@ -38,4 +38,9 @@ public class EventManager : MonoBehaviour
             currentEventIndex++;
         }
     }
+
+    public void OnLose()
+    {
+        currentEventIndex = 0;
+    }
 }
