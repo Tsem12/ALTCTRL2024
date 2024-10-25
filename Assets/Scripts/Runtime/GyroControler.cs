@@ -95,7 +95,11 @@ public class GyroControler : MonoBehaviour
 		        _shakeRoutine = StartCoroutine(ShakeRoutine());
 	        }
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+	        ForceStopRoutine();
+        }
     }
 
     IEnumerator ShakeRoutine()
@@ -105,7 +109,7 @@ public class GyroControler : MonoBehaviour
 
 	    yield return new WaitForSeconds(_minTimeToShake);
 		OnShakePerch?.Invoke();
-	    while (accel.magnitude > 1)
+	    while (accel.magnitude > 1.5f)
 	    {
 		    yield return null;
 	    }
@@ -114,6 +118,18 @@ public class GyroControler : MonoBehaviour
 	    _shakeRoutine = null;
 	    joycons[jc_ind.CenterJoyconId].Recenter();
 
+    }
+
+    public void ForceStopRoutine()
+    {
+	    if (_shakeRoutine != null)
+	    {
+		    StopCoroutine(_shakeRoutine);
+			_shakeRoutine = null;
+	    }
+	    _shakeTween.Kill();
+	    transform.DOLocalMove(_initPos, _shakeRecoveryDuration).SetEase(_shakeRecoveryEase);
+	    joycons[jc_ind.CenterJoyconId].Recenter();
     }
     
     [Button]

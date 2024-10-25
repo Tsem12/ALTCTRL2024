@@ -91,6 +91,9 @@ public class PigeonManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(_pigeonSound, Camera.main.transform.position);
         return true;
     }
+
+    [Button]
+    public void TestSpawnPigeon() => TrySpawnPigeon();
     
     private void RumblingSender(PigeonBehaviour pigeon)
     {
