@@ -45,7 +45,7 @@ public class PigeonManager : MonoBehaviour
     {
         foreach (PigeonSlot pigeon in _pigeonSlots)
         {
-            if(pigeon.currentPigeon == null)
+            if(pigeon.currentPigeon == null || !pigeon.currentPigeon.IsLanded)
                 continue;
 
             pigeon.currentPigeon.ShakePigeon();
