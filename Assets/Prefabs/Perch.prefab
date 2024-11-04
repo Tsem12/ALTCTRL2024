@@ -49,7 +49,8 @@ MonoBehaviour:
   _maxPitch: 30
   _pitchTriggerTreshold: 0.05
   _shakeTreshold: 2
-  jc_ind: 0
+  jc_ind: {fileID: 11400000, guid: 7c8545c314f30cc48ad235f517295e34, type: 2}
+  _minTimeToShake: 0.5
   _shakeDuration: 0.1
   _shakeForce: {x: 0, y: 0.25, z: 0}
   _shakeVibrato: 1

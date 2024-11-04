@@ -19,6 +19,7 @@ public class PigeonPaths : MonoBehaviour
     
     private void OnDrawGizmos()
     {
+        #if UNITY_EDITOR
         if(Paths == null || (_drawGizmoOnSelected && Selection.activeGameObject != gameObject))
             return;
         
@@ -34,5 +35,6 @@ public class PigeonPaths : MonoBehaviour
                 Paths[i].Curves[j].DrawGizmo(color, transform.localToWorldMatrix, Selection.activeGameObject == gameObject, _curveGizmoPrecision);
             }
         }
+        #endif
     }
 }
