@@ -26,9 +26,9 @@ Transform:
   m_GameObject: {fileID: 234108436291951086}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 0.0177, y: -0.0002, z: 0.0753}
-  m_LocalScale: {x: 0.0020789937, y: 0.003693528, z: 0.003693528}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0.0177, y: -0.0002, z: 0.075}
+  m_LocalScale: {x: 0.0004934299, y: 0.0007280172, z: 0.00078797725}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4977926903777064336}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 467972b018f31cd4f827cf85dc616d48, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 56cc586c8b265ae4aa28cb07dc5004e7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -220,7 +220,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 796de3b023205ee4d928b963163746c1, type: 2}
     - target: {fileID: 919132149155446097, guid: cef8212031b7364468fdce7ad63812d9, type: 3}
       propertyPath: m_Name
-      value: Batiment
+      value: Batiment 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
