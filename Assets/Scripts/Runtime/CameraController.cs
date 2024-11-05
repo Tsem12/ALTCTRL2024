@@ -9,20 +9,17 @@ public class CameraController : MonoBehaviour
 {
     public static CameraController instance;
 
-    [SerializeField] private Camera playerCamera;             // R�f�rence � la cam�ra du joueur
-
-    // New Input System
-    private PlayerControls controls;
+    [SerializeField] private Camera playerCamera;
 
     [Header("MovementTilt")]
-    [SerializeField] private float cameraTiltAngle = 5f;            // Angle de rotation pour pencher la cam�ra lat�ralement
+    [SerializeField] private float cameraTiltAngle = 5f;
 
     [Header("Bobbing")]
-    [SerializeField] private float bobbingSpeed = 0.1f;       // Vitesse du balancement
-    [SerializeField] private float baseBobbingAmountX = 0.02f; // Amplitude de base du balancement lat�ral (gauche-droite)
-    [SerializeField] private float baseBobbingAmountY = 0.01f; // Amplitude de base du balancement vertical (haut-bas)
-    [SerializeField] private float tiltAngle = 5f;            // Angle de rotation pour pencher la cam�ra lat�ralement
-    private float timer = 0.0f;             // Timer pour l'oscillation
+    [SerializeField] private float bobbingSpeed = 0.1f;
+    [SerializeField] private float baseBobbingAmountX = 0.02f;
+    [SerializeField] private float baseBobbingAmountY = 0.01f;
+    [SerializeField] private float tiltAngle = 5f;
+    private float timer = 0.0f;
 
     [Header("Fall")]
     [SerializeField] private float fallHeight;
@@ -30,42 +27,35 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float fallDuration;
     [SerializeField] private AnimationCurve fallCurve;
 
-    [Header("Jump")]
-    [SerializeField] private float jumpHeight;
-    [SerializeField] private float jumpDuration;
-
     [Header("Wind Settings")]
     [SerializeField] private float windSpeed = 10f;
     [SerializeField] private float windTiltMultiplier = 1f;
     [SerializeField] private float windTranslationMultiplier = 0.1f;
 
     [Header("VertigoEffect")]
-    [SerializeField] private float transitionDuration;            // Durée de la transition des effets de vertige
-    [SerializeField] private float cameraTiltAmount;             // Angle maximal d'inclinaison de la caméra vers le bas
-    [SerializeField] private float cameraShakeIntensity;        // Intensité du tremblement de la caméra
-    [SerializeField] private Volume postProcessVolume;                 // Référence au Volume de post-processing (URP)
-    [SerializeField] private float maxBlurAmount;               // Angle maximal de flou de mouvement
-    [SerializeField] private float maxAberrationAmount;           // Intensité maximale de l'aberration chromatique
-    [SerializeField] private float maxFOVChange;                 // FOV change max (ajouté à la FOV de base)
+    [SerializeField] private float transitionDuration;
+    [SerializeField] private float cameraTiltAmount;
+    [SerializeField] private float cameraShakeIntensity;
+    [SerializeField] private Volume postProcessVolume;
+    [SerializeField] private float maxBlurAmount;
+    [SerializeField] private float maxAberrationAmount;
+    [SerializeField] private float maxFOVChange;
     [SerializeField] private float maxLensDistorsionIntensity;
     [SerializeField] private float maxVignetteIntensity;
 
-    private MotionBlur motionBlur;                   // Composant Motion Blur (URP)
-    private ChromaticAberration chromaticAberration; // Composant Chromatic Aberration (URP)
+    private MotionBlur motionBlur;
+    private ChromaticAberration chromaticAberration;
     private LensDistortion lensDistorsion;
     private Vignette vignette;
-
-    public static UnityEvent OnDroneEvent = new UnityEvent();
 
     private Coroutine fallCoroutine = null;
     private Coroutine jumpCoroutine = null;
     private Coroutine startVertigoCoroutine = null;
     private Coroutine stopVertigoCoroutine = null;
 
-    private Vector3 initialCameraPosition;   // Stocker la position initiale de la cam�ra
-    private Quaternion initialCameraRotation; // Stocker la rotation initiale de la cam�ra
-    private float initialFOV;                        // FOV initial de la caméra
-    private bool isJumping = false;
+    private Vector3 initialCameraPosition;
+    private Quaternion initialCameraRotation;
+    private float initialFOV;
 
     private void Awake()
     {
@@ -75,23 +65,20 @@ public class CameraController : MonoBehaviour
             return;
         }
         instance = this;
-        // Initialisation des Input Actions
-        controls = new PlayerControls();
     }
 
     private void Start()
     {
-        // Stocker la position initiale et la rotation initiale de la cam�ra
         initialCameraPosition = playerCamera.transform.localPosition;
         initialCameraRotation = playerCamera.transform.localRotation;
         initialFOV = playerCamera.fieldOfView;
 
-        // Récupérer les composants de post-processing (URP)
+
         if (postProcessVolume.profile.TryGet<MotionBlur>(out motionBlur))
-            motionBlur.active = false; // Désactiver le motion blur au démarrage
+            motionBlur.active = false;
 
         if (postProcessVolume.profile.TryGet<ChromaticAberration>(out chromaticAberration))
-            chromaticAberration.active = false; // Désactiver l'aberration chromatique au démarrage
+            chromaticAberration.active = false;
 
         if (postProcessVolume.profile.TryGet<LensDistortion>(out lensDistorsion))
             lensDistorsion.active = false;
@@ -102,12 +89,6 @@ public class CameraController : MonoBehaviour
 
     private void OnEnable()
     {
-        // Activer les actions du joueur quand l'objet est activé
-        controls.Player.Enable();
-
-        // Assigner l'action "Jump" à une méthode de callback
-        controls.Player.Jump.performed += OnJumpPerformed;
-        OnDroneEvent.AddListener(OnDroneEventFct);
         GameManager.OnRespawnEvent.AddListener(OnRespawn);
         GameManager.OnLoseEvent.AddListener(OnLose);
         PlayerMovement.OnStartVertigoEvent.AddListener(OnStartVertigo);
@@ -116,12 +97,6 @@ public class CameraController : MonoBehaviour
 
     private void OnDisable()
     {
-        // Désactiver les actions du joueur quand l'objet est désactivé
-        controls.Player.Disable();
-
-        // Désabonner la méthode de callback pour éviter les erreurs
-        controls.Player.Jump.performed -= OnJumpPerformed;
-        OnDroneEvent.RemoveAllListeners();
         GameManager.OnRespawnEvent.RemoveAllListeners();
         GameManager.OnLoseEvent.RemoveAllListeners();
         PlayerMovement.OnStartVertigoEvent.RemoveAllListeners();
@@ -186,54 +161,6 @@ public class CameraController : MonoBehaviour
         {
             ApplyMovementCamera();
         }
-    }
-
-    private void OnJumpPerformed(InputAction.CallbackContext context)
-    {
-        if (WindScript.instance.GetIsWindBlowing())
-        {
-            GameManager.OnLoseEvent?.Invoke();
-        }
-        else
-        {
-            StartCoroutine(JumpCoroutine());
-        }
-    }
-
-    private IEnumerator JumpCoroutine()
-    {
-        Debug.Log("j'applique la coroutine de saut");
-        isJumping = true;
-
-        // Sauvegarder la position initiale de la caméra avant le saut
-        Vector3 startPosition = transform.localPosition;
-
-        float elapsedTime = 0f;
-
-        // L'effet du saut consiste à monter puis à redescendre, donc on va animer cela en deux phases (aller-retour)
-        while (elapsedTime < jumpDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / jumpDuration;
-
-            // Utiliser un facteur sinusoïdal pour simuler un mouvement de saut réaliste (monter puis redescendre)
-            float heightOffset = Mathf.Sin(t * Mathf.PI) * jumpHeight;
-
-            // Appliquer la position verticale pendant le saut (en ajoutant l'offset à la position initiale)
-            transform.localPosition = new Vector3(
-                startPosition.x,                     // Garder la position X constante
-                startPosition.y + heightOffset,       // Appliquer l'offset pour le saut sur Y
-                startPosition.z                      // Garder la position Z constante
-            );
-
-            // Attendre la prochaine frame avant de continuer
-            yield return null;
-        }
-
-        // S'assurer que la caméra revient exactement à sa position initiale à la fin du saut
-        transform.localPosition = startPosition;
-
-        isJumping = false;
     }
 
     private void ApplyMovementCamera()
@@ -351,17 +278,8 @@ public class CameraController : MonoBehaviour
         playerCamera.transform.localRotation = initialCameraRotation;
     }
 
-    public void OnDroneEventFct()
-    {
-        if (!isJumping)
-        {
-            GameManager.OnLoseEvent?.Invoke();
-        }
-    }
-
     public void OnStartVertigo()
     {
-        //StopAllCoroutines();
         StopAndSetNullCoroutine(stopVertigoCoroutine);
         startVertigoCoroutine = StartCoroutine(ApplyVertigoEffect());
     }

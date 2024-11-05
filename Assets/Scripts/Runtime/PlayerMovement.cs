@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -27,8 +29,14 @@ public class PlayerMovement : MonoBehaviour
     private float idleTimer = 0f;                          // Temps d'immobilité
     private bool isVertigoActive = false;                           // Savoir si le joueur est immobile
 
+    [Header("Jump")]
+    [SerializeField] private float jumpHeight;
+    [SerializeField] private float jumpDuration;
+    private bool isJumping = false;
+
     public static UnityEvent OnStartVertigoEvent = new UnityEvent();
     public static UnityEvent OnStopVertigoEvent = new UnityEvent();
+    public static UnityEvent OnDroneEvent = new UnityEvent();
 
     private Vector3 initialPlayerPosition;
     private Quaternion initialPlayerRotation;
@@ -58,14 +66,17 @@ public class PlayerMovement : MonoBehaviour
         controls.Enable();
         GameManager.OnRespawnEvent.AddListener(OnRespawn);
         OnStartVertigoEvent.AddListener(PlayRandomVertigoSound);
+        OnDroneEvent.AddListener(OnDrone);
+        controls.Player.Jump.performed += OnJumpPerformed;
     }
 
     private void OnDisable()
     {
-        // Désactiver les contrôles
         controls.Disable();
         GameManager.OnRespawnEvent.RemoveAllListeners();
         OnStartVertigoEvent.RemoveAllListeners();
+        OnDroneEvent.RemoveAllListeners();
+        controls.Player.Jump.performed -= OnJumpPerformed;
     }
 
     private void Update()
@@ -193,6 +204,62 @@ public class PlayerMovement : MonoBehaviour
     public float GetDistance()
     {
         return distance;
+    }
+
+    private void OnJumpPerformed(InputAction.CallbackContext context)
+    {
+        if (WindScript.instance.GetIsWindBlowing())
+        {
+            GameManager.OnLoseEvent?.Invoke();
+        }
+        else
+        {
+            StartCoroutine(JumpCoroutine());
+        }
+    }
+
+    private IEnumerator JumpCoroutine()
+    {
+        Debug.Log("j'applique la coroutine de saut");
+        isJumping = true;
+
+        // Sauvegarder la position initiale de la caméra avant le saut
+        Vector3 startPosition = transform.localPosition;
+
+        float elapsedTime = 0f;
+
+        // L'effet du saut consiste à monter puis à redescendre, donc on va animer cela en deux phases (aller-retour)
+        while (elapsedTime < jumpDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / jumpDuration;
+
+            // Utiliser un facteur sinusoïdal pour simuler un mouvement de saut réaliste (monter puis redescendre)
+            float heightOffset = Mathf.Sin(t * Mathf.PI) * jumpHeight;
+
+            // Appliquer la position verticale pendant le saut (en ajoutant l'offset à la position initiale)
+            transform.localPosition = new Vector3(
+                startPosition.x,                     // Garder la position X constante
+                startPosition.y + heightOffset,       // Appliquer l'offset pour le saut sur Y
+                startPosition.z                      // Garder la position Z constante
+            );
+
+            // Attendre la prochaine frame avant de continuer
+            yield return null;
+        }
+
+        // S'assurer que la caméra revient exactement à sa position initiale à la fin du saut
+        transform.localPosition = startPosition;
+
+        isJumping = false;
+    }
+
+    public void OnDrone()
+    {
+        if (!isJumping)
+        {
+            GameManager.OnLoseEvent?.Invoke();
+        }
     }
 
     public void OnRespawn()

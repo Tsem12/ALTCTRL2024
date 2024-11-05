@@ -34,7 +34,7 @@ public class DroneBehaviour : MonoBehaviour
         {
             Debug.Log("apagnan");
             hasDroneEventStarted = true;
-            CameraController.OnDroneEvent?.Invoke();
+            PlayerMovement.OnDroneEvent?.Invoke();
         }
         if (_currentTimeOnCurve < _timeToTravelCurve)
         {
