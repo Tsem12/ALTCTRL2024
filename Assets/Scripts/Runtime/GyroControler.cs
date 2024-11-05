@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using DG.Tweening;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GyroControler : MonoBehaviour
 {
+    public static GyroControler instance;
+
 	private List<Joycon> joycons;
 
 	[SerializeField] private bool _enableDebugLabels;
@@ -32,11 +35,21 @@ public class GyroControler : MonoBehaviour
     private Coroutine _shakeRoutine;
     private Tween _shakeTween;
 
-    public Action OnShakePerch;
+    public static UnityEvent OnShakePerch = new UnityEvent();
     
     private float _currentPitch;
     public float GetPerchRoll => transform.localEulerAngles.z - 270;
-    
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogError("plus d'une instance de GyroManager dans la scene");
+            return;
+        }
+        instance = this;
+    }
+
     void Start ()
     {
 	    _initPos = transform.localPosition;
@@ -44,16 +57,18 @@ public class GyroControler : MonoBehaviour
         accel = new Vector3(0, 0, 0);
         // get the public Joycon array attached to the JoyconManager in scene
         joycons = JoyconManager.Instance.j;
+        /*
 		if (joycons.Count < jc_ind.CenterJoyconId+1)
 		{
 			Debug.LogError("No Joycon for Gyroscope");
 		}
+        */
     }
 
 
     void Update () 
     {
-		if (joycons.Count < 0)
+		if (joycons.Count <= 0)
 			return;
 		
 		Joycon j = joycons [jc_ind.CenterJoyconId];

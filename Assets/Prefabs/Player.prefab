@@ -290,7 +290,6 @@ GameObject:
   - component: {fileID: 7997736881938824565}
   - component: {fileID: 4097162011334386207}
   - component: {fileID: 3115113866994391322}
-  - component: {fileID: 5534207750992559668}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -412,37 +411,8 @@ MonoBehaviour:
   distance: 0
   maxPressTime: 1
   timeBeforeVertigo: 0.6
-  isIdle: 0
-  onIdleEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5534207750992559668}
-        m_TargetAssemblyTypeName: CameraVisualEffects, Assembly-CSharp
-        m_MethodName: TriggerVertigo
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onStopIdleEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5534207750992559668}
-        m_TargetAssemblyTypeName: CameraVisualEffects, Assembly-CSharp
-        m_MethodName: StopIdle
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  jumpHeight: 0
+  jumpDuration: 0
 --- !u!114 &3115113866994391322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,32 +426,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 4362664053103500868}
-  effects: {fileID: 5534207750992559668}
   cameraTiltAngle: 10
   bobbingSpeed: 10
   baseBobbingAmountX: 0.02
   baseBobbingAmountY: 0.01
   tiltAngle: 15
-  fallHeight: 0
-  sideFall: 0
-  fallDuration: 0
-  _windScript: {fileID: 0}
-  windSpeed: 10
-  windTiltMultiplier: 1
-  windTranslationMultiplier: 0.1
---- !u!114 &5534207750992559668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4735325677546673917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b99354ade7afe94f8d06943710d2877, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 4362664053103500868}
+  fallHeight: 10
+  sideFall: 5
+  fallDuration: 3
+  fallCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  windSpeed: 3
+  windTiltMultiplier: 1.03
+  windTranslationMultiplier: 0.3
+  transitionDuration: 5
   cameraTiltAmount: 20
   cameraShakeIntensity: 0.01
   postProcessVolume: {fileID: 0}
@@ -490,7 +470,6 @@ MonoBehaviour:
   maxFOVChange: 5
   maxLensDistorsionIntensity: -0.4
   maxVignetteIntensity: 0.5
-  transitionDuration: 5
 --- !u!1 &5300040794429661659
 GameObject:
   m_ObjectHideFlags: 0

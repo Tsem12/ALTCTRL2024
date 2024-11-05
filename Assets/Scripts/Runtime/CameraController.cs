@@ -2,24 +2,24 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private Camera playerCamera;             // R�f�rence � la cam�ra du joueur
-    [SerializeField] private URPCameraVisualEffects effects;
-    [SerializeField] private CanvasController _canvasController;
+    public static CameraController instance;
 
-    // New Input System
-    private PlayerControls controls;
+    [SerializeField] private Camera playerCamera;
 
     [Header("MovementTilt")]
-    [SerializeField] private float cameraTiltAngle = 5f;            // Angle de rotation pour pencher la cam�ra lat�ralement
+    [SerializeField] private float cameraTiltAngle = 5f;
 
     [Header("Bobbing")]
-    [SerializeField] private float bobbingSpeed = 0.1f;       // Vitesse du balancement
-    [SerializeField] private float baseBobbingAmountX = 0.02f; // Amplitude de base du balancement lat�ral (gauche-droite)
-    [SerializeField] private float baseBobbingAmountY = 0.01f; // Amplitude de base du balancement vertical (haut-bas)
-    [SerializeField] private float tiltAngle = 5f;            // Angle de rotation pour pencher la cam�ra lat�ralement
+    [SerializeField] private float bobbingSpeed = 0.1f;
+    [SerializeField] private float baseBobbingAmountX = 0.02f;
+    [SerializeField] private float baseBobbingAmountY = 0.01f;
+    [SerializeField] private float tiltAngle = 5f;
+    private float timer = 0.0f;
 
     [Header("Fall")]
     [SerializeField] private float fallHeight;
@@ -27,78 +27,85 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float fallDuration;
     [SerializeField] private AnimationCurve fallCurve;
 
-    [Header("Jump")]
-    [SerializeField] private float jumpHeight;
-    [SerializeField] private float jumpDuration;
-
-    private Coroutine fallCoroutine = null;
-
-    private PlayerMovement playerMovement;  // R�f�rence au script PlayerMovement
-    private float timer = 0.0f;             // Timer pour l'oscillation
-    private Vector3 initialCameraPosition;   // Stocker la position initiale de la cam�ra
-    private Quaternion initialCameraRotation; // Stocker la rotation initiale de la cam�ra
-
     [Header("Wind Settings")]
-    [SerializeField] private WindScript _windScript;
     [SerializeField] private float windSpeed = 10f;
     [SerializeField] private float windTiltMultiplier = 1f;
     [SerializeField] private float windTranslationMultiplier = 0.1f;
 
-    public static UnityEvent OnDroneEvent = new UnityEvent();
+    [Header("VertigoEffect")]
+    [SerializeField] private float transitionDuration;
+    [SerializeField] private float cameraTiltAmount;
+    [SerializeField] private float cameraShakeIntensity;
+    [SerializeField] private Volume postProcessVolume;
+    [SerializeField] private float maxBlurAmount;
+    [SerializeField] private float maxAberrationAmount;
+    [SerializeField] private float maxFOVChange;
+    [SerializeField] private float maxLensDistorsionIntensity;
+    [SerializeField] private float maxVignetteIntensity;
 
-    private bool isAlive = true;
-    private bool isWindBlowing = false;
-    private bool isJumping = false;
+    private MotionBlur motionBlur;
+    private ChromaticAberration chromaticAberration;
+    private LensDistortion lensDistorsion;
+    private Vignette vignette;
+
+    private Coroutine fallCoroutine = null;
+    private Coroutine jumpCoroutine = null;
+    private Coroutine startVertigoCoroutine = null;
+    private Coroutine stopVertigoCoroutine = null;
+
+    private Vector3 initialCameraPosition;
+    private Quaternion initialCameraRotation;
+    private float initialFOV;
 
     private void Awake()
     {
-        // Initialisation des Input Actions
-        controls = new PlayerControls();
+        if (instance != null)
+        {
+            Debug.LogError("plus d'une instance de CameraController dans la scene");
+            return;
+        }
+        instance = this;
     }
 
     private void Start()
     {
-        // Obtenir la r�f�rence au script PlayerMovement
-        playerMovement = GetComponent<PlayerMovement>();
-        // Stocker la position initiale et la rotation initiale de la cam�ra
         initialCameraPosition = playerCamera.transform.localPosition;
         initialCameraRotation = playerCamera.transform.localRotation;
+        initialFOV = playerCamera.fieldOfView;
+
+
+        if (postProcessVolume.profile.TryGet<MotionBlur>(out motionBlur))
+            motionBlur.active = false;
+
+        if (postProcessVolume.profile.TryGet<ChromaticAberration>(out chromaticAberration))
+            chromaticAberration.active = false;
+
+        if (postProcessVolume.profile.TryGet<LensDistortion>(out lensDistorsion))
+            lensDistorsion.active = false;
+
+        if (postProcessVolume.profile.TryGet<Vignette>(out vignette))
+            vignette.active = false;
     }
 
     private void OnEnable()
     {
-        // Activer les actions du joueur quand l'objet est activé
-        controls.Player.Enable();
-
-        // Assigner l'action "Jump" à une méthode de callback
-        controls.Player.Jump.performed += OnJumpPerformed;
-        OnDroneEvent.AddListener(OnDroneEventFct);
+        GameManager.OnRespawnEvent.AddListener(OnRespawn);
+        GameManager.OnLoseEvent.AddListener(OnLose);
+        PlayerMovement.OnStartVertigoEvent.AddListener(OnStartVertigo);
+        PlayerMovement.OnStopVertigoEvent.AddListener(OnStopVertigo);
     }
 
     private void OnDisable()
     {
-        // Désactiver les actions du joueur quand l'objet est désactivé
-        controls.Player.Disable();
-
-        // Désabonner la méthode de callback pour éviter les erreurs
-        controls.Player.Jump.performed -= OnJumpPerformed;
-        OnDroneEvent.RemoveAllListeners();
-    }
-
-    private void OnJumpPerformed(InputAction.CallbackContext context)
-    {
-        if (isWindBlowing)
-        {
-            GameManager.instance.OnLoseEvent?.Invoke();
-        }
-        else
-        {
-            StartCoroutine(JumpCoroutine());
-        }
+        GameManager.OnRespawnEvent.RemoveAllListeners();
+        GameManager.OnLoseEvent.RemoveAllListeners();
+        PlayerMovement.OnStartVertigoEvent.RemoveAllListeners();
+        PlayerMovement.OnStopVertigoEvent.RemoveAllListeners();
     }
 
     private void Update()
     {
+        /*
         if (isWindBlowing)
         {
             // Appliquer une rotation sur l'axe Z (roll) selon la vitesse du vent
@@ -149,7 +156,8 @@ public class CameraController : MonoBehaviour
 
             playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, resetPosition, 0.1f);
         }
-        if (playerMovement.GetMoveSpeed() != 0 && isAlive && !isWindBlowing)
+        */
+        if (PlayerMovement.instance.GetMoveSpeed() != 0 && GameManager.instance.GetIsPlayerAlive() && !WindScript.instance.GetIsWindBlowing())
         {
             ApplyMovementCamera();
         }
@@ -157,13 +165,14 @@ public class CameraController : MonoBehaviour
 
     private void ApplyMovementCamera()
     {
+        //Debug.Log("j'applique le mouvement de base");
         // Appliquer l'inclinaison � la cam�ra selon la vitesse
-        Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(cameraTiltAngle * (playerMovement.GetMoveSpeed() / playerMovement.GetMaxSpeed()), 0, 0);
+        Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(cameraTiltAngle * (PlayerMovement.instance.GetMoveSpeed() / PlayerMovement.instance.GetMaxSpeed()), 0, 0);
         playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, 0.1f);
 
 
         // Calculer la quantit� de bobbing en fonction de la vitesse du joueur
-        float speedFactor = Mathf.Clamp01(playerMovement.GetMoveSpeed() / playerMovement.GetMaxSpeed());
+        float speedFactor = Mathf.Clamp01(PlayerMovement.instance.GetMoveSpeed() / PlayerMovement.instance.GetMaxSpeed());
         float bobbingAmountX = baseBobbingAmountX * speedFactor; // Amplitude bas�e sur la vitesse
         float bobbingAmountY = baseBobbingAmountY * speedFactor; // Amplitude bas�e sur la vitesse
 
@@ -176,6 +185,7 @@ public class CameraController : MonoBehaviour
 
     private void ApplyHeadBobbing(float bobbingAmountX, float bobbingAmountY)
     {
+        //Debug.Log("j'applique le headBobbing");
         // Mettre � jour le timer
         timer += Time.deltaTime * bobbingSpeed;
 
@@ -189,8 +199,9 @@ public class CameraController : MonoBehaviour
 
     private void ApplyCameraTilt()
     {
+        //Debug.Log("j'applique le caméraTilt");
         float tilt = 0f;
-        float movementInput = playerMovement.GetMovementInput();
+        float movementInput = PlayerMovement.instance.GetMovementInput();
         if (movementInput > 0) // Fl�che du haut maintenue
         {
             tilt = -tiltAngle; // Pencher � gauche
@@ -205,17 +216,17 @@ public class CameraController : MonoBehaviour
         playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, targetRotation, Time.deltaTime);
     }
 
-    public void ApplyDeathCameraEffect(bool side)
+    public void OnLose()
     {
         if (fallCoroutine != null) return;
-        isAlive = false;
-        // Commence une coroutine pour animer la chute de la cam�ra
+        bool side = Random.value > 0.5f;
         fallCoroutine = StartCoroutine(DeathCameraFall(side));
     }
 
     private IEnumerator DeathCameraFall(bool side)
     {
-        effects.InstantStopVertigoEffects();
+        Debug.Log("j'applique le coroutine effet de mort");
+        InstantStopVertigoEffects();
         float elapsedTime = 0f;
 
         // D�terminer la direction de la chute (gauche ou droite)
@@ -232,8 +243,6 @@ public class CameraController : MonoBehaviour
 
         // Ajouter un d�calage plus prononc� vers le bas (-3 unit�s sur Y) et sur le c�t� en fonction du param�tre 'side'
         Vector3 targetPosition = initialCameraPosition + new Vector3(horizontalShift, -fallHeight, 0);
-
-        _canvasController.FallFade(fallDuration);
         // Animer la chute
         while (elapsedTime < fallDuration)
         {
@@ -248,76 +257,155 @@ public class CameraController : MonoBehaviour
 
             yield return null; // Attendre la prochaine frame
         }
-
         // Assurer que la cam�ra termine exactement dans sa position finale
         playerCamera.transform.localRotation = targetRotation;
         playerCamera.transform.localPosition = targetPosition;
-        GameManager.instance.SetHasMoved(false);
-        //Reset la Camera au spawn
+        GameManager.OnRespawnEvent?.Invoke();
+    }
+
+    public void OnRespawn()
+    {
+        //StopAllCoroutines();
+        InstantStopVertigoEffects();
         ResetCamera();
-        GameManager.instance.SetIsPlayerAlive(true);
-        playerMovement.SetDistance(0f);
-        isAlive = true;
         fallCoroutine = null;
-    }
-
-    public void ApplyWindMovement()
-    {
-        isWindBlowing = true;
-    }
-
-    public void ResetWindMovement()
-    {
-        isWindBlowing = false;
     }
 
     public void ResetCamera()
     {
+        Debug.Log("j'applique le reset de camera");
         playerCamera.transform.localPosition = initialCameraPosition;
         playerCamera.transform.localRotation = initialCameraRotation;
-        _canvasController.RespawnFade(0.2f);
     }
 
-    private IEnumerator JumpCoroutine()
+    public void OnStartVertigo()
     {
-        isJumping = true;
+        StopAndSetNullCoroutine(stopVertigoCoroutine);
+        startVertigoCoroutine = StartCoroutine(ApplyVertigoEffect());
+    }
 
-        // Sauvegarder la position initiale de la caméra avant le saut
-        Vector3 startPosition = transform.localPosition;
+    private IEnumerator ApplyVertigoEffect()
+    {
+        Debug.Log("j'applique le vertige");
+        // Activer les effets de post-processing
+        if (motionBlur != null)
+            motionBlur.active = true;
+        if (chromaticAberration != null)
+            chromaticAberration.active = true;
+        if (lensDistorsion != null)
+            lensDistorsion.active = true;
+        if (vignette != null)
+            vignette.active = true;
 
-        float elapsedTime = 0f;
+        float elapsedTime = 0f; // Variable pour le temps écoulé
 
-        // L'effet du saut consiste à monter puis à redescendre, donc on va animer cela en deux phases (aller-retour)
-        while (elapsedTime < jumpDuration)
+        Quaternion startingRotation = playerCamera.transform.localRotation;
+        Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(cameraTiltAmount, 0, 0);
+
+        // Appliquer les effets progressivement
+        while (elapsedTime < transitionDuration)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / jumpDuration;
+            float lerpFactor = Mathf.Clamp01(elapsedTime / transitionDuration);
 
-            // Utiliser un facteur sinusoïdal pour simuler un mouvement de saut réaliste (monter puis redescendre)
-            float heightOffset = Mathf.Sin(t * Mathf.PI) * jumpHeight;
+            // Appliquer les effets avec lerp
+            motionBlur.intensity.value = Mathf.Lerp(0, maxBlurAmount, lerpFactor);
+            chromaticAberration.intensity.value = Mathf.Lerp(0, maxAberrationAmount, lerpFactor);
+            lensDistorsion.intensity.value = Mathf.Lerp(0, maxLensDistorsionIntensity, lerpFactor);
+            vignette.intensity.value = Mathf.Lerp(0, maxVignetteIntensity, lerpFactor);
+            playerCamera.fieldOfView = Mathf.Lerp(initialFOV, initialFOV - maxFOVChange, lerpFactor);
 
-            // Appliquer la position verticale pendant le saut (en ajoutant l'offset à la position initiale)
-            transform.localPosition = new Vector3(
-                startPosition.x,                     // Garder la position X constante
-                startPosition.y + heightOffset,       // Appliquer l'offset pour le saut sur Y
-                startPosition.z                      // Garder la position Z constante
-            );
+            // Incliner la caméra vers le bas
+            playerCamera.transform.localRotation = Quaternion.Slerp(startingRotation, targetRotation, lerpFactor);
 
-            // Attendre la prochaine frame avant de continuer
+            // Ajouter un effet de tremblement de la caméra
+            playerCamera.transform.localPosition += Random.insideUnitSphere * Mathf.Lerp(0, cameraShakeIntensity, lerpFactor); ;
+
+            yield return null; // Attendre une frame
+        }
+        // Continuer à appliquer le tremblement tant que l'effet est actif
+        while (true)
+        {
+            playerCamera.transform.localPosition += Random.insideUnitSphere * cameraShakeIntensity;
             yield return null;
         }
-
-        // S'assurer que la caméra revient exactement à sa position initiale à la fin du saut
-        transform.localPosition = startPosition;
-
-        isJumping = false;
     }
 
-    public void OnDroneEventFct()
+    public void OnStopVertigo()
     {
-        if (!isJumping)
+        StopAndSetNullCoroutine(startVertigoCoroutine);
+        stopVertigoCoroutine = StartCoroutine(ResetVertigoEffects());
+    }
+
+    private IEnumerator ResetVertigoEffects()
+    {
+        Debug.Log("Je Reset le Vertige");
+        float elapsedTime = 0f; // Variable pour le temps écoulé
+
+        // Transition progressive de retour
+        while (elapsedTime < transitionDuration)
         {
-            GameManager.instance.OnLoseEvent?.Invoke();
+            elapsedTime += Time.deltaTime;
+            float lerpFactor = Mathf.Clamp01(elapsedTime / transitionDuration);
+
+            // Ramener les effets progressivement à zéro
+            if (motionBlur != null)
+                motionBlur.intensity.value = Mathf.Lerp(motionBlur.intensity.value, 0, lerpFactor);
+            if (chromaticAberration != null)
+                chromaticAberration.intensity.value = Mathf.Lerp(chromaticAberration.intensity.value, 0, lerpFactor);
+            if (lensDistorsion != null)
+                lensDistorsion.intensity.value = Mathf.Lerp(lensDistorsion.intensity.value, 0, lerpFactor);
+            if (vignette != null)
+                vignette.intensity.value = Mathf.Lerp(vignette.intensity.value, 0, lerpFactor);
+
+            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, initialFOV, lerpFactor);
+
+            // Réinitialiser l'inclinaison de la caméra
+            playerCamera.transform.localRotation = Quaternion.Slerp(playerCamera.transform.localRotation, initialCameraRotation, lerpFactor);
+            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, initialCameraPosition, lerpFactor);
+
+            yield return null; // Attendre une frame
+        }
+
+        // Désactiver les effets de post-processing
+        if (motionBlur != null)
+            motionBlur.active = false;
+        if (chromaticAberration != null)
+            chromaticAberration.active = false;
+        if (lensDistorsion != null)
+            lensDistorsion.active = false;
+        if (vignette != null)
+            vignette.active = false;
+
+        // Réinitialiser le FOV et la rotation de la caméra
+        playerCamera.fieldOfView = initialFOV;
+        playerCamera.transform.localRotation = initialCameraRotation;
+        playerCamera.transform.localPosition = initialCameraPosition;
+
+        stopVertigoCoroutine = null;
+    }
+
+    public void InstantStopVertigoEffects()
+    {
+        StopAndSetNullCoroutine(startVertigoCoroutine);
+        StopAndSetNullCoroutine(stopVertigoCoroutine);
+        // Désactiver les effets de post-processing
+        if (motionBlur != null)
+            motionBlur.active = false;
+        if (chromaticAberration != null)
+            chromaticAberration.active = false;
+        if (lensDistorsion != null)
+            lensDistorsion.active = false;
+        if (vignette != null)
+            vignette.active = false;
+    }
+
+    private void StopAndSetNullCoroutine(Coroutine coroutine)
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+            coroutine = null;
         }
     }
 }
