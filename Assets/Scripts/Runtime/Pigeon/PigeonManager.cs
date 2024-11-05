@@ -15,10 +15,14 @@ public class PigeonManager : MonoBehaviour
         [field: SerializeField] public JoyconLocalisation Localisation { get; private set; }
     }
     
+    [Header("Shake Values")] 
+    [SerializeField] private float _minLandingTimeToEnableShake;
+    [Header("Pigeon Parameters")] 
     [SerializeField] private PigeonPaths _pigeonPaths;
     [SerializeField] private PigeonBehaviour[] _pigeonPrefabs;
     [SerializeField] private AudioClip _pigeonSound;
     [SerializeField] private List<PigeonSlot> _pigeonSlots = new List<PigeonSlot>();
+
 
     public static PigeonManager instance;
     
@@ -52,6 +56,14 @@ public class PigeonManager : MonoBehaviour
 
     public void PigeonsShaked()
     {
+        PigeonSlot[] _pigeons = _pigeonSlots.Where(x => x.currentPigeon != null).ToArray();
+        if(_pigeons.Length <= 0)
+            return;
+        
+        float latestPigeonLandingTime = _pigeons.Min(x => x.currentPigeon.LandingTime);
+        if(latestPigeonLandingTime + _minLandingTimeToEnableShake > Time.time)
+            return;
+        
         foreach (PigeonSlot pigeon in _pigeonSlots)
         {
             if(pigeon.currentPigeon == null || !pigeon.currentPigeon.IsLanded)

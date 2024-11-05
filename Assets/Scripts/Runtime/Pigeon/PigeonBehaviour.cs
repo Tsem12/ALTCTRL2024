@@ -19,7 +19,9 @@ public class PigeonBehaviour : MonoBehaviour
     private float _currentLandingTime;
     private Curve _curve;
     private PigeonPaths.Path _path;
+    private float _landingTime;
     public bool IsLanded { get; private set; }
+    public float LandingTime { get; private set; }
 
     public Action<PigeonBehaviour> OnPigeonLanded;
     
@@ -55,6 +57,7 @@ public class PigeonBehaviour : MonoBehaviour
             _animator.SetTrigger("TriggerLand");
             OnPigeonLanded?.Invoke(this);
             IsLanded = true;
+            LandingTime = Time.time;
         }
     }
 

@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0f87c7bc1629b41bb7900ece6f8ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovement: {fileID: 0}
   distanceEvents: []
 --- !u!1 &6316571716130222640
 GameObject:
