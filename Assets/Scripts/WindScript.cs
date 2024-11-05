@@ -19,7 +19,7 @@ public enum WindDirection
 
 public class WindScript : MonoBehaviour
 {
-    [SerializeField] private GyroControler gyroControler;
+    public static WindScript instance;
     [SerializeField] private GameObject windOrigin;
     [SerializeField] private GameObject player;
     [SerializeField] private List<AudioClip> windSoundList;
@@ -42,8 +42,7 @@ public class WindScript : MonoBehaviour
     public UnityEvent OnWindBlowing;
     public UnityEvent OnWindStopBlowing;
 
-    [HideInInspector]
-    public bool isWindBlowing = false;
+    private bool isWindBlowing = false;
     [HideInInspector]
     public WindDirection _windDirection;
 
@@ -51,6 +50,12 @@ public class WindScript : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != null)
+        {
+            Debug.LogError("plus d'une instance de WindManager dans la scene");
+            return;
+        }
+        instance = this;
         windOrigin.SetActive(false);
     }
 
@@ -74,7 +79,7 @@ public class WindScript : MonoBehaviour
 
         if (isWindBlowing)
         {
-            float perchRoll = gyroControler.GetPerchRoll;
+            float perchRoll = GyroControler.instance.GetPerchRoll;
             if (_windDirection == WindDirection.West || _windDirection == WindDirection.NorthWest || _windDirection == WindDirection.SouthWest)
             {
                 if(perchRoll > treshold)
@@ -99,6 +104,11 @@ public class WindScript : MonoBehaviour
             OnWindBlowing.Invoke();
         }
         */
+    }
+
+    public bool GetIsWindBlowing()
+    {
+        return isWindBlowing;
     }
 
     public void TriggerWind()
@@ -192,7 +202,7 @@ public class WindScript : MonoBehaviour
             windEffect.SetActive(false);
             isWindBlowing = false;
             OnWindStopBlowing.Invoke();
-            GameManager.instance.OnLoseEvent?.Invoke();
+            GameManager.OnLoseEvent?.Invoke();
         }
     }
 

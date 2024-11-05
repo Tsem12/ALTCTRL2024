@@ -4,9 +4,9 @@ using UnityEngine.Events;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private List<AudioClip> vertigeSound;
+    public static PlayerMovement instance;
 
-    [SerializeField] private WindScript windScript;
+    [SerializeField] private List<AudioClip> vertigeSound;
 
     [Header("Speed")]
     [SerializeField] private float moveSpeed;              // Vitesse actuelle du joueur
@@ -22,20 +22,25 @@ public class PlayerMovement : MonoBehaviour
     private float movementInput;         // Stocke l'input de mouvement (-1 pour reculer, 1 pour avancer)
     private PlayerControls controls;     // Instance des contrôles
 
-    [Header("Idle Settings")]
+    [Header("Vertigo Settings")]
     [SerializeField] private float timeBeforeVertigo = 3f; // Temps avant de déclencher les effets de vertige
     private float idleTimer = 0f;                          // Temps d'immobilité
-    [SerializeField] private bool isIdle = false;                           // Savoir si le joueur est immobile
+    private bool isVertigoActive = false;                           // Savoir si le joueur est immobile
 
-    [Header("Unity Events")]
-    public UnityEvent onIdleEvent;
-    public UnityEvent onStopIdleEvent;
+    public static UnityEvent OnStartVertigoEvent = new UnityEvent();
+    public static UnityEvent OnStopVertigoEvent = new UnityEvent();
 
     private Vector3 initialPlayerPosition;
     private Quaternion initialPlayerRotation;
 
     private void Awake()
     {
+        if (instance != null)
+        {
+            Debug.LogError("plus d'une instance de PlayerMovement dans la scene");
+            return;
+        }
+        instance = this;
         // Initialisation des contrôles
         controls = new PlayerControls();
 
@@ -51,12 +56,16 @@ public class PlayerMovement : MonoBehaviour
     {
         // Activer les contrôles
         controls.Enable();
+        GameManager.OnRespawnEvent.AddListener(OnRespawn);
+        OnStartVertigoEvent.AddListener(PlayRandomVertigoSound);
     }
 
     private void OnDisable()
     {
         // Désactiver les contrôles
         controls.Disable();
+        GameManager.OnRespawnEvent.RemoveAllListeners();
+        OnStartVertigoEvent.RemoveAllListeners();
     }
 
     private void Update()
@@ -89,10 +98,10 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // Appeler l'événement StopIdle lorsque le joueur recommence à bouger
-            if (isIdle && moveSpeed != 0)
+            if (isVertigoActive && moveSpeed != 0)
             {
-                onStopIdleEvent.Invoke(); // Déclenche l'événement pour arrêter les effets de vertige
-                isIdle = false;
+                OnStopVertigoEvent.Invoke(); // Déclenche l'événement pour arrêter les effets de vertige
+                isVertigoActive = false;
                 // Réinitialiser le timer d'immobilité
                 idleTimer = 0f;
             }
@@ -125,11 +134,11 @@ public class PlayerMovement : MonoBehaviour
         {
             idleTimer += Time.deltaTime;
             // Si le joueur est immobile depuis assez longtemps
-            if (idleTimer >= timeBeforeVertigo && !isIdle && GameManager.instance.GetHasMoved() && !windScript.isWindBlowing)
+            if (idleTimer >= timeBeforeVertigo && !isVertigoActive && GameManager.instance.GetHasMoved() && !WindScript.instance.GetIsWindBlowing())
             {
                 // Déclenche l'événement d'immobilité
-                onIdleEvent.Invoke();
-                isIdle = true;
+                OnStartVertigoEvent.Invoke();
+                isVertigoActive = true;
                 
             }
         }
@@ -186,8 +195,10 @@ public class PlayerMovement : MonoBehaviour
         return distance;
     }
 
-    public void SetDistance(float newDistance)
+    public void OnRespawn()
     {
-        distance = newDistance;
+        isVertigoActive = false;
+        distance = 0f;
+        ResetPlayerTransform();
     }
 }

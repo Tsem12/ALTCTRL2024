@@ -8,12 +8,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public GyroControler gyroControler;
-    public UnityEvent OnLoseEvent;
-    public UnityEvent OnWinEvent;
+    public static UnityEvent OnLoseEvent = new UnityEvent();
+    public static UnityEvent OnWinEvent = new UnityEvent();
+    public static UnityEvent OnRespawnEvent = new UnityEvent();
+
     public bool test;
     [SerializeField] private float limitAngle;
-    [SerializeField] private PlayerMovement playerMovement;
 
     [SerializeField] private AudioClip _victorySound;
 
@@ -31,17 +31,32 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
+    private void OnEnable()
+    {
+        OnRespawnEvent.AddListener(OnRespawn);
+        OnLoseEvent.AddListener(OnLose);
+        OnWinEvent.AddListener(OnWin);
+    }
+
+    private void OnDisable()
+    {
+        OnRespawnEvent.RemoveAllListeners();
+        OnLoseEvent.RemoveAllListeners();
+        OnWinEvent.RemoveAllListeners();
+    }
+
     private void Update()
     {
-        if(Mathf.Abs(gyroControler.GetPerchRoll) > limitAngle && hasMoved && isPlayerAlive)
+        if (Input.GetKeyDown(KeyCode.K) && isPlayerAlive)
         {
-            isPlayerAlive = false;
             OnLoseEvent.Invoke();
         }
-        if(playerMovement.GetDistance() >= 135f && isStillInGame == true)
+        if(Mathf.Abs(GyroControler.instance.GetPerchRoll) > limitAngle && hasMoved && isPlayerAlive)
         {
-            isStillInGame = false;
-            AudioSource.PlayClipAtPoint(_victorySound, Camera.main.transform.position);
+            OnLoseEvent.Invoke();
+        }
+        if(PlayerMovement.instance.GetDistance() >= 135f && isStillInGame == true)
+        {
             OnWinEvent.Invoke();
         }
     }
@@ -66,4 +81,22 @@ public class GameManager : MonoBehaviour
     {
         hasMoved = target;
     }
+
+    public void OnRespawn()
+    {
+        hasMoved = false;
+        isPlayerAlive = true;
+    }
+
+    public void OnLose()
+    {
+        isPlayerAlive = false;
+    }
+
+    public void OnWin()
+    {
+        isStillInGame = false;
+        AudioSource.PlayClipAtPoint(_victorySound, Camera.main.transform.position);
+    }
+
 }

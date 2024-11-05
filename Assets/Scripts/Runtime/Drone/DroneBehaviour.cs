@@ -17,8 +17,6 @@ public class DroneBehaviour : MonoBehaviour
 
     private Coroutine _killRoutine;
 
-    private CameraController _cameraController;
-
     private bool hasDroneEventStarted;
 
     public float DistanceToPlayer => Vector3.Distance(transform.position, Camera.main.transform.position);
@@ -30,14 +28,9 @@ public class DroneBehaviour : MonoBehaviour
         transform.position = _curve.GetPosition(0f, _dronePath.transform.localToWorldMatrix);
     }
 
-    private void Awake()
-    {
-        _cameraController = FindObjectOfType<CameraController>();
-    }
-
     private void Update()
     {
-        if (ToolBox.Approximately(DistanceToPlayer, 0f, 1f) && !hasDroneEventStarted)
+        if (ToolBox.Approximately(DistanceToPlayer, 0f, 0.45f) && !hasDroneEventStarted)
         {
             Debug.Log("apagnan");
             hasDroneEventStarted = true;

@@ -15,7 +15,6 @@ public class PigeonManager : MonoBehaviour
         [field: SerializeField] public JoyconLocalisation Localisation { get; private set; }
     }
     
-    [SerializeField] private GyroControler _gyroControler;
     [SerializeField] private PigeonPaths _pigeonPaths;
     [SerializeField] private PigeonBehaviour[] _pigeonPrefabs;
     [SerializeField] private AudioClip _pigeonSound;
@@ -33,12 +32,22 @@ public class PigeonManager : MonoBehaviour
             return;
         }
         instance = this;
-        _gyroControler.OnShakePerch += PigeonsShaked;
+        GyroControler.OnShakePerch.AddListener(PigeonsShaked);
+    }
+
+    private void OnEnable()
+    {
+        GameManager.OnLoseEvent.AddListener(ClearPigeonAfterDeath);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnLoseEvent.RemoveAllListeners();
     }
 
     private void OnDestroy()
     {
-        _gyroControler.OnShakePerch -= PigeonsShaked;
+        GyroControler.OnShakePerch.RemoveAllListeners();
     }
 
     public void PigeonsShaked()
@@ -101,15 +110,6 @@ public class PigeonManager : MonoBehaviour
         PigeonAmountOnPerch++;
         JoyconLocalisation loca = _pigeonSlots.Find(x => x.currentPigeon == pigeon).Localisation;
         JoyconRumblingManager.Instance.OnRumbleReceived?.Invoke(new Rumbling(pigeon.RumblingData, loca));
-    }
-    
-    
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            TrySpawnPigeon();
-        }
     }
     
 }

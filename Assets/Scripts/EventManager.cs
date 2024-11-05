@@ -11,13 +11,20 @@ public struct DistanceEvent
 
 public class EventManager : MonoBehaviour
 {
-    [Header("Référence au joueur")]
-    [SerializeField] private PlayerMovement playerMovement; // Référence au script de mouvement du joueur
-
     [Header("Événements par distance")]
     [SerializeField] private List<DistanceEvent> distanceEvents; // Liste ordonnée d'événements
 
     private int currentEventIndex = 0; // L'index de l'événement à vérifier (commence par le premier)
+
+    private void OnEnable()
+    {
+        GameManager.OnRespawnEvent.AddListener(OnRespawn);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnRespawnEvent.RemoveAllListeners();
+    }
 
     private void Update()
     {
@@ -26,7 +33,7 @@ public class EventManager : MonoBehaviour
             return;
 
         // Obtenir la distance parcourue par le joueur
-        float distanceTravelled = playerMovement.GetDistance();
+        float distanceTravelled = PlayerMovement.instance.GetDistance();
 
         // Vérifier si la distance parcourue atteint ou dépasse le seuil du prochain événement
         if (distanceTravelled >= distanceEvents[currentEventIndex].distanceThreshold)
@@ -37,5 +44,10 @@ public class EventManager : MonoBehaviour
             // Passer à l'événement suivant
             currentEventIndex++;
         }
+    }
+
+    public void OnRespawn()
+    {
+        currentEventIndex = 0;
     }
 }

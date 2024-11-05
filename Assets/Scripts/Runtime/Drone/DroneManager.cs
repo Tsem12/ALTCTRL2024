@@ -7,15 +7,6 @@ public class DroneManager : MonoBehaviour
 {
     [SerializeField] private DroneBehaviour _dronePrefab;
     [SerializeField] private DronePaths _paths;
-    private void Update()
-    {
-        /*
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SpawnDrone();
-        }
-        */
-    }
 
     public void SpawnDrone()
     {
