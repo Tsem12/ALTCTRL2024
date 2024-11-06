@@ -58,7 +58,19 @@ namespace IIMEngine.SFX
                         }
                         else
                         {
+                            
                             instance.Value[i].AudioSource.transform.parent = _audioSourceTemplate.transform.parent;
+                            instance.Value[i].AudioSource.priority = _audioSourceTemplate.priority;
+                            instance.Value[i].AudioSource.volume = _audioSourceTemplate.volume;
+                            instance.Value[i].AudioSource.pitch = _audioSourceTemplate.pitch;
+                            instance.Value[i].AudioSource.panStereo = _audioSourceTemplate.panStereo;
+                            instance.Value[i].AudioSource.spatialBlend = _audioSourceTemplate.spatialBlend;
+                            instance.Value[i].AudioSource.reverbZoneMix = _audioSourceTemplate.reverbZoneMix;
+                            instance.Value[i].AudioSource.dopplerLevel = _audioSourceTemplate.dopplerLevel;
+                            instance.Value[i].AudioSource.spread = _audioSourceTemplate.spread;
+                            instance.Value[i].AudioSource.rolloffMode = _audioSourceTemplate.rolloffMode;
+                            instance.Value[i].AudioSource.minDistance = _audioSourceTemplate.minDistance;
+                            instance.Value[i].AudioSource.maxDistance = _audioSourceTemplate.maxDistance;
                             instance.Value[i].AudioSource.Stop();
                             _poolInstancesDict[instance.Key].Add(instance.Value[i]);
                         }
@@ -98,6 +110,17 @@ namespace IIMEngine.SFX
                     instance.AudioSource = audioSource;
                     instance.Transform = audioSource.transform;
                     instance.GameObject = audioSource.gameObject;
+                    instance.AudioSource.priority = sfx.Priority;
+                    instance.AudioSource.volume = sfx.Volume;
+                    instance.AudioSource.pitch = sfx.Pitch;
+                    instance.AudioSource.panStereo = sfx.StereoPan;
+                    instance.AudioSource.spatialBlend = sfx.SpatialBlend;
+                    instance.AudioSource.reverbZoneMix = sfx.ReverbZoneMin;
+                    instance.AudioSource.dopplerLevel = sfx.DopplerLevel;
+                    instance.AudioSource.spread = sfx.SpreadLevel;
+                    instance.AudioSource.rolloffMode = sfx.RolloffMode;
+                    instance.AudioSource.minDistance = sfx.MinDistance;
+                    instance.AudioSource.maxDistance = sfx.MaxDistance;
                     instances.Add(instance);
                 }
                 _poolInstancesDict[sfx.Name] = instances;
@@ -129,7 +152,7 @@ namespace IIMEngine.SFX
             //Forcing SetActive for a gameobject containing an AudioSource replay the sound inside
             // sfxInstance.GameObject.SetActive(false);
             // sfxInstance.GameObject.SetActive(true);
-            sfxInstance.AudioSource.Play();
+            sfxInstance.AudioSource.PlayOneShot(sfxInstance.AudioSource.clip);
             return sfxInstance;
         }
         private SFXInstance _PikUpInstanceFromPool(string name, Transform source = null)

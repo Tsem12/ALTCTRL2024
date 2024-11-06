@@ -19,3 +19,31 @@ MonoBehaviour:
     _sizeMax: 3
     _isLooping: 0
     _overflowOperation: 1
+    _priority: 128
+    _volume: 1
+    _pitch: 1
+    _stereoPan: 0
+    _spatialBlend: 0
+    _reverbZoneMin: 1
+    _dopplerLevel: 1
+    _spreadLevel: 0
+    _rolloffMode: 0
+    _minDistance: 1
+    _maxDistance: 500
+  - _name: drone
+    _clips:
+    - {fileID: 8300000, guid: a11db70cfdfd5764e8f42cea61b2389e, type: 3}
+    _sizeMax: 3
+    _isLooping: 1
+    _overflowOperation: 2
+    _priority: 128
+    _volume: 1
+    _pitch: 1
+    _stereoPan: 0
+    _spatialBlend: 1
+    _reverbZoneMin: 1
+    _dopplerLevel: 1
+    _spreadLevel: 0
+    _rolloffMode: 0
+    _minDistance: 1
+    _maxDistance: 30

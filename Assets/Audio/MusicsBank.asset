@@ -12,11 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d9e84eb6107403f9892dbbe7ca5096b, type: 3}
   m_Name: MusicsBank
   m_EditorClassIdentifier: 
-  _musicDatas:
-  - _name: 
-    _mainClip: {fileID: 0}
-    _isLooping: 0
-    _hasIntro: 0
-    _introClip: {fileID: 0}
-    _hasOutro: 0
-    _outroClip: {fileID: 0}
+  _musicDatas: []

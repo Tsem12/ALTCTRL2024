@@ -25,7 +25,7 @@ public class DroneBehaviour : MonoBehaviour
     public float DistanceToPlayer => Vector3.Distance(transform.position, Camera.main.transform.position);
     public void Init(DronePaths dronePaths)
     {
-        //_droneSound.PlaySfx();
+        _droneSound.PlaySfx();
         _dronePath = dronePaths;
         _path = dronePaths.Paths;
         _curve = _path.Curves[Random.Range(0, _path.Curves.Length)];
@@ -64,7 +64,7 @@ public class DroneBehaviour : MonoBehaviour
     IEnumerator KillRoutine()
     {
         yield return new WaitForSeconds(1f);
-        //_droneSound.StopSfx();
+        _droneSound.StopSfx();
         yield return null;
         Destroy(gameObject);
     }
