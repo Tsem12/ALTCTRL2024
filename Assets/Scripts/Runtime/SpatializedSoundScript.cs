@@ -59,7 +59,6 @@ public class SpatializedSoundScript : MonoBehaviour
     public void PlayAudioClipAtDirection(Direction direction, AudioClip audioClip)
     {
         AudioSource audioSource = GetAudioSourceByDirection(direction);
-
         if (audioSource != null)
         {
             audioSource.clip = audioClip;

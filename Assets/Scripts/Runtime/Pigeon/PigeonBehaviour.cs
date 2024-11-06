@@ -14,6 +14,7 @@ public class PigeonBehaviour : MonoBehaviour
     [SerializeField] private float _fleeSpeed = 5;
     [SerializeField] private float _fleeTimeUtilDestroy = 10;
 
+    [SerializeField] private SFX _landingSFX;
     
     private PigeonPaths _pigeonPaths;
     private float _currentLandingTime;
@@ -28,6 +29,7 @@ public class PigeonBehaviour : MonoBehaviour
 
     public void Init(PigeonPaths pigeonPaths, int pathId)
     {
+        _landingSFX.PlaySfx();
         _pigeonPaths = pigeonPaths;
         _path = _pigeonPaths.Paths[pathId];
         _curve = _path.Curves[Random.Range(0, _path.Curves.Length)];
@@ -67,7 +69,7 @@ public class PigeonBehaviour : MonoBehaviour
         Vector3 origin = transform.position;
         while (currentTime < _timeToLookAtCam)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(-Camera.main.transform.forward, -_path.LandingPoint.right), currentTime / _timeToLookAtCam);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(-Vector3.right, -_path.LandingPoint.right), currentTime / _timeToLookAtCam);
             transform.position = Vector3.Lerp(origin,_path.LandingPoint.position , currentTime / _timeToLookAtCam);
             currentTime += Time.deltaTime;
             yield return null;

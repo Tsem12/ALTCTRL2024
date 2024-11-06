@@ -1,13 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class DroneBehaviour : MonoBehaviour
 {
     [SerializeField] private float _timeToTravelCurve;
     [SerializeField] private float _droneSpeedOutOfCurve = 10f;
     [SerializeField] private AnimationCurve _mouvementCurve;
+    [SerializeField] private SFX _droneSound;
 
     private float _currentTimeOnCurve;
     
@@ -22,6 +25,7 @@ public class DroneBehaviour : MonoBehaviour
     public float DistanceToPlayer => Vector3.Distance(transform.position, Camera.main.transform.position);
     public void Init(DronePaths dronePaths)
     {
+        //_droneSound.PlaySfx();
         _dronePath = dronePaths;
         _path = dronePaths.Paths;
         _curve = _path.Curves[Random.Range(0, _path.Curves.Length)];
@@ -60,6 +64,8 @@ public class DroneBehaviour : MonoBehaviour
     IEnumerator KillRoutine()
     {
         yield return new WaitForSeconds(1f);
+        //_droneSound.StopSfx();
+        yield return null;
         Destroy(gameObject);
     }
     

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class PigeonManager : MonoBehaviour
@@ -15,14 +16,14 @@ public class PigeonManager : MonoBehaviour
         [field: SerializeField] public JoyconLocalisation Localisation { get; private set; }
     }
     
+    
+    
     [Header("Shake Values")] 
     [SerializeField] private float _minLandingTimeToEnableShake;
     [Header("Pigeon Parameters")] 
     [SerializeField] private PigeonPaths _pigeonPaths;
     [SerializeField] private PigeonBehaviour[] _pigeonPrefabs;
-    [SerializeField] private AudioClip _pigeonSound;
     [SerializeField] private List<PigeonSlot> _pigeonSlots = new List<PigeonSlot>();
-
 
     public static PigeonManager instance;
     
@@ -109,7 +110,6 @@ public class PigeonManager : MonoBehaviour
         slot.currentPigeon = pigeon;
         pigeon.OnPigeonLanded += RumblingSender;
         pigeon.Init(_pigeonPaths, slot.PigeonPathPathId);
-        AudioSource.PlayClipAtPoint(_pigeonSound, Camera.main.transform.position);
         return true;
     }
 

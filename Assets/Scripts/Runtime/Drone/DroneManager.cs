@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class DroneManager : MonoBehaviour
@@ -13,4 +14,7 @@ public class DroneManager : MonoBehaviour
         DroneBehaviour drone = Instantiate(_dronePrefab, transform);
         drone.Init(_paths);
     }
+
+    [Button]
+    public void TrySpawnDrone() => SpawnDrone();
 }

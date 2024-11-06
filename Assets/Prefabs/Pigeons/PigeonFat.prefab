@@ -75,7 +75,12 @@ MonoBehaviour:
   _timeToLookAtCam: 0.25
   _fleeSpeed: 5
   _fleeTimeUtilDestroy: 10
-  _pigeonFlyAwaySound: {fileID: 8300000, guid: 8d8e1807041838c4991380ee1d262e6f, type: 3}
+  _landingSFX:
+    _source: {fileID: 5144491904652264987}
+    _name: pigeonLanding
+    OnPlay:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1001 &8736161383132378370
 PrefabInstance:
   m_ObjectHideFlags: 0
