@@ -47,3 +47,115 @@ MonoBehaviour:
     _rolloffMode: 0
     _minDistance: 1
     _maxDistance: 30
+  - _name: vertige
+    _clips:
+    - {fileID: 8300000, guid: ec2812da920a3774ca45953d280769e0, type: 3}
+    - {fileID: 8300000, guid: 92cde43bfd777ea4dab3c281903c653a, type: 3}
+    - {fileID: 8300000, guid: ebe2d45ed2fff054b92628cc1786715a, type: 3}
+    - {fileID: 8300000, guid: 74fcb3e4ebdad0442af9fbf07cb26cfb, type: 3}
+    - {fileID: 8300000, guid: 0388e3826ebf66c4787037cb64910f62, type: 3}
+    - {fileID: 8300000, guid: 3d697dca1b678e945a6431e48e8dc467, type: 3}
+    _sizeMax: 3
+    _isLooping: 0
+    _overflowOperation: 2
+    _priority: 128
+    _volume: 1
+    _pitch: 1
+    _stereoPan: 0
+    _spatialBlend: 0
+    _reverbZoneMin: 1
+    _dopplerLevel: 1
+    _spreadLevel: 0
+    _rolloffMode: 0
+    _minDistance: 1
+    _maxDistance: 500
+  - _name: victory
+    _clips:
+    - {fileID: 8300000, guid: d49d24ef0a5ec0341a2289c11f4488b1, type: 3}
+    _sizeMax: 1
+    _isLooping: 0
+    _overflowOperation: 0
+    _priority: 128
+    _volume: 1
+    _pitch: 1
+    _stereoPan: 0
+    _spatialBlend: 0
+    _reverbZoneMin: 1
+    _dopplerLevel: 1
+    _spreadLevel: 0
+    _rolloffMode: 0
+    _minDistance: 1
+    _maxDistance: 500
+  - _name: wind
+    _clips:
+    - {fileID: 8300000, guid: 61c82893545b84c4489243e4917b2631, type: 3}
+    - {fileID: 8300000, guid: 205648c591dc08145af7643a40d29b9f, type: 3}
+    - {fileID: 8300000, guid: 4757b815d07ff774686e9bcec4fd1806, type: 3}
+    _sizeMax: 1
+    _isLooping: 0
+    _overflowOperation: 0
+    _priority: 128
+    _volume: 1
+    _pitch: 1
+    _stereoPan: 0
+    _spatialBlend: 1
+    _reverbZoneMin: 1
+    _dopplerLevel: 1
+    _spreadLevel: 0
+    _rolloffMode: 0
+    _minDistance: 1
+    _maxDistance: 10
+  - _name: plane
+    _clips:
+    - {fileID: 8300000, guid: e84266157e324de40bb42eff82e26e9a, type: 3}
+    - {fileID: 8300000, guid: 1fd8f69297f3dc143a2277638e11f2b4, type: 3}
+    _sizeMax: 3
+    _isLooping: 0
+    _overflowOperation: 0
+    _priority: 128
+    _volume: 0.6
+    _pitch: 1
+    _stereoPan: 0
+    _spatialBlend: 1
+    _reverbZoneMin: 1
+    _dopplerLevel: 1
+    _spreadLevel: 0
+    _rolloffMode: 0
+    _minDistance: 150
+    _maxDistance: 1500
+  - _name: rope
+    _clips:
+    - {fileID: 8300000, guid: 893d6ae4a44eccb46a04d3faa84d3284, type: 3}
+    _sizeMax: 1
+    _isLooping: 0
+    _overflowOperation: 0
+    _priority: 128
+    _volume: 1
+    _pitch: 1
+    _stereoPan: 0
+    _spatialBlend: 0
+    _reverbZoneMin: 1
+    _dopplerLevel: 1
+    _spreadLevel: 0
+    _rolloffMode: 0
+    _minDistance: 1
+    _maxDistance: 500
+  - _name: falling
+    _clips:
+    - {fileID: 8300000, guid: 8b1fc5970c344624f8f194ec327329ff, type: 3}
+    - {fileID: 8300000, guid: ba25e6b58893f49479e3b7e60dbf6a63, type: 3}
+    - {fileID: 8300000, guid: 1e9bd13d32aa1e047af6c00be4968e6c, type: 3}
+    _sizeMax: 2
+    _isLooping: 0
+    _overflowOperation: 0
+    _priority: 128
+    _volume: 1
+    _pitch: 1
+    _stereoPan: 0
+    _spatialBlend: 0
+    _reverbZoneMin: 1
+    _dopplerLevel: 1
+    _spreadLevel: 0
+    _rolloffMode: 0
+    _minDistance: 1
+    _maxDistance: 500

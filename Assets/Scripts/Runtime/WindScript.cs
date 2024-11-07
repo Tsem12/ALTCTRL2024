@@ -1,28 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
-
-public enum WindDirection
-{
-    North,
-    NorthEast,
-    East,
-    SouthEast,
-    South,
-    SouthWest,
-    West,
-    NorthWest
-
-}
 
 public class WindScript : MonoBehaviour
 {
     public static WindScript instance;
     [SerializeField] private GameObject windOrigin;
     [SerializeField] private GameObject player;
-    [SerializeField] private List<AudioClip> windSoundList;
     [SerializeField] private List<GameObject> windEffectList;
     private GameObject windEffect;
 
@@ -44,8 +31,8 @@ public class WindScript : MonoBehaviour
 
     private bool isWindBlowing = false;
     [HideInInspector]
-    public WindDirection _windDirection;
-
+    public Direction _windDirection;
+    
     //public bool test;
 
     private void Awake()
@@ -80,7 +67,7 @@ public class WindScript : MonoBehaviour
         if (isWindBlowing)
         {
             float perchRoll = GyroControler.instance.GetPerchRoll;
-            if (_windDirection == WindDirection.West || _windDirection == WindDirection.NorthWest || _windDirection == WindDirection.SouthWest)
+            if (_windDirection == Direction.West || _windDirection == Direction.NorthWest || _windDirection == Direction.SouthWest)
             {
                 if(perchRoll > treshold)
                 {
@@ -88,7 +75,7 @@ public class WindScript : MonoBehaviour
                     OnWindStopBlowing?.Invoke();
                 }
             }
-            else if (_windDirection == WindDirection.East || _windDirection == WindDirection.NorthEast || _windDirection == WindDirection.SouthEast)
+            else if (_windDirection == Direction.East || _windDirection == Direction.NorthEast || _windDirection == Direction.SouthEast)
             {
                 if(perchRoll< -treshold)
                 {
@@ -114,33 +101,8 @@ public class WindScript : MonoBehaviour
     public void TriggerWind()
     {
         int windDirInt = Random.Range(1,7);
-        switch (windDirInt)
-        {
-            case 1:
-                PlayWindToDirection(WindDirection.NorthWest, 7);
-                OnWindBlowing.Invoke();
-                break;
-            case 2:
-                PlayWindToDirection(WindDirection.West, 7);
-                OnWindBlowing.Invoke();
-                break;
-            case 3:
-                PlayWindToDirection(WindDirection.SouthWest, 7);
-                OnWindBlowing.Invoke();
-                break;
-            case 4:
-                PlayWindToDirection(WindDirection.NorthEast, 7);
-                OnWindBlowing.Invoke();
-                break;
-            case 5:
-                PlayWindToDirection(WindDirection.East, 7);
-                OnWindBlowing.Invoke();
-                break;
-            case 6:
-                PlayWindToDirection(WindDirection.SouthEast, 7);
-                OnWindBlowing.Invoke();
-                break;
-        }
+        PlayWindToDirection((Direction)windDirInt, 7);
+        OnWindBlowing.Invoke();
     }
     /*
     private void Start()
@@ -148,18 +110,12 @@ public class WindScript : MonoBehaviour
         PlayWindToDirection(WindDirection.West, 10);
     }
     */
-
-    AudioClip ChooseRandomAudioClip()
-    {
-        return windSoundList[Random.Range(0, windSoundList.Count)];
-    }
-
     void ChooseRandomGameObject()
     {
-        windEffect = windEffectList[Random.Range(0, windSoundList.Count)];
+        windEffect = windEffectList[Random.Range(0, windEffectList.Count)];
     }
 
-    public void PlayWindToDirection(WindDirection windDirection, float duration)
+    public void PlayWindToDirection(Direction windDirection, float duration)
     {
         _windDirection = windDirection;
         ChooseRandomGameObject();
@@ -206,91 +162,42 @@ public class WindScript : MonoBehaviour
         }
     }
 
-    private void PlayWindSoundFromDirection(WindDirection windDirection)
+    private void PlayWindSoundFromDirection(Direction windDirection)
     {
-        switch (windDirection)
-        {
-            case WindDirection.North:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.North, ChooseRandomAudioClip());
-                break;
-            case WindDirection.NorthEast:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.NorthEast, ChooseRandomAudioClip());
-                break;
-            case WindDirection.East:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.East, ChooseRandomAudioClip());
-                break;
-            case WindDirection.SouthEast:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.SouthEast, ChooseRandomAudioClip());
-                break;
-            case WindDirection.South:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.South, ChooseRandomAudioClip());
-                break;
-            case WindDirection.SouthWest:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.SouthWest, ChooseRandomAudioClip());
-                break;
-            case WindDirection.West:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.West, ChooseRandomAudioClip());
-                break;
-            case WindDirection.NorthWest:
-                SpatializedSoundScript.Instance.PlayAudioClipAtDirection(Direction.NorthWest, ChooseRandomAudioClip());
-                break;
-            default:
-                break;
-
-        }
+        SpatializedSoundScript.Instance.PlayAudioClipAtDirection(windDirection);
     }
 
-    private Vector3 GetWindOrigin(WindDirection windDirection)
+    private Vector3 GetWindOrigin(Direction windDirection)
     {
-        switch (windDirection)
-        {
-            case WindDirection.North:
-                return SpatializedSoundScript.Instance.spatializedSoundSource.N.transform.position;
-            case WindDirection.NorthEast:
-                return SpatializedSoundScript.Instance.spatializedSoundSource.NE.transform.position;
-            case WindDirection.East:
-                return SpatializedSoundScript.Instance.spatializedSoundSource.E.transform.position;
-            case WindDirection.SouthEast:
-                return SpatializedSoundScript.Instance.spatializedSoundSource.SE.transform.position;
-            case WindDirection.South:
-                return SpatializedSoundScript.Instance.spatializedSoundSource.S.transform.position;
-            case WindDirection.SouthWest:
-                return SpatializedSoundScript.Instance.spatializedSoundSource.SW.transform.position;
-            case WindDirection.West:
-                return SpatializedSoundScript.Instance.spatializedSoundSource.W.transform.position;
-            case WindDirection.NorthWest:
-                return SpatializedSoundScript.Instance.spatializedSoundSource.NW.transform.position;
-            default:
-                return Vector3.zero;
-        }
+        return SpatializedSoundScript.Instance.WindOrigins[(int)windDirection].position;
     }
 
-    private void RotateCompassWithDirection(WindDirection windDirection)
+    private void RotateCompassWithDirection(Direction windDirection)
     {
         switch (windDirection)
         {
-            case WindDirection.North:
+            case Direction.North:
                 RotateCompassActionJuicily(180);
                 break;
-            case WindDirection.NorthEast:
+            case Direction.NorthEast:
                 RotateCompassActionJuicily(135);
                 break;
-            case WindDirection.East:
+            case Direction.East:
                 RotateCompassActionJuicily(90);
                 break;
-            case WindDirection.SouthEast:
+            case Direction.SouthEast:
                 RotateCompassActionJuicily(45);
                 break;
-            case WindDirection.South:
+            case Direction.South:
                 RotateCompassActionJuicily(0);
                 break;
-            case WindDirection.SouthWest:
+            case Direction.SouthWest:
                 RotateCompassActionJuicily(225);
                 break;
-            case WindDirection.West:
+            case Direction.West:
                 RotateCompassActionJuicily(270);
                 break;
-            case WindDirection.NorthWest:
+            case Direction.NorthWest:
                 RotateCompassActionJuicily(315);
                 break;
         }
@@ -325,4 +232,7 @@ public class WindScript : MonoBehaviour
             timeElapsed = 0f;
         }
     }
+    
+    [Button]
+    public void TestWind() => TriggerWind();
 }

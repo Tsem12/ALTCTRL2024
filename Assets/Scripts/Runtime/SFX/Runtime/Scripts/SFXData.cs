@@ -13,7 +13,7 @@ namespace IIMEngine.SFX
         [SerializeField] private bool _isLooping = false;
         [SerializeField] private SFXOverflowOperation _overflowOperation = SFXOverflowOperation.ReuseOldest;
         
-        [Header("Doppler")]
+        [Header("Audio SOurce Parameters")]
         [SerializeField, Range(0, 256)] private int _priority = 128; 
         [SerializeField, Range(0, 1)] private float _volume = 1; 
         [SerializeField, Range(0, 1)] private float _pitch = 1; 

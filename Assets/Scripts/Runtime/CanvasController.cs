@@ -13,9 +13,9 @@ public class CanvasController : MonoBehaviour
     [SerializeField] private GameObject losingScreen;
 
     [SerializeField] private TextMeshProUGUI losingText;
-
-    [SerializeField] private List<AudioClip> losingSound;
-    [SerializeField] private AudioClip fallSound;
+    
+    [SerializeField] private SFX _ropeSFX;
+    [SerializeField] private SFX _fallingSFX;
 
     [Header("Fade")] 
     [SerializeField] private Image _fadeBg;
@@ -47,7 +47,8 @@ public class CanvasController : MonoBehaviour
 
     public void OnLose()
     {
-        AudioSource.PlayClipAtPoint(fallSound, Camera.main.transform.position);
+        _fallingSFX.PlaySfx();
+        _ropeSFX.PlaySfx();
         FallFade(3f);
         StartCoroutine(DebugLosingScreen());
     }
@@ -63,23 +64,13 @@ public class CanvasController : MonoBehaviour
     private IEnumerator DebugLosingScreen()
     {
         losingScreen.SetActive(true);
-        if (losingSound != null && losingSound.Count > 0)
-        {
-            PlayRandomAudioClip();
-        }
         yield return new WaitForSeconds(3f);
         losingScreen.SetActive(false);
     }
 
     public void OnWin()
     {
-        losingText.text = "Ty as gagné le sang (avec tt le respect)";
+        losingText.text = "Ty as gagnï¿½ le sang (avec tt le respect)";
         losingScreen.SetActive(true);
-    }
-
-    void PlayRandomAudioClip()
-    {
-        AudioClip clip = losingSound[Random.Range(0, losingSound.Count)];
-        AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
     }
 }

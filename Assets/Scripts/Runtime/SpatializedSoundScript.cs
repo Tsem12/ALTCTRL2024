@@ -2,22 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public struct SpatializedSoundSource
-{
-    public AudioSource N;
-    public AudioSource NE;
-    public AudioSource E;
-    public AudioSource SE;
-    public AudioSource S;
-    public AudioSource SW;
-    public AudioSource W;
-    public AudioSource NW;
-    public AudioSource TOP;
-    public AudioSource DOWN;
-
-
-}
 public enum Direction
 {
     North,
@@ -27,19 +11,20 @@ public enum Direction
     South,
     SouthWest,
     West,
-    NorthWest,
-    Top,
-    Down
-
+    NorthWest
 }
 
 public class SpatializedSoundScript : MonoBehaviour
 {
-    [SerializeField] public SpatializedSoundSource spatializedSoundSource;
+    [SerializeField] private Transform[] _windOrigins;
+
+    [SerializeField] private SFX _windSFX;
 
     private AudioSource currentAudioSource;
 
     public static SpatializedSoundScript Instance { get; private set; }
+
+    public Transform[] WindOrigins => _windOrigins;
 
 
     private void Awake()
@@ -56,19 +41,10 @@ public class SpatializedSoundScript : MonoBehaviour
         DontDestroyOnLoad(gameObject); 
     }
 
-    public void PlayAudioClipAtDirection(Direction direction, AudioClip audioClip)
+    public void PlayAudioClipAtDirection(Direction direction)
     {
-        AudioSource audioSource = GetAudioSourceByDirection(direction);
-        if (audioSource != null)
-        {
-            audioSource.clip = audioClip;
-            audioSource.Play();
-            currentAudioSource = audioSource;
-        }
-        else
-        {
-            Debug.LogWarning("AudioSource not found for the specified direction.");
-        }
+        _windSFX.SetSource(WindOrigins[(int)direction]);
+        _windSFX.PlaySfx();
     }
 
     public void StopCurrentAudioSource()
@@ -78,23 +54,4 @@ public class SpatializedSoundScript : MonoBehaviour
             currentAudioSource.Stop();
         }
     }
-
-    private AudioSource GetAudioSourceByDirection(Direction direction)
-    {
-        return direction switch
-        {
-            Direction.North => spatializedSoundSource.N,
-            Direction.NorthEast => spatializedSoundSource.NE,
-            Direction.East => spatializedSoundSource.E,
-            Direction.SouthEast => spatializedSoundSource.SE,
-            Direction.South => spatializedSoundSource.S,
-            Direction.SouthWest => spatializedSoundSource.SW,
-            Direction.West => spatializedSoundSource.W,
-            Direction.NorthWest => spatializedSoundSource.NW,
-            Direction.Top => spatializedSoundSource.TOP,
-            Direction.Down => spatializedSoundSource.DOWN,
-            _ => null
-        };
-    }
-
 }

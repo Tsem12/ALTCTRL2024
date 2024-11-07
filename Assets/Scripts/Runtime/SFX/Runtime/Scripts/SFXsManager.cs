@@ -58,19 +58,7 @@ namespace IIMEngine.SFX
                         }
                         else
                         {
-                            
                             instance.Value[i].AudioSource.transform.parent = _audioSourceTemplate.transform.parent;
-                            instance.Value[i].AudioSource.priority = _audioSourceTemplate.priority;
-                            instance.Value[i].AudioSource.volume = _audioSourceTemplate.volume;
-                            instance.Value[i].AudioSource.pitch = _audioSourceTemplate.pitch;
-                            instance.Value[i].AudioSource.panStereo = _audioSourceTemplate.panStereo;
-                            instance.Value[i].AudioSource.spatialBlend = _audioSourceTemplate.spatialBlend;
-                            instance.Value[i].AudioSource.reverbZoneMix = _audioSourceTemplate.reverbZoneMix;
-                            instance.Value[i].AudioSource.dopplerLevel = _audioSourceTemplate.dopplerLevel;
-                            instance.Value[i].AudioSource.spread = _audioSourceTemplate.spread;
-                            instance.Value[i].AudioSource.rolloffMode = _audioSourceTemplate.rolloffMode;
-                            instance.Value[i].AudioSource.minDistance = _audioSourceTemplate.minDistance;
-                            instance.Value[i].AudioSource.maxDistance = _audioSourceTemplate.maxDistance;
                             instance.Value[i].AudioSource.Stop();
                             _poolInstancesDict[instance.Key].Add(instance.Value[i]);
                         }
@@ -78,11 +66,6 @@ namespace IIMEngine.SFX
                     }
                 }
             }
-            
-            //Loop over all playing instance
-                //If SFXInstance audiosource is playing
-                    //Destroy Instance if DestroyWhenComplete is true
-                    //Reset Instance and move it to pool if DestroyWhenComplete is false
         }
 
         private void _InitDatasDict()
@@ -125,9 +108,6 @@ namespace IIMEngine.SFX
                 }
                 _poolInstancesDict[sfx.Name] = instances;
             }
-            //Loop over all SFXsData inside bank
-            //Create multiple SFXsInstance using SizeMax property inside SFXData
-            //And store it into _poolInstancesDict
         }
         
         private void _InitPlayingInstancesDict()
@@ -136,8 +116,6 @@ namespace IIMEngine.SFX
             {
                 _playingInstancesDict[sfx.Name] = new List<SFXInstance>();
             }
-            //Loop over all SFXsData inside bank
-            //Init PlayingInstances Dictionary using SizeMax property inside SFXData
         }
 
         public SFXInstance PlaySound(string name,Transform source = null)
@@ -149,9 +127,6 @@ namespace IIMEngine.SFX
                 sfxInstance.Transform.parent = source;
             }
             sfxInstance.Transform.localPosition = Vector2.zero;
-            //Forcing SetActive for a gameobject containing an AudioSource replay the sound inside
-            // sfxInstance.GameObject.SetActive(false);
-            // sfxInstance.GameObject.SetActive(true);
             sfxInstance.AudioSource.PlayOneShot(sfxInstance.AudioSource.clip);
             return sfxInstance;
         }
@@ -196,25 +171,6 @@ namespace IIMEngine.SFX
             }
             
             return sfx;
-            //Try to find an SFXInstance inside Pool Dictionary
-            
-            //If an Instance is available
-                //Remove sfx instance from Pool Dictionary
-                //Add sfx instance from PlayingSFX Dictionary
-                //return sfx instance
-            //Else
-                //Check Overflow operation
-                //If Overflow is cancel
-                    //Do nothing, cancel means we do not play sounds if there is no sounds available in the pool
-                //If Overflow is ReuseOldest
-                    //Find sfx instance from PlayingSFX Dictionary
-                //If Overflow is Create And Destroy
-                    //Create sfx instance using SFXData
-                    //Mark sfx instance as Destroyable (DestroyOnComplete = true)
-                //Add Found sfx instance to PlayingSFX Dictionary
-                //return Instance
-
-            
         }
 
         private void _LoadAllAudiosData()
@@ -226,9 +182,6 @@ namespace IIMEngine.SFX
                     sfxInstance.AudioSource.clip.LoadAudioData();
                 }
             }
-            //AudioClips are not load by default
-            //We need to load it using LoadAudioData
-            //See : https://docs.unity3d.com/ScriptReference/AudioClip.LoadAudioData.html
         }
     }
 }

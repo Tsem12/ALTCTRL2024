@@ -428,8 +428,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   losingScreen: {fileID: 391878361511194271}
-  losingSound: []
-  fallSound: {fileID: 0}
+  losingText: {fileID: 0}
+  _ropeSFX:
+    _source: {fileID: 0}
+    _name: rope
+    OnPlay:
+      m_PersistentCalls:
+        m_Calls: []
+  _fallingSFX:
+    _source: {fileID: 0}
+    _name: falling
+    OnPlay:
+      m_PersistentCalls:
+        m_Calls: []
   _fadeBg: {fileID: 622588842881907275}
   _fallFadeCurve: 0
   _respawnFadeCurve: 0

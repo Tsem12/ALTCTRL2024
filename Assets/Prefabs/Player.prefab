@@ -404,7 +404,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28f21e43e350ad34d9a56ae40cf4d1f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vertigeSound: []
+  vertigeSound:
+    _source: {fileID: 0}
+    _name: vertige
+    OnPlay:
+      m_PersistentCalls:
+        m_Calls: []
   moveSpeed: 0
   maxSpeed: 0.5
   acceleration: 0.6

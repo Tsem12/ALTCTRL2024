@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public bool test;
     [SerializeField] private float limitAngle;
 
-    [SerializeField] private AudioClip _victorySound;
+    [SerializeField] private SFX _victorySound;
 
     private bool isPlayerAlive = true;
     private bool hasMoved = false;
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
     public void OnWin()
     {
         isStillInGame = false;
-        AudioSource.PlayClipAtPoint(_victorySound, Camera.main.transform.position);
+        _victorySound.PlaySfx();
     }
 
 }

@@ -13,6 +13,8 @@ public class PlaneEventBehaviour : MonoBehaviour
 
     private Coroutine _killRoutine;
     private float _currentTimeOnCurve;
+    
+    [SerializeField] private SFX _planeSFX;
 
     public void Init(PlaneEventPaths dronePaths)
     {
@@ -20,6 +22,7 @@ public class PlaneEventBehaviour : MonoBehaviour
         _path = dronePaths.Paths;
         _curve = _path.Curves[Random.Range(0, _path.Curves.Length)];
         transform.position = _curve.GetPosition(0f, _planePath.transform.localToWorldMatrix);
+        _planeSFX.PlaySfx();
     }
     
     private void Update()
@@ -35,6 +38,7 @@ public class PlaneEventBehaviour : MonoBehaviour
         }
         else
         {
+            _planeSFX.StopSfx();
             Destroy(gameObject, 10f);
         }
     }

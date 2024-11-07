@@ -8,25 +8,25 @@ public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement instance;
 
-    [SerializeField] private List<AudioClip> vertigeSound;
+    [SerializeField] private SFX vertigeSound;
 
     [Header("Speed")]
     [SerializeField] private float moveSpeed;              // Vitesse actuelle du joueur
     [SerializeField] private float maxSpeed;               // Vitesse maximale
-    [SerializeField] private float acceleration;           // Taux d'accélération
+    [SerializeField] private float acceleration;           // Taux d'accï¿½lï¿½ration
     [SerializeField] private float distance;
 
-    // Variables pour la gestion du contrôle par alternance
-    private float timePressingSameKey = 0f;  // Temps passé à maintenir la même touche
-    [SerializeField] private float maxPressTime = 1f;          // Temps maximal avant de perdre de la vitesse si on maintient la même touche
-    private bool lastKeyWasUp = true;        // Savoir si la dernière touche était la flèche du haut (initialisé à "haut" pour le premier appui)
+    // Variables pour la gestion du contrï¿½le par alternance
+    private float timePressingSameKey = 0f;  // Temps passï¿½ ï¿½ maintenir la mï¿½me touche
+    [SerializeField] private float maxPressTime = 1f;          // Temps maximal avant de perdre de la vitesse si on maintient la mï¿½me touche
+    private bool lastKeyWasUp = true;        // Savoir si la derniï¿½re touche ï¿½tait la flï¿½che du haut (initialisï¿½ ï¿½ "haut" pour le premier appui)
 
     private float movementInput;         // Stocke l'input de mouvement (-1 pour reculer, 1 pour avancer)
-    private PlayerControls controls;     // Instance des contrôles
+    private PlayerControls controls;     // Instance des contrï¿½les
 
     [Header("Vertigo Settings")]
-    [SerializeField] private float timeBeforeVertigo = 3f; // Temps avant de déclencher les effets de vertige
-    private float idleTimer = 0f;                          // Temps d'immobilité
+    [SerializeField] private float timeBeforeVertigo = 3f; // Temps avant de dï¿½clencher les effets de vertige
+    private float idleTimer = 0f;                          // Temps d'immobilitï¿½
     private bool isVertigoActive = false;                           // Savoir si le joueur est immobile
 
     [Header("Jump")]
@@ -49,10 +49,10 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
         instance = this;
-        // Initialisation des contrôles
+        // Initialisation des contrï¿½les
         controls = new PlayerControls();
 
-        // Lier l'action Move à une méthode pour capturer la valeur d'entrée
+        // Lier l'action Move ï¿½ une mï¿½thode pour capturer la valeur d'entrï¿½e
         controls.Player.Move.performed += ctx => OnMove(ctx.ReadValue<float>());
         controls.Player.Move.canceled += ctx => OnStopMove();
 
@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        // Activer les contrôles
+        // Activer les contrï¿½les
         controls.Enable();
         GameManager.OnRespawnEvent.AddListener(OnRespawn);
         OnStartVertigoEvent.AddListener(PlayRandomVertigoSound);
@@ -108,22 +108,22 @@ public class PlayerMovement : MonoBehaviour
                 GameManager.instance.SetHasMoved(true);
             }
 
-            // Appeler l'événement StopIdle lorsque le joueur recommence à bouger
+            // Appeler l'ï¿½vï¿½nement StopIdle lorsque le joueur recommence ï¿½ bouger
             if (isVertigoActive && moveSpeed != 0)
             {
-                OnStopVertigoEvent.Invoke(); // Déclenche l'événement pour arrêter les effets de vertige
+                OnStopVertigoEvent.Invoke(); // Dï¿½clenche l'ï¿½vï¿½nement pour arrï¿½ter les effets de vertige
                 isVertigoActive = false;
-                // Réinitialiser le timer d'immobilité
+                // Rï¿½initialiser le timer d'immobilitï¿½
                 idleTimer = 0f;
             }
 
 
-            // Vérifie si on a appuyé sur la même touche trop longtemps
+            // Vï¿½rifie si on a appuyï¿½ sur la mï¿½me touche trop longtemps
             timePressingSameKey += Time.deltaTime;
 
             if (timePressingSameKey > maxPressTime)
             {
-                // Si on dépasse le temps limite, la vitesse redescend à 0
+                // Si on dï¿½passe le temps limite, la vitesse redescend ï¿½ 0
                 //moveSpeed = Mathf.Max(0f, moveSpeed - acceleration * Time.deltaTime * 2); // Perte de vitesse
                 moveSpeed = 0f;
             }
@@ -131,23 +131,23 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Sinon, on augmente la vitesse progressivement
                 moveSpeed += acceleration * Time.deltaTime;
-                moveSpeed = Mathf.Min(maxSpeed, moveSpeed); // Limiter à la vitesse max
+                moveSpeed = Mathf.Min(maxSpeed, moveSpeed); // Limiter ï¿½ la vitesse max
             }
         }
         else
         {
-            // Si aucune touche n'est pressée, la vitesse redescend lentement
+            // Si aucune touche n'est pressï¿½e, la vitesse redescend lentement
             moveSpeed = Mathf.Max(0f, moveSpeed - acceleration * Time.deltaTime);
         }
 
-        // *** MISE À JOUR IMPORTANTE : Incrémenter l'idleTimer en fonction de la vitesse réelle ***
+        // *** MISE ï¿½ JOUR IMPORTANTE : Incrï¿½menter l'idleTimer en fonction de la vitesse rï¿½elle ***
         if (moveSpeed == 0)
         {
             idleTimer += Time.deltaTime;
             // Si le joueur est immobile depuis assez longtemps
             if (idleTimer >= timeBeforeVertigo && !isVertigoActive && GameManager.instance.GetHasMoved() && !WindScript.instance.GetIsWindBlowing())
             {
-                // Déclenche l'événement d'immobilité
+                // Dï¿½clenche l'ï¿½vï¿½nement d'immobilitï¿½
                 OnStartVertigoEvent.Invoke();
                 isVertigoActive = true;
                 
@@ -155,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            // Réinitialiser l'idleTimer si la vitesse n'est pas nulle
+            // Rï¿½initialiser l'idleTimer si la vitesse n'est pas nulle
             idleTimer = 0f;
         }
 
@@ -168,31 +168,30 @@ public class PlayerMovement : MonoBehaviour
 
     public void PlayRandomVertigoSound()
     {
-        AudioClip clip = vertigeSound[Random.Range(0, vertigeSound.Count)];
-        AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
+        vertigeSound.PlaySfx();
     }
 
-    // Gestion de l'entrée de mouvement
+    // Gestion de l'entrï¿½e de mouvement
     private void OnMove(float input)
     {
-        if (input > 0 && lastKeyWasUp == false) // Si on appuie sur flèche haut après flèche bas
+        if (input > 0 && lastKeyWasUp == false) // Si on appuie sur flï¿½che haut aprï¿½s flï¿½che bas
         {
             lastKeyWasUp = true;
-            timePressingSameKey = 0f; // Réinitialiser le temps passé sur la touche
+            timePressingSameKey = 0f; // Rï¿½initialiser le temps passï¿½ sur la touche
         }
-        else if (input < 0 && lastKeyWasUp == true) // Si on appuie sur flèche bas après flèche haut
+        else if (input < 0 && lastKeyWasUp == true) // Si on appuie sur flï¿½che bas aprï¿½s flï¿½che haut
         {
             lastKeyWasUp = false;
-            timePressingSameKey = 0f; // Réinitialiser le temps passé sur la touche
+            timePressingSameKey = 0f; // Rï¿½initialiser le temps passï¿½ sur la touche
         }
 
         movementInput = input; // Stocker la direction de l'input
     }
 
-    // Quand on arrête de bouger (lorsqu'aucune touche n'est appuyée)
+    // Quand on arrï¿½te de bouger (lorsqu'aucune touche n'est appuyï¿½e)
     private void OnStopMove()
     {
-        movementInput = 0f; // Arrêter le mouvement
+        movementInput = 0f; // Arrï¿½ter le mouvement
     }
 
     public void ResetPlayerTransform()
@@ -223,21 +222,21 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("j'applique la coroutine de saut");
         isJumping = true;
 
-        // Sauvegarder la position initiale de la caméra avant le saut
+        // Sauvegarder la position initiale de la camï¿½ra avant le saut
         Vector3 startPosition = transform.localPosition;
 
         float elapsedTime = 0f;
 
-        // L'effet du saut consiste à monter puis à redescendre, donc on va animer cela en deux phases (aller-retour)
+        // L'effet du saut consiste ï¿½ monter puis ï¿½ redescendre, donc on va animer cela en deux phases (aller-retour)
         while (elapsedTime < jumpDuration)
         {
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / jumpDuration;
 
-            // Utiliser un facteur sinusoïdal pour simuler un mouvement de saut réaliste (monter puis redescendre)
+            // Utiliser un facteur sinusoï¿½dal pour simuler un mouvement de saut rï¿½aliste (monter puis redescendre)
             float heightOffset = Mathf.Sin(t * Mathf.PI) * jumpHeight;
 
-            // Appliquer la position verticale pendant le saut (en ajoutant l'offset à la position initiale)
+            // Appliquer la position verticale pendant le saut (en ajoutant l'offset ï¿½ la position initiale)
             transform.localPosition = new Vector3(
                 startPosition.x,                     // Garder la position X constante
                 startPosition.y + heightOffset,       // Appliquer l'offset pour le saut sur Y
@@ -248,7 +247,7 @@ public class PlayerMovement : MonoBehaviour
             yield return null;
         }
 
-        // S'assurer que la caméra revient exactement à sa position initiale à la fin du saut
+        // S'assurer que la camï¿½ra revient exactement ï¿½ sa position initiale ï¿½ la fin du saut
         transform.localPosition = startPosition;
 
         isJumping = false;

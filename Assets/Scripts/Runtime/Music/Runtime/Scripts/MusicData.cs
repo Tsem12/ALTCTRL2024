@@ -11,11 +11,17 @@ namespace IIMEngine.Music
 
         public string Name => _name;
         
+        //Volume
+        [SerializeField, Range(0, 1)] private float _volume = 1; 
+        
+        public float Volume => _volume;
         //Loop
         [SerializeField] private AudioClip _mainClip = null;
         [SerializeField] private bool _isLooping = true;
         
+        
         public AudioClip MainClip => _mainClip;
+        
         public bool IsLooping => _isLooping;
         
         //Intro
@@ -31,5 +37,7 @@ namespace IIMEngine.Music
 
         public bool HasOutro => _hasOutro;
         public AudioClip OutroClip => _outroClip;
+
+
     }
 }

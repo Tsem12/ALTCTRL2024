@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,7 +11,6 @@ public class PlaneEventManager : MonoBehaviour
 
     [SerializeField] private float _minSpawnTime;
     [SerializeField] private float _maxSpawnTime;
-    [SerializeField] private AudioClip[] _clips;
 
     public UnityEvent OnPlaneSpawed; 
     private void Start()
@@ -18,16 +18,13 @@ public class PlaneEventManager : MonoBehaviour
         StartCoroutine(SpawnPlaneEventRoutine());
     }
 
+    [Button] 
+    public void TestSpawnPlane() => SpawnPlane();
     public void SpawnPlane()
     {
         OnPlaneSpawed?.Invoke();
         PlaneEventBehaviour plane = Instantiate(_planePrefab, transform);
         plane.Init(_paths);
-    }
-
-    public void PlaySound()
-    {
-        AudioSource.PlayClipAtPoint(_clips[Random.Range(0, _clips.Length)], Camera.main.transform.position + Vector3.up * 50);
     }
     
     private IEnumerator SpawnPlaneEventRoutine()

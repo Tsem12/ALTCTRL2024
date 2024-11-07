@@ -1006,3 +1006,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _planeSFX:
+    _source: {fileID: 5009460420265275846}
+    _name: plane
+    OnPlay:
+      m_PersistentCalls:
+        m_Calls: []

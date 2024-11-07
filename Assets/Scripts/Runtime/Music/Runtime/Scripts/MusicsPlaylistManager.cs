@@ -27,6 +27,7 @@ namespace IIMEngine.Music
             _InitInstancesDict();
             _InitDatasDict();
             _LoadAllAudiosData();
+            PlayMusic("main");
         }
 
         private void Update()
@@ -100,6 +101,7 @@ namespace IIMEngine.Music
                     GameObject = instance.gameObject,
                     Transform = instance.transform
                 };
+                _musicInstancesDict[music.Name].AudioSource.volume = music.Volume;
             } 
             
             //Loop over all Music Datas inside Bank and Fill Music Instances into _musicInstancesDict
