@@ -68,7 +68,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Batiment_C
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4742473837712756890, guid: 647c43eda5c1bfd4ba693f30224ce74c, type: 3}
+      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
+      value: 0.15671158
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 647c43eda5c1bfd4ba693f30224ce74c, type: 3}
+      propertyPath: m_LODs.Array.data[1].screenRelativeHeight
+      value: 0.06951692
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4742473837712756890, guid: 647c43eda5c1bfd4ba693f30224ce74c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 647c43eda5c1bfd4ba693f30224ce74c, type: 3}

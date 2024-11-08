@@ -64,6 +64,18 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 1651cd103635e1042bef07ccf0347fb2, type: 3}
+      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
+      value: 0.09872298
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 1651cd103635e1042bef07ccf0347fb2, type: 3}
+      propertyPath: m_LODs.Array.data[1].screenRelativeHeight
+      value: 0.046394747
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 1651cd103635e1042bef07ccf0347fb2, type: 3}
+      propertyPath: m_LODs.Array.data[2].screenRelativeHeight
+      value: 0.0041509806
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

@@ -56,7 +56,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Toit_A
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4742473837712756890, guid: cdcc86cbde49a3b428f58631e0f525ca, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
