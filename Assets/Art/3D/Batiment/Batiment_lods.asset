@@ -1,12 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!43 &-2656575248322909375
+--- !u!43 &-1896763449985306874
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Bat LOD1
+  m_Name: Bat LOD2
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -196,13 +196,13 @@ MonoBehaviour:
   lod5: []
   lod6: []
   lod7: []
---- !u!43 &5490526307895400818
+--- !u!43 &9133868433069957522
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Bat LOD2
+  m_Name: Bat LOD1
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
