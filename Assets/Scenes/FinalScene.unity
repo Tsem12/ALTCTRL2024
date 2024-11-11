@@ -161872,7 +161872,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[0].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[0].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -161896,7 +161896,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[4].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[5].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -161908,11 +161908,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[7].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[8].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[9].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -161932,7 +161932,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[11].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[11].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -161961,7 +161961,7 @@ PrefabInstance:
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[0].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2086842185}
+      objectReference: {fileID: 908887728}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[1].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -162096,7 +162096,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[0].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SpawnDrone
+      value: TriggerWind
       objectReference: {fileID: 0}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[10].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -162212,7 +162212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[0].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DroneManager, Assembly-CSharp
+      value: WindScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[0].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -162297,6 +162297,26 @@ PrefabInstance:
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[16].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: PigeonManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
+      propertyPath: distanceEvents.Array.data[0].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
+      propertyPath: distanceEvents.Array.data[4].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
+      propertyPath: distanceEvents.Array.data[7].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
+      propertyPath: distanceEvents.Array.data[8].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
+      propertyPath: distanceEvents.Array.data[11].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7384889705369685212, guid: b53349063314a544cb0766fce4394a3d, type: 3}
       propertyPath: distanceEvents.Array.data[0].onDistanceReached.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -295210,6 +295230,10 @@ PrefabInstance:
       value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 3115113866994391322, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: _windRollAngle
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115113866994391322, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
       propertyPath: _canvasController
       value: 
       objectReference: {fileID: 2065280374}
@@ -295217,6 +295241,10 @@ PrefabInstance:
       propertyPath: postProcessVolume
       value: 
       objectReference: {fileID: 1199891202}
+    - target: {fileID: 3115113866994391322, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: _windLateralTranslation
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4097162011334386207, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
       propertyPath: maxSpeed
       value: 1

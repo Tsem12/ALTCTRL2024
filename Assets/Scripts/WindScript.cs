@@ -39,10 +39,15 @@ public class WindScript : MonoBehaviour
     private bool isCompassRotating = false;
     private float timeElapsed = 0f;
 
-    public UnityEvent OnWindBlowing;
-    public UnityEvent OnWindStopBlowing;
+    public static UnityEvent<float> OnWindBlowingEvent = new UnityEvent<float>();
+    public static UnityEvent<float> OnWindResetEvent = new UnityEvent<float>();
+    public static UnityEvent OnWindStopBlowingEvent = new UnityEvent();
 
     private bool isWindBlowing = false;
+    private bool isWindIncreasing = false;
+    private float _windSpeed;
+
+    private Coroutine _windCoroutine;
     [HideInInspector]
     public WindDirection _windDirection;
 
@@ -57,6 +62,18 @@ public class WindScript : MonoBehaviour
         }
         instance = this;
         windOrigin.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        GameManager.OnRespawnEvent.AddListener(StopWind);
+        OnWindStopBlowingEvent.AddListener(StopWind);
+    }
+
+    private void OnDisable()
+    {
+        OnWindStopBlowingEvent.RemoveAllListeners();
+        GameManager.OnRespawnEvent.RemoveAllListeners();
     }
 
     private void Update()
@@ -82,28 +99,31 @@ public class WindScript : MonoBehaviour
             float perchRoll = GyroControler.instance.GetPerchRoll;
             if (_windDirection == WindDirection.West || _windDirection == WindDirection.NorthWest || _windDirection == WindDirection.SouthWest)
             {
-                if(perchRoll > treshold)
+                if(perchRoll > treshold && isWindIncreasing)
                 {
-                    StopWind();
-                    OnWindStopBlowing?.Invoke();
+                    isWindIncreasing = false;
+                    OnWindResetEvent.Invoke(_windSpeed);
+                }
+                else if(perchRoll < treshold && !isWindIncreasing)
+                {
+                    isWindIncreasing = true;
+                    OnWindBlowingEvent.Invoke(_windSpeed);
                 }
             }
             else if (_windDirection == WindDirection.East || _windDirection == WindDirection.NorthEast || _windDirection == WindDirection.SouthEast)
             {
-                if(perchRoll< -treshold)
+                if(perchRoll< -treshold && isWindIncreasing)
                 {
-                    StopWind();
-                    OnWindStopBlowing?.Invoke();
+                    isWindIncreasing = false;
+                    OnWindResetEvent.Invoke(_windSpeed);
+                }
+                else if(perchRoll > -treshold && !isWindIncreasing)
+                {
+                    isWindIncreasing = true;
+                    OnWindBlowingEvent.Invoke(_windSpeed);
                 }
             }
         }
-        /*
-        if (test)
-        {
-            PlayWindToDirection(WindDirection.West, 10);
-            OnWindBlowing.Invoke();
-        }
-        */
     }
 
     public bool GetIsWindBlowing()
@@ -111,43 +131,40 @@ public class WindScript : MonoBehaviour
         return isWindBlowing;
     }
 
-    public void TriggerWind()
+    public void TriggerWind(float windSpeed)
     {
+        isWindBlowing = true;
+        isWindIncreasing = true;
+        _windSpeed = windSpeed;
         int windDirInt = Random.Range(1,7);
         switch (windDirInt)
         {
             case 1:
-                PlayWindToDirection(WindDirection.NorthWest, 7);
-                OnWindBlowing.Invoke();
+                PlayWindToDirection(WindDirection.NorthWest, 100);
+                OnWindBlowingEvent.Invoke(_windSpeed);
                 break;
             case 2:
-                PlayWindToDirection(WindDirection.West, 7);
-                OnWindBlowing.Invoke();
+                PlayWindToDirection(WindDirection.West, 100);
+                OnWindBlowingEvent.Invoke(_windSpeed);
                 break;
             case 3:
-                PlayWindToDirection(WindDirection.SouthWest, 7);
-                OnWindBlowing.Invoke();
+                PlayWindToDirection(WindDirection.SouthWest, 100);
+                OnWindBlowingEvent.Invoke(_windSpeed);
                 break;
             case 4:
-                PlayWindToDirection(WindDirection.NorthEast, 7);
-                OnWindBlowing.Invoke();
+                PlayWindToDirection(WindDirection.NorthEast, 100);
+                OnWindBlowingEvent.Invoke(_windSpeed);
                 break;
             case 5:
-                PlayWindToDirection(WindDirection.East, 7);
-                OnWindBlowing.Invoke();
+                PlayWindToDirection(WindDirection.East, 100);
+                OnWindBlowingEvent.Invoke(_windSpeed);
                 break;
             case 6:
-                PlayWindToDirection(WindDirection.SouthEast, 7);
-                OnWindBlowing.Invoke();
+                PlayWindToDirection(WindDirection.SouthEast, 100);
+                OnWindBlowingEvent.Invoke(_windSpeed);
                 break;
         }
     }
-    /*
-    private void Start()
-    {
-        PlayWindToDirection(WindDirection.West, 10);
-    }
-    */
 
     AudioClip ChooseRandomAudioClip()
     {
@@ -178,7 +195,7 @@ public class WindScript : MonoBehaviour
         windEffect.SetActive(true);
         PlayWindSoundFromDirection(windDirection);
         RotateCompassWithDirection(windDirection);
-        StartCoroutine(DisableWindAfterDuration(duration));
+        _windCoroutine = StartCoroutine(DisableWindAfterDuration(duration));
     }
 
     public void StopWind()
@@ -189,19 +206,19 @@ public class WindScript : MonoBehaviour
             isWindBlowing = false;
             isCompassRotating = false;
             SpatializedSoundScript.Instance.StopCurrentAudioSource();
+            StopCoroutine(_windCoroutine);
         }
     }
 
     IEnumerator DisableWindAfterDuration(float duration)
     {
-        isWindBlowing = true;
         yield return new WaitForSeconds(duration);
         if (isWindBlowing)
         {
             windOrigin.SetActive(false);
             windEffect.SetActive(false);
             isWindBlowing = false;
-            OnWindStopBlowing.Invoke();
+            OnWindStopBlowingEvent.Invoke();
             GameManager.OnLoseEvent?.Invoke();
         }
     }
