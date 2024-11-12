@@ -1,12 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!43 &-471006124271544960
+--- !u!43 &-1803505518552974301
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Plane_25Edges_Displaced_2 LOD1
+  m_Name: Plane_25Edges_Displaced_2 LOD2
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -196,13 +196,13 @@ MonoBehaviour:
   lod5: []
   lod6: []
   lod7: []
---- !u!43 &1189862489965061396
+--- !u!43 &8766465550885736754
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Plane_25Edges_Displaced_2 LOD2
+  m_Name: Plane_25Edges_Displaced_2 LOD1
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2

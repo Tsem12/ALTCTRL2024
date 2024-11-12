@@ -1,12 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!43 &-7464070553176239491
+--- !u!43 &-3995527425782372550
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Pinetree-v1-06-Large-Trunk LOD1
+  m_Name: Pinetree-v1-06-Large-Leaves LOD2
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -151,8 +151,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 0.22917247, y: 0.056519926, z: 6.781841}
-    m_Extent: {x: 1.5563396, y: 1.5249302, z: 6.8226943}
+    m_Center: {x: 0.06986368, y: -0.022862673, z: 8.690229}
+    m_Extent: {x: 1.3899292, y: 1.3884436, z: 3.811314}
   m_MeshUsageFlags: 0
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
@@ -165,7 +165,41 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!43 &-3341906158362096448
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e927627221206e04dba83232f13d1949, type: 3}
+  m_Name: Pinetree-v1-06-Large_lods
+  m_EditorClassIdentifier: 
+  overrideDefaults: 0
+  importSettings:
+    generateOnImport: 1
+    meshSimplifier: Unity.AutoLOD.QuadricMeshSimplifier, Unity.AutoLOD.Editor, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    batcher: 
+    maxLODGenerated: 2
+    initialLODMaxPolyCount: 500000
+  lod0:
+  - {fileID: 3822617470090220992, guid: c8447c2cabbf64f6b9f6e7fb7dd373bc, type: 3}
+  - {fileID: 797805571229240826, guid: c8447c2cabbf64f6b9f6e7fb7dd373bc, type: 3}
+  lod1:
+  - {fileID: -2177313489388660167, guid: c8447c2cabbf64f6b9f6e7fb7dd373bc, type: 3}
+  - {fileID: -7959451865515130243, guid: c8447c2cabbf64f6b9f6e7fb7dd373bc, type: 3}
+  lod2:
+  - {fileID: -8972985976885281262, guid: c8447c2cabbf64f6b9f6e7fb7dd373bc, type: 3}
+  - {fileID: 532196372740406703, guid: c8447c2cabbf64f6b9f6e7fb7dd373bc, type: 3}
+  lod3: []
+  lod4: []
+  lod5: []
+  lod6: []
+  lod7: []
+--- !u!43 &1862411602531407744
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -330,47 +364,13 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e927627221206e04dba83232f13d1949, type: 3}
-  m_Name: Pinetree-v1-06-Large_lods
-  m_EditorClassIdentifier: 
-  overrideDefaults: 0
-  importSettings:
-    generateOnImport: 1
-    meshSimplifier: Unity.AutoLOD.QuadricMeshSimplifier, Unity.AutoLOD.Editor, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-    batcher: 
-    maxLODGenerated: 2
-    initialLODMaxPolyCount: 500000
-  lod0:
-  - {fileID: 3822617470090220992, guid: c8447c2cabbf64f6b9f6e7fb7dd373bc, type: 3}
-  - {fileID: 797805571229240826, guid: c8447c2cabbf64f6b9f6e7fb7dd373bc, type: 3}
-  lod1:
-  - {fileID: -2177313489388660167, guid: c8447c2cabbf64f6b9f6e7fb7dd373bc, type: 3}
-  - {fileID: -7959451865515130243, guid: c8447c2cabbf64f6b9f6e7fb7dd373bc, type: 3}
-  lod2:
-  - {fileID: -8972985976885281262, guid: c8447c2cabbf64f6b9f6e7fb7dd373bc, type: 3}
-  - {fileID: 532196372740406703, guid: c8447c2cabbf64f6b9f6e7fb7dd373bc, type: 3}
-  lod3: []
-  lod4: []
-  lod5: []
-  lod6: []
-  lod7: []
---- !u!43 &2839467529019614488
+--- !u!43 &6876658230926017959
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Pinetree-v1-06-Large-Leaves LOD1
+  m_Name: Pinetree-v1-06-Large-Trunk LOD1
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -515,8 +515,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 0.06986368, y: -0.022862673, z: 8.690229}
-    m_Extent: {x: 1.3899292, y: 1.3884436, z: 3.811314}
+    m_Center: {x: 0.22917247, y: 0.056519926, z: 6.781841}
+    m_Extent: {x: 1.5563396, y: 1.5249302, z: 6.8226943}
   m_MeshUsageFlags: 0
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 
@@ -529,13 +529,13 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!43 &6644415210481647447
+--- !u!43 &9043858934132416750
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Pinetree-v1-06-Large-Leaves LOD2
+  m_Name: Pinetree-v1-06-Large-Leaves LOD1
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
