@@ -13,14 +13,14 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Camera playerCamera;
 
     [Header("MovementTilt")]
-    [SerializeField] private float cameraTiltAngle = 5f;
+    [SerializeField] private float cameraTiltAngle;
 
     [Header("Bobbing")]
-    [SerializeField] private float bobbingSpeed = 0.1f;
-    [SerializeField] private float baseBobbingAmountX = 0.02f;
-    [SerializeField] private float baseBobbingAmountY = 0.01f;
-    [SerializeField] private float tiltAngle = 5f;
-    private float timer = 0.0f;
+    [SerializeField] private float bobbingSpeed;
+    [SerializeField] private float baseBobbingAmountX;
+    [SerializeField] private float baseBobbingAmountY;
+    [SerializeField] private float tiltAngle;
+    private float timer;
 
     [Header("Fall")]
     [SerializeField] private float fallHeight;
@@ -49,7 +49,6 @@ public class CameraController : MonoBehaviour
     private Vignette vignette;
 
     private Coroutine fallCoroutine = null;
-    private Coroutine jumpCoroutine = null;
     private Coroutine startVertigoCoroutine = null;
     private Coroutine stopVertigoCoroutine = null;
     private Coroutine startWindCoroutine = null;

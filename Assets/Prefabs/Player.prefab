@@ -26,12 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 419027497492371409}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.07999999, y: 0.9000001, z: 0.79000103}
+  m_LocalRotation: {x: -0.13484621, y: -0.69413006, z: 0.13484627, w: 0.69413006}
+  m_LocalPosition: {x: 0.07999997, y: 0.45341426, z: 0.6688925}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 2622880704729216771}
+  m_Father: {fileID: 8570095761361834792}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &1370506174982865012
 Light:
@@ -315,7 +315,6 @@ Transform:
   - {fileID: 458784286557553208}
   - {fileID: 1973238192407141673}
   - {fileID: 4631086478034253956}
-  - {fileID: 3946678345918274513}
   - {fileID: 3985225228795032043}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -458,13 +457,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  windSpeed: 3
-  windTiltMultiplier: 1.03
-  windTranslationMultiplier: 0.3
+  _windRollAngle: 0
+  _windLateralTranslation: 0
+  postProcessVolume: {fileID: 0}
   transitionDuration: 5
   cameraTiltAmount: 20
   cameraShakeIntensity: 0.01
-  postProcessVolume: {fileID: 0}
   maxBlurAmount: 180
   maxAberrationAmount: 0.4
   maxFOVChange: 5
@@ -563,7 +561,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.73, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3946678345918274513}
   m_Father: {fileID: 2622880704729216771}
   m_LocalEulerAnglesHint: {x: 21.987, y: 0, z: 0}
 --- !u!114 &2927596144222685983

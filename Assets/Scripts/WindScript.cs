@@ -136,33 +136,44 @@ public class WindScript : MonoBehaviour
         isWindBlowing = true;
         isWindIncreasing = true;
         _windSpeed = windSpeed;
-        int windDirInt = Random.Range(1,7);
+        //int windDirInt = Random.Range(1,7);
+        int windDirInt = Random.Range(1, 3);
         switch (windDirInt)
         {
             case 1:
-                PlayWindToDirection(WindDirection.NorthWest, 100);
+                PlayWindToDirection(WindDirection.East, 100);
                 OnWindBlowingEvent.Invoke(_windSpeed);
                 break;
             case 2:
                 PlayWindToDirection(WindDirection.West, 100);
                 OnWindBlowingEvent.Invoke(_windSpeed);
                 break;
-            case 3:
-                PlayWindToDirection(WindDirection.SouthWest, 100);
-                OnWindBlowingEvent.Invoke(_windSpeed);
-                break;
-            case 4:
-                PlayWindToDirection(WindDirection.NorthEast, 100);
-                OnWindBlowingEvent.Invoke(_windSpeed);
-                break;
-            case 5:
-                PlayWindToDirection(WindDirection.East, 100);
-                OnWindBlowingEvent.Invoke(_windSpeed);
-                break;
-            case 6:
-                PlayWindToDirection(WindDirection.SouthEast, 100);
-                OnWindBlowingEvent.Invoke(_windSpeed);
-                break;
+                /*
+                case 1:
+                    PlayWindToDirection(WindDirection.NorthWest, 100);
+                    OnWindBlowingEvent.Invoke(_windSpeed);
+                    break;
+                case 2:
+                    PlayWindToDirection(WindDirection.West, 100);
+                    OnWindBlowingEvent.Invoke(_windSpeed);
+                    break;
+                case 3:
+                    PlayWindToDirection(WindDirection.SouthWest, 100);
+                    OnWindBlowingEvent.Invoke(_windSpeed);
+                    break;
+                case 4:
+                    PlayWindToDirection(WindDirection.NorthEast, 100);
+                    OnWindBlowingEvent.Invoke(_windSpeed);
+                    break;
+                case 5:
+                    PlayWindToDirection(WindDirection.East, 100);
+                    OnWindBlowingEvent.Invoke(_windSpeed);
+                    break;
+                case 6:
+                    PlayWindToDirection(WindDirection.SouthEast, 100);
+                    OnWindBlowingEvent.Invoke(_windSpeed);
+                    break;
+                */
         }
     }
 
