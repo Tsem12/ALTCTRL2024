@@ -25,6 +25,7 @@ public class CameraController : MonoBehaviour
     [Header("Fall")]
     [SerializeField] private float fallHeight;
     [SerializeField] private float sideFall;
+    [SerializeField] private float fallRotationXAngle;
     [SerializeField] private float fallDuration;
     [SerializeField] private AnimationCurve fallCurve;
 
@@ -195,7 +196,7 @@ public class CameraController : MonoBehaviour
         Vector3 startingPosition = playerCamera.transform.localPosition;
 
         // Position et rotation finales apr�s la chute
-        Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(0, 0, tiltDirection);
+        Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(fallRotationXAngle, 0, tiltDirection);
 
         // Ajouter un d�calage plus prononc� vers le bas (-3 unit�s sur Y) et sur le c�t� en fonction du param�tre 'side'
         Vector3 targetPosition = initialCameraPosition + new Vector3(horizontalShift, -fallHeight, 0);
@@ -279,6 +280,7 @@ public class CameraController : MonoBehaviour
 
             yield return null; // Attendre une frame
         }
+        GameManager.OnLoseEvent.Invoke();
         // Continuer à appliquer le tremblement tant que l'effet est actif
         while (true)
         {

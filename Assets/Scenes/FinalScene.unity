@@ -295316,6 +295316,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1199891202}
     - target: {fileID: 3115113866994391322, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: fallRotationXAngle
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115113866994391322, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
+      propertyPath: cameraShakeIntensity
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115113866994391322, guid: 50da650a1b5aa4e41b6d732a52cbc266, type: 3}
       propertyPath: _windLateralTranslation
       value: 1
       objectReference: {fileID: 0}
