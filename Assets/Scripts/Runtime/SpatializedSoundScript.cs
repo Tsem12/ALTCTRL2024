@@ -6,6 +6,7 @@ public enum Direction
 {
     East,
     West
+
 }
 
 public class SpatializedSoundScript : MonoBehaviour

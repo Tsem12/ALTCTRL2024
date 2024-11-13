@@ -96,15 +96,15 @@ MonoBehaviour:
     onDistanceReached:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3514421509731789566}
-          m_TargetAssemblyTypeName: DroneManager, Assembly-CSharp
-          m_MethodName: SpawnDrone
-          m_Mode: 1
+        - m_Target: {fileID: 9179316900627594086}
+          m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
+          m_MethodName: TriggerWind
+          m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 0
+            m_FloatArgument: 0.25
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -163,12 +163,12 @@ MonoBehaviour:
         - m_Target: {fileID: 9179316900627594086}
           m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
           m_MethodName: TriggerWind
-          m_Mode: 1
+          m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 0
+            m_FloatArgument: 0.25
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -211,12 +211,12 @@ MonoBehaviour:
         - m_Target: {fileID: 9179316900627594086}
           m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
           m_MethodName: TriggerWind
-          m_Mode: 1
+          m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 0
+            m_FloatArgument: 0.25
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -227,12 +227,12 @@ MonoBehaviour:
         - m_Target: {fileID: 9179316900627594086}
           m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
           m_MethodName: TriggerWind
-          m_Mode: 1
+          m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 0
+            m_FloatArgument: 0.25
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -299,12 +299,12 @@ MonoBehaviour:
         - m_Target: {fileID: 9179316900627594086}
           m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
           m_MethodName: TriggerWind
-          m_Mode: 1
+          m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 0
+            m_FloatArgument: 0.25
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -1007,6 +1007,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1302992809943624191, guid: 1e39848767b08e945bb282b5330a2cde, type: 3}
       propertyPath: treshold
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302992809943624191, guid: 1e39848767b08e945bb282b5330a2cde, type: 3}
+      propertyPath: tresholdAngle
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1302992809943624191, guid: 1e39848767b08e945bb282b5330a2cde, type: 3}

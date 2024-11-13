@@ -19,7 +19,7 @@ public class WindScript : MonoBehaviour
     [SerializeField] private float compassRotationDuration = 0.5f;
     [SerializeField] private float compassShakeIntensity = 2;
 
-    [SerializeField] private float treshold;
+    [SerializeField] private float tresholdAngle;
     private float compassRotationAngleDestination;
     private float compassRotationAngleStart;
 
@@ -86,12 +86,12 @@ public class WindScript : MonoBehaviour
             float perchRoll = GyroControler.instance.GetPerchRoll;
             if (_windDirection == Direction.West)
             {
-                if(perchRoll > treshold && isWindIncreasing)
+                if(perchRoll > tresholdAngle && isWindIncreasing)
                 {
                     isWindIncreasing = false;
                     OnWindResetEvent.Invoke(_windSpeed);
                 }
-                else if(perchRoll < treshold && !isWindIncreasing)
+                else if(perchRoll < tresholdAngle && !isWindIncreasing)
                 {
                     isWindIncreasing = true;
                     OnWindBlowingEvent.Invoke(_windSpeed);
@@ -99,12 +99,12 @@ public class WindScript : MonoBehaviour
             }
             else if (_windDirection == Direction.East)
             {
-                if(perchRoll< -treshold && isWindIncreasing)
+                if(perchRoll< -tresholdAngle && isWindIncreasing)
                 {
                     isWindIncreasing = false;
                     OnWindResetEvent.Invoke(_windSpeed);
                 }
-                else if(perchRoll > -treshold && !isWindIncreasing)
+                else if(perchRoll > -tresholdAngle && !isWindIncreasing)
                 {
                     isWindIncreasing = true;
                     OnWindBlowingEvent.Invoke(_windSpeed);
