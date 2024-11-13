@@ -62,7 +62,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        // Activer les contr�les
         controls.Enable();
         GameManager.OnRespawnEvent.AddListener(OnRespawn);
         OnStartVertigoEvent.AddListener(PlayRandomVertigoSound);

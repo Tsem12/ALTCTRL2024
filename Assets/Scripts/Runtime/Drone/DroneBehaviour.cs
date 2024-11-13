@@ -36,7 +36,6 @@ public class DroneBehaviour : MonoBehaviour
     {
         if (ToolBox.Approximately(DistanceToPlayer, 0f, 0.45f) && !hasDroneEventStarted)
         {
-            Debug.Log("apagnan");
             hasDroneEventStarted = true;
             PlayerMovement.OnDroneEvent?.Invoke();
         }

@@ -4,14 +4,8 @@ using UnityEngine;
 
 public enum Direction
 {
-    North,
-    NorthEast,
     East,
-    SouthEast,
-    South,
-    SouthWest,
-    West,
-    NorthWest
+    West
 }
 
 public class SpatializedSoundScript : MonoBehaviour

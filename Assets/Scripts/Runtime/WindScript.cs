@@ -26,10 +26,15 @@ public class WindScript : MonoBehaviour
     private bool isCompassRotating = false;
     private float timeElapsed = 0f;
 
-    public UnityEvent OnWindBlowing;
-    public UnityEvent OnWindStopBlowing;
+    public static UnityEvent<float> OnWindBlowingEvent = new UnityEvent<float>();
+    public static UnityEvent<float> OnWindResetEvent = new UnityEvent<float>();
+    public static UnityEvent OnWindStopBlowingEvent = new UnityEvent();
 
     private bool isWindBlowing = false;
+    private bool isWindIncreasing = false;
+    private float _windSpeed;
+
+    private Coroutine _windCoroutine;
     [HideInInspector]
     public Direction _windDirection;
     
@@ -44,6 +49,18 @@ public class WindScript : MonoBehaviour
         }
         instance = this;
         windOrigin.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        GameManager.OnRespawnEvent.AddListener(StopWind);
+        OnWindStopBlowingEvent.AddListener(StopWind);
+    }
+
+    private void OnDisable()
+    {
+        OnWindStopBlowingEvent.RemoveAllListeners();
+        GameManager.OnRespawnEvent.RemoveAllListeners();
     }
 
     private void Update()
@@ -67,30 +84,33 @@ public class WindScript : MonoBehaviour
         if (isWindBlowing)
         {
             float perchRoll = GyroControler.instance.GetPerchRoll;
-            if (_windDirection == Direction.West || _windDirection == Direction.NorthWest || _windDirection == Direction.SouthWest)
+            if (_windDirection == Direction.West)
             {
-                if(perchRoll > treshold)
+                if(perchRoll > treshold && isWindIncreasing)
                 {
-                    StopWind();
-                    OnWindStopBlowing?.Invoke();
+                    isWindIncreasing = false;
+                    OnWindResetEvent.Invoke(_windSpeed);
+                }
+                else if(perchRoll < treshold && !isWindIncreasing)
+                {
+                    isWindIncreasing = true;
+                    OnWindBlowingEvent.Invoke(_windSpeed);
                 }
             }
-            else if (_windDirection == Direction.East || _windDirection == Direction.NorthEast || _windDirection == Direction.SouthEast)
+            else if (_windDirection == Direction.East)
             {
-                if(perchRoll< -treshold)
+                if(perchRoll< -treshold && isWindIncreasing)
                 {
-                    StopWind();
-                    OnWindStopBlowing?.Invoke();
+                    isWindIncreasing = false;
+                    OnWindResetEvent.Invoke(_windSpeed);
+                }
+                else if(perchRoll > -treshold && !isWindIncreasing)
+                {
+                    isWindIncreasing = true;
+                    OnWindBlowingEvent.Invoke(_windSpeed);
                 }
             }
         }
-        /*
-        if (test)
-        {
-            PlayWindToDirection(WindDirection.West, 10);
-            OnWindBlowing.Invoke();
-        }
-        */
     }
 
     public bool GetIsWindBlowing()
@@ -98,18 +118,26 @@ public class WindScript : MonoBehaviour
         return isWindBlowing;
     }
 
-    public void TriggerWind()
+    public void TriggerWind(float windSpeed)
     {
-        int windDirInt = Random.Range(1,7);
-        PlayWindToDirection((Direction)windDirInt, 7);
-        OnWindBlowing.Invoke();
+        isWindBlowing = true;
+        isWindIncreasing = true;
+        _windSpeed = windSpeed;
+        //int windDirInt = Random.Range(1,7);
+        int windDirInt = Random.Range(1, 3);
+        switch (windDirInt)
+        {
+            case 1:
+                PlayWindToDirection(Direction.East, 100);
+                OnWindBlowingEvent.Invoke(_windSpeed);
+                break;
+            case 2:
+                PlayWindToDirection(Direction.West, 100);
+                OnWindBlowingEvent.Invoke(_windSpeed);
+                break;
+        }
     }
-    /*
-    private void Start()
-    {
-        PlayWindToDirection(WindDirection.West, 10);
-    }
-    */
+
     void ChooseRandomGameObject()
     {
         windEffect = windEffectList[Random.Range(0, windEffectList.Count)];
@@ -134,7 +162,7 @@ public class WindScript : MonoBehaviour
         windEffect.SetActive(true);
         PlayWindSoundFromDirection(windDirection);
         RotateCompassWithDirection(windDirection);
-        StartCoroutine(DisableWindAfterDuration(duration));
+        _windCoroutine = StartCoroutine(DisableWindAfterDuration(duration));
     }
 
     public void StopWind()
@@ -145,19 +173,19 @@ public class WindScript : MonoBehaviour
             isWindBlowing = false;
             isCompassRotating = false;
             SpatializedSoundScript.Instance.StopCurrentAudioSource();
+            StopCoroutine(_windCoroutine);
         }
     }
 
     IEnumerator DisableWindAfterDuration(float duration)
     {
-        isWindBlowing = true;
         yield return new WaitForSeconds(duration);
         if (isWindBlowing)
         {
             windOrigin.SetActive(false);
             windEffect.SetActive(false);
             isWindBlowing = false;
-            OnWindStopBlowing.Invoke();
+            OnWindStopBlowingEvent.Invoke();
             GameManager.OnLoseEvent?.Invoke();
         }
     }
@@ -176,30 +204,13 @@ public class WindScript : MonoBehaviour
     {
         switch (windDirection)
         {
-            case Direction.North:
-                RotateCompassActionJuicily(180);
-                break;
-            case Direction.NorthEast:
-                RotateCompassActionJuicily(135);
-                break;
             case Direction.East:
                 RotateCompassActionJuicily(90);
-                break;
-            case Direction.SouthEast:
-                RotateCompassActionJuicily(45);
-                break;
-            case Direction.South:
-                RotateCompassActionJuicily(0);
-                break;
-            case Direction.SouthWest:
-                RotateCompassActionJuicily(225);
                 break;
             case Direction.West:
                 RotateCompassActionJuicily(270);
                 break;
-            case Direction.NorthWest:
-                RotateCompassActionJuicily(315);
-                break;
+
         }
     }
 
@@ -234,5 +245,5 @@ public class WindScript : MonoBehaviour
     }
     
     [Button]
-    public void TestWind() => TriggerWind();
+    public void TestWind() => TriggerWind(.25f);
 }

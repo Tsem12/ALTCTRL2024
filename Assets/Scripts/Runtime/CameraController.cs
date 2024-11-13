@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
+using DG.Tweening.Core;
 
 public class CameraController : MonoBehaviour
 {
@@ -12,14 +13,14 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Camera playerCamera;
 
     [Header("MovementTilt")]
-    [SerializeField] private float cameraTiltAngle = 5f;
+    [SerializeField] private float cameraTiltAngle;
 
     [Header("Bobbing")]
-    [SerializeField] private float bobbingSpeed = 0.1f;
-    [SerializeField] private float baseBobbingAmountX = 0.02f;
-    [SerializeField] private float baseBobbingAmountY = 0.01f;
-    [SerializeField] private float tiltAngle = 5f;
-    private float timer = 0.0f;
+    [SerializeField] private float bobbingSpeed;
+    [SerializeField] private float baseBobbingAmountX;
+    [SerializeField] private float baseBobbingAmountY;
+    [SerializeField] private float tiltAngle;
+    private float timer;
 
     [Header("Fall")]
     [SerializeField] private float fallHeight;
@@ -28,15 +29,14 @@ public class CameraController : MonoBehaviour
     [SerializeField] private AnimationCurve fallCurve;
 
     [Header("Wind Settings")]
-    [SerializeField] private float windSpeed = 10f;
-    [SerializeField] private float windTiltMultiplier = 1f;
-    [SerializeField] private float windTranslationMultiplier = 0.1f;
+    [SerializeField] private float _windRollAngle;
+    [SerializeField] private float _windLateralTranslation;
 
     [Header("VertigoEffect")]
+    [SerializeField] private Volume postProcessVolume;
     [SerializeField] private float transitionDuration;
     [SerializeField] private float cameraTiltAmount;
     [SerializeField] private float cameraShakeIntensity;
-    [SerializeField] private Volume postProcessVolume;
     [SerializeField] private float maxBlurAmount;
     [SerializeField] private float maxAberrationAmount;
     [SerializeField] private float maxFOVChange;
@@ -49,9 +49,10 @@ public class CameraController : MonoBehaviour
     private Vignette vignette;
 
     private Coroutine fallCoroutine = null;
-    private Coroutine jumpCoroutine = null;
     private Coroutine startVertigoCoroutine = null;
     private Coroutine stopVertigoCoroutine = null;
+    private Coroutine startWindCoroutine = null;
+    private Coroutine stopWindCoroutine = null;
 
     private Vector3 initialCameraPosition;
     private Quaternion initialCameraRotation;
@@ -93,6 +94,8 @@ public class CameraController : MonoBehaviour
         GameManager.OnLoseEvent.AddListener(OnLose);
         PlayerMovement.OnStartVertigoEvent.AddListener(OnStartVertigo);
         PlayerMovement.OnStopVertigoEvent.AddListener(OnStopVertigo);
+        WindScript.OnWindBlowingEvent.AddListener(OnStartWind);
+        WindScript.OnWindResetEvent.AddListener(OnResetWind);
     }
 
     private void OnDisable()
@@ -101,62 +104,12 @@ public class CameraController : MonoBehaviour
         GameManager.OnLoseEvent.RemoveAllListeners();
         PlayerMovement.OnStartVertigoEvent.RemoveAllListeners();
         PlayerMovement.OnStopVertigoEvent.RemoveAllListeners();
+        WindScript.OnWindBlowingEvent.RemoveAllListeners();
+        WindScript.OnWindResetEvent.RemoveAllListeners();
     }
 
     private void Update()
     {
-        /*
-        if (isWindBlowing)
-        {
-            // Appliquer une rotation sur l'axe Z (roll) selon la vitesse du vent
-            float windRollAngle = cameraTiltAngle * windSpeed * windTiltMultiplier; // Calcul du roll en fonction de la vitesse du vent
-
-            if (_windScript._windDirection == WindDirection.West || _windScript._windDirection == WindDirection.NorthWest || _windScript._windDirection == WindDirection.SouthWest)
-            {
-                windRollAngle = -windRollAngle;
-            }
-
-            // Inclure l'effet de roll dans la rotation de la caméra
-            Quaternion windRotation = initialCameraRotation * Quaternion.Euler(0, 0, windRollAngle);
-
-            // Calculer la translation latérale en fonction de la direction du vent
-            float windTranslationX = 0f;  // Variable pour stocker la translation en X
-
-            if (_windScript._windDirection == WindDirection.West || _windScript._windDirection == WindDirection.NorthWest || _windScript._windDirection == WindDirection.SouthWest)
-            {
-                windTranslationX = windTranslationMultiplier;  // Translation vers la gauche
-            }
-            else if (_windScript._windDirection == WindDirection.East || _windScript._windDirection == WindDirection.NorthEast || _windScript._windDirection == WindDirection.SouthEast)
-            {
-                windTranslationX = -windTranslationMultiplier;  // Translation vers la droite
-            }
-
-            // Appliquer le déplacement latéral en plus de la rotation
-            Vector3 targetPosition = new Vector3(
-                initialCameraPosition.x + windTranslationX, // Décalage latéral
-                playerCamera.transform.localPosition.y,     // Garder la position Y actuelle
-                playerCamera.transform.localPosition.z      // Garder la position Z actuelle
-            );
-
-            // Appliquer la rotation et la position de la caméra de manière fluide
-            playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, windRotation, 0.1f);
-            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, targetPosition, 0.1f);
-        }
-        else
-        {
-            // Remettre le roll et la translation latérale à zéro de manière fluide quand le vent ne souffle pas
-            Quaternion resetRotation = initialCameraRotation; // Retour à la rotation initiale (sans inclinaison)
-            playerCamera.transform.localRotation = Quaternion.Lerp(playerCamera.transform.localRotation, resetRotation, 0.1f);
-
-            Vector3 resetPosition = new Vector3(
-                initialCameraPosition.x, // Retour à la position initiale X
-                playerCamera.transform.localPosition.y,  // Garder la position Y actuelle
-                playerCamera.transform.localPosition.z   // Garder la position Z actuelle
-            );
-
-            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, resetPosition, 0.1f);
-        }
-        */
         if (PlayerMovement.instance.GetMoveSpeed() != 0 && GameManager.instance.GetIsPlayerAlive() && !WindScript.instance.GetIsWindBlowing())
         {
             ApplyMovementCamera();
@@ -219,6 +172,9 @@ public class CameraController : MonoBehaviour
     public void OnLose()
     {
         if (fallCoroutine != null) return;
+        WindScript.OnWindStopBlowingEvent.Invoke();
+        StopAndSetNullCoroutine(startWindCoroutine);
+        StopAndSetNullCoroutine(stopWindCoroutine);
         bool side = Random.value > 0.5f;
         fallCoroutine = StartCoroutine(DeathCameraFall(side));
     }
@@ -398,6 +354,82 @@ public class CameraController : MonoBehaviour
             lensDistorsion.active = false;
         if (vignette != null)
             vignette.active = false;
+    }
+
+    public void OnStartWind(float windSpeed)
+    {
+        Debug.Log("J'applique l'effet de vent");
+        StopAndSetNullCoroutine(startVertigoCoroutine);
+        StopAndSetNullCoroutine(stopWindCoroutine);
+        startWindCoroutine = StartCoroutine(ApplyWindEffect(windSpeed));
+    }
+
+    private IEnumerator ApplyWindEffect(float windSpeed)
+    {
+        Direction windDirection = WindScript.instance._windDirection;
+        float windRollAngle = _windRollAngle;
+        float windLateralTranslation = _windLateralTranslation;
+
+        if (windDirection == Direction.West)
+            windRollAngle = -windRollAngle;
+        else
+            windLateralTranslation = -windLateralTranslation;
+
+        Quaternion startingRotation = playerCamera.transform.localRotation;
+        Quaternion targetRotation = initialCameraRotation * Quaternion.Euler(0, 0, windRollAngle);
+
+        Vector3 startingPosition = playerCamera.transform.localPosition;
+        Vector3 targetPosition = initialCameraPosition + new Vector3(windLateralTranslation, 0, 0);
+
+        // Appliquer les effets progressivement
+        float maxTime = Vector3.Distance(startingPosition, targetPosition) / windSpeed;
+        float elapsedTime = 0f;
+        while (elapsedTime < maxTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float lerpFactor = Mathf.Clamp01(elapsedTime / maxTime);
+
+            // Incliner la caméra
+            playerCamera.transform.localRotation = Quaternion.Lerp(startingRotation, targetRotation, lerpFactor);
+            playerCamera.transform.localPosition = Vector3.Lerp(startingPosition, targetPosition, lerpFactor);
+
+            yield return null; // Attendre une frame
+        }
+        GameManager.OnLoseEvent.Invoke();
+        startWindCoroutine = null;
+    }
+
+    public void OnResetWind(float windSpeed)
+    {
+        Debug.Log("Je reset l'effet de vent");
+        StopAndSetNullCoroutine(startWindCoroutine);
+        stopWindCoroutine = StartCoroutine(ResetWindEffect(windSpeed));
+    }
+
+    private IEnumerator ResetWindEffect(float windSpeed)
+    {
+        Quaternion startingRotation = playerCamera.transform.localRotation;
+        Quaternion targetRotation = initialCameraRotation;
+
+        Vector3 startingPosition = playerCamera.transform.localPosition;
+        Vector3 targetPosition = initialCameraPosition;
+
+        // Appliquer les effets progressivement
+        float maxTime = Vector3.Distance(startingPosition, targetPosition) / windSpeed;
+        float elapsedTime = 0f;
+        while (elapsedTime < maxTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float lerpFactor = Mathf.Clamp01(elapsedTime / maxTime);
+
+            // Incliner la caméra
+            playerCamera.transform.localRotation = Quaternion.Lerp(startingRotation, targetRotation, lerpFactor);
+            playerCamera.transform.localPosition = Vector3.Lerp(startingPosition, targetPosition, lerpFactor);
+
+            yield return null; // Attendre une frame
+        }
+        WindScript.OnWindStopBlowingEvent.Invoke();
+        stopWindCoroutine = null;
     }
 
     private void StopAndSetNullCoroutine(Coroutine coroutine)
