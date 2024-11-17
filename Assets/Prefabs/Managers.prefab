@@ -732,8 +732,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roads: []
-  _maxSpawnDistance: 0
-  _carBehaviour: {fileID: 0}
+  _player: {fileID: 0}
+  _maxSpawnDistance: 50
+  _carBehaviour: {fileID: 3986608441913731259, guid: 01f553fccf67c6f4b980d3515b4a8c92, type: 3}
 --- !u!1 &6316571716130222640
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CarBehaviour : MonoBehaviour
 {
+    [SerializeField] private float _angleLerp;
     [SerializeField] private float _timeToTravel;
     private float _currentTravelTime;
     [SerializeField] private SFX _carSFX;
@@ -25,7 +26,7 @@ public class CarBehaviour : MonoBehaviour
         Vector3 targetDirection = Vector3.zero;
         Vector3 targetPosition = _road.GetPosition(time, ref targetDirection);
         transform.position = targetPosition;
-        transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.LookRotation(targetDirection), 10f);
+        transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.LookRotation(targetDirection), _angleLerp);
         if (_currentTravelTime >= _timeToTravel)
         {
             _carSFX.StopSfx();
