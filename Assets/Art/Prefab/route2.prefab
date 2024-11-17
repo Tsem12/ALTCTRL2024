@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1434194883142022840}
+  - component: {fileID: 5192668180816726840}
   m_Layer: 0
   m_Name: route2
   m_TagString: Untagged
@@ -80,6 +81,44 @@ Transform:
   - {fileID: 3671624896448302279}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5192668180816726840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6021292126961689169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e33f99653eb914a87b94113edff522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Points>k__BackingField:
+  - {x: 0.3275048, y: 1.574972, z: 16.718082}
+  - {x: 0.3275048, y: 1.5749724, z: 12.306954}
+  - {x: 0.3275048, y: 0.9689823, z: 10.515301}
+  - {x: 0.3275048, y: 0.96898204, z: 4.4007277}
+  - {x: 0.3275048, y: 0.38552478, z: 2.7251163}
+  - {x: 0.3275048, y: 0.38552478, z: -0.64}
+  - {x: 0.3275048, y: -0.17419487, z: -2.319316}
+  - {x: 0.32749763, y: -0.15622838, z: -3.3617237}
+  - {x: 0.32749254, y: -0.71466994, z: -5}
+  - {x: 0.3274925, y: -0.71466994, z: -6.207127}
+  - {x: 0.3274925, y: -1.3073405, z: -7.76944}
+  - {x: 0.32675046, y: -1.3073405, z: -14.5906}
+  - {x: -2.6405547, y: -1.3073405, z: -14.5906}
+  - {x: -4.69, y: -0.7, z: -14.5906}
+  - {x: -7.548305, y: -0.15776972, z: -14.594957}
+  - {x: -10.863772, y: -0.15776972, z: -14.593828}
+  - {x: -10.863772, y: -0.15776972, z: -8}
+  - {x: -10.863777, y: 1.0105811, z: -3.8300002}
+  - {x: -10.863777, y: 1.0105811, z: 3.2}
+  - {x: -15.8864765, y: 1.0105811, z: 3.2027748}
+  - {x: -15.8864765, y: 1.0105811, z: 16.73}
+  - {x: -12.800006, y: 1.574972, z: 16.73}
+  - {x: 0.3275048, y: 1.574972, z: 16.73}
+  _curveGizmoPrecision: 0
+  <EditPoints>k__BackingField: 1
 --- !u!1001 &107136269723401491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -147,6 +186,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -225,6 +268,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -537,6 +584,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -920,6 +971,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -997,6 +1052,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1474,6 +1533,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1938,6 +2001,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2094,6 +2161,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2171,6 +2242,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2413,6 +2488,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2730,6 +2809,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2963,6 +3046,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3358,6 +3445,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3592,6 +3683,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3747,6 +3842,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 2eafafd37bbafab498e4b7f9d3dd9e48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

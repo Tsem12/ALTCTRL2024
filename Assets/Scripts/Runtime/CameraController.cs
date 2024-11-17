@@ -67,10 +67,8 @@ public class CameraController : MonoBehaviour
             return;
         }
         instance = this;
-    }
-
-    private void Start()
-    {
+        
+        
         initialCameraPosition = playerCamera.transform.localPosition;
         initialCameraRotation = playerCamera.transform.localRotation;
         initialFOV = playerCamera.fieldOfView;

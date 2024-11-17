@@ -13,9 +13,11 @@ public class SFX
     public void SetSource(Transform source) => _source = source;
     public Transform Source => _source;
 
+    public SFXInstance CurrentSfxInstance => _currentSFXInstance;
+
     public void PlaySfx()
     {
-        if (_currentSFXInstance != null)
+        if (CurrentSfxInstance != null)
         {
             Debug.LogWarning($"Currently playing sound: <b>{_name}</b> has been stop to replay it");
             StopSfx();
@@ -24,6 +26,11 @@ public class SFX
         OnPlay?.Invoke();
     }
 
-    public void StopSfx() => _currentSFXInstance.AudioSource.Stop();
-
+    public void StopSfx()
+    {
+        if(CurrentSfxInstance == null)
+            return;
+        
+        CurrentSfxInstance.AudioSource.Stop();
+    }
 }

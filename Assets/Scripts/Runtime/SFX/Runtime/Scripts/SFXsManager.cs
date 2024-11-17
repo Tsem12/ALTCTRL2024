@@ -127,7 +127,7 @@ namespace IIMEngine.SFX
                 sfxInstance.Transform.parent = source;
             }
             sfxInstance.Transform.localPosition = Vector2.zero;
-            sfxInstance.AudioSource.PlayOneShot(sfxInstance.AudioSource.clip);
+            sfxInstance.AudioSource.Play();
             return sfxInstance;
         }
         private SFXInstance _PikUpInstanceFromPool(string name, Transform source = null)

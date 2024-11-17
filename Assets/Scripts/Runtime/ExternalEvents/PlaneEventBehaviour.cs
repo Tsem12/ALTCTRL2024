@@ -42,10 +42,4 @@ public class PlaneEventBehaviour : MonoBehaviour
             Destroy(gameObject, 10f);
         }
     }
-
-    IEnumerator KillRoutine()
-    {
-        yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
-    }
 }

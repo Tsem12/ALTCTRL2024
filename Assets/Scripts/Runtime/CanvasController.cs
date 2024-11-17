@@ -29,6 +29,7 @@ public class CanvasController : MonoBehaviour
             Debug.LogError("plus d'une instance de CanvasController dans la scene");
             return;
         }
+        instance = this;
     }
 
     private void OnEnable()
@@ -59,6 +60,7 @@ public class CanvasController : MonoBehaviour
     }
 
     public void FallFade(float duration) => _fadeBg.DOColor(new Vector4(0, 0, 0, 1), duration).SetEase(_fallFadeCurve);
+    public void StartFade(float duration) => _fadeBg.DOColor(new Vector4(0, 0, 0, 1), duration).SetEase(_fallFadeCurve).SetLoops(2, LoopType.Yoyo);
     public void RespawnFade(float duration) => _fadeBg.DOColor(new Vector4(0, 0, 0, 0), duration).SetEase(_respawnFadeCurve);
 
     private IEnumerator DebugLosingScreen()
