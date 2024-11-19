@@ -7,6 +7,11 @@ using UnityEngine;
 
 public class MenuStart : MonoBehaviour
 {
+
+    [Header("How To Play")]
+    [SerializeField] private GameObject _howToPlay;
+    
+    [Header("Transisiton")]
     [SerializeField] private Curve _transitionCurve;
     [SerializeField] private AnimationCurve _transitionAnimationCurve;
     [SerializeField] private float _transitionDuration;
@@ -31,6 +36,8 @@ public class MenuStart : MonoBehaviour
         _mainCamera.gameObject.SetActive(false);
         _menuCamera.transform.position = _transitionCurve.GetPosition(0f, transform.localToWorldMatrix);
     }
+
+    #region Transition
 
     [Button]
     private void Transition()
@@ -87,5 +94,36 @@ public class MenuStart : MonoBehaviour
         #if UNITY_EDITOR
         _transitionCurve.DrawGizmo(Color.red, transform.localToWorldMatrix, Selection.activeGameObject == gameObject, 0.01f);
         #endif
+    }
+
+    #endregion
+
+    public void QuitGame() => Application.Quit();
+    public void DisplayHowToPLay(bool value) => _howToPlay.SetActive(value);
+
+    public void StartGame()
+    {
+        Transition();
+    }
+
+    public void OnInputReceived(int index)
+    {
+        if (_howToPlay.activeSelf)
+        {
+            index = 1;
+        }
+        
+        switch (index)
+        {
+            case 0:
+                StartGame();
+                break;
+            case 1:
+                DisplayHowToPLay(!_howToPlay.activeSelf);
+                break;
+            case 2:
+                QuitGame();
+                break;
+        }
     }
 }
