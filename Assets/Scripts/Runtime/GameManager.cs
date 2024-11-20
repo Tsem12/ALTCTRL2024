@@ -55,10 +55,12 @@ public class GameManager : MonoBehaviour
         {
             OnLoseEvent.Invoke();
         }
-        if(PlayerMovement.instance.GetDistance() >= 135f && isStillInGame == true)
+        /*
+        if(PlayerMovement.instance.GetDistance() >= 85f && isStillInGame == true)
         {
             OnWinEvent.Invoke();
         }
+        */
     }
 
 
