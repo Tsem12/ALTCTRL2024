@@ -67,7 +67,7 @@ public class GyroControler : MonoBehaviour
 
     void Update () 
     {
-		if (joycons.Count <= 0)
+		if (joycons.Count <= 0 || !MenuStart.Instance.HasGameStarted)
 			return;
 		
 		Joycon j = joycons [jc_ind.CenterJoyconId];

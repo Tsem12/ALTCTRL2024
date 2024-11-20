@@ -8,6 +8,8 @@ using UnityEngine;
 public class MenuStart : MonoBehaviour
 {
 
+    public static MenuStart Instance;
+    
     [Header("How To Play")]
     [SerializeField] private GameObject _howToPlay;
     
@@ -28,8 +30,25 @@ public class MenuStart : MonoBehaviour
 
     [Header("Canvas")] 
     [SerializeField] private CanvasGroup _titleCanva;
-
+    
+    private bool _hasGameStarted;
+    private bool _hasTransitionStarted;
     private bool _hasBlinked;
+
+    public bool HasTransitionStarted => _hasTransitionStarted;
+    public bool HasGameStarted => _hasGameStarted;
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogError("More than one instance of MenuStart");
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -87,6 +106,7 @@ public class MenuStart : MonoBehaviour
         _titleCanva.alpha = 0;
         _menuCamera.gameObject.SetActive(false);
         _mainCamera.gameObject.SetActive(true);
+        _hasGameStarted = true;
     }
     
     private void OnDrawGizmos()
@@ -103,11 +123,15 @@ public class MenuStart : MonoBehaviour
 
     public void StartGame()
     {
+        _hasTransitionStarted = true;
         Transition();
     }
 
     public void OnInputReceived(int index)
     {
+        if(_hasTransitionStarted)
+            return;
+        
         if (_howToPlay.activeSelf)
         {
             index = 1;

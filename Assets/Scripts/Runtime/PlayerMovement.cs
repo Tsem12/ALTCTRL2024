@@ -41,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 initialPlayerPosition;
     private Quaternion initialPlayerRotation;
 
+    public float MovementInput => movementInput;
+
     private void Awake()
     {
         if (instance != null)
@@ -80,6 +82,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if(!MenuStart.Instance.HasGameStarted)
+            return;
+        
         HandleMovement();
     }
 
@@ -95,12 +100,12 @@ public class PlayerMovement : MonoBehaviour
 
     public float GetMovementInput()
     {
-        return movementInput;
+        return MovementInput;
     }
 
     private void HandleMovement()
     {
-        if (movementInput != 0)
+        if (MovementInput != 0)
         {
             if (!GameManager.instance.GetHasMoved())
             {
@@ -206,6 +211,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnJumpPerformed(InputAction.CallbackContext context)
     {
+        if(!MenuStart.Instance.HasGameStarted)
+            return;
+        
         if (WindScript.instance.GetIsWindBlowing())
         {
             GameManager.OnLoseEvent?.Invoke();

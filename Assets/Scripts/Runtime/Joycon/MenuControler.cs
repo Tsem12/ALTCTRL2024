@@ -15,6 +15,7 @@ public class MenuControler : MonoBehaviour
 
 	[SerializeField] private Image[] _buttons;
 	[SerializeField] private MenuStart _menuStart;
+	[SerializeField] private PlayerMovement _playerMovement;
 	[FormerlySerializedAs("_accelThreshold")] [SerializeField] private float _angleThreshold = 0.1f;
 	private int _currentButtonIndex;
 
@@ -27,10 +28,10 @@ public class MenuControler : MonoBehaviour
 
 			if (_selectedButton != null)
 			{
-				_selectedButton.color = new Color(1, 1, 1, .7f);
+				_selectedButton.color = new Color(1, 1, 1, 1f);
 			}
 			_selectedButton = value;
-			_selectedButton.color = new Color(1, 1, 1, 1f);
+			_selectedButton.color = new Color(1, 1, 1, .7f);
 		}
 	}
 	
@@ -71,6 +72,28 @@ public class MenuControler : MonoBehaviour
 
     void Update () 
     {
+	    Debug.Log(_playerMovement.MovementInput);
+	    if (_playerMovement.MovementInput > 0)
+	    {
+		    SelectedButton = _buttons[0];
+		    _currentButtonIndex = 0;
+	    }
+	    else if (_playerMovement.MovementInput < 0)
+	    {
+		    SelectedButton = _buttons[2];
+		    _currentButtonIndex = 2;
+	    }
+	    else
+	    {
+		    SelectedButton = _buttons[1];
+		    _currentButtonIndex = 1;
+	    }
+
+	    if (accel.magnitude >= _shakeTreshold || Input.GetKeyDown(KeyCode.Space))
+	    {
+		    Click();
+	    }
+	    
 		if (joycons.Count <= 0)
 			return;
 		
@@ -81,29 +104,6 @@ public class MenuControler : MonoBehaviour
         
         // Accel values:  x, y, z axis values (in Gs)
         accel = j.GetAccel();
-
-        
-
-        if (gyro.z <= 90 - _angleThreshold)
-        {
-	        SelectedButton = _buttons[0];
-	        _currentButtonIndex = 0;
-        }
-        else if (accel.z >= 90 + _angleThreshold)
-        {
-	        SelectedButton = _buttons[2];
-	        _currentButtonIndex = 2;
-        }
-        else
-        {
-	        SelectedButton = _buttons[1];
-	        _currentButtonIndex = 1;
-        }
-
-        if (accel.magnitude >= _shakeTreshold)
-        {
-	        Click();
-        }
         
     }
 
@@ -111,10 +111,5 @@ public class MenuControler : MonoBehaviour
     {
 		_menuStart.OnInputReceived(_currentButtonIndex);
     }
-
-    private void OnGUI()
-    {
-	    GUILayout.Label($"Shake value => {accel.magnitude}, Gyro {orientation.eulerAngles}", new GUIStyle(){fontSize = 60});
-	    Debug.Log($"Shake value => {(int)accel.magnitude}");
-    }
+		
 }
