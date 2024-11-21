@@ -14,6 +14,7 @@ public class MenuControler : MonoBehaviour
 	private List<Joycon> joycons;
 
 	[SerializeField] private Image[] _buttons;
+	[SerializeField, Range(0f,1f)] private float _buttonFadePercentageOnSelected = .5f;
 	[SerializeField] private MenuStart _menuStart;
 	[SerializeField] private PlayerMovement _playerMovement;
 	[FormerlySerializedAs("_accelThreshold")] [SerializeField] private float _angleThreshold = 0.1f;
@@ -31,7 +32,7 @@ public class MenuControler : MonoBehaviour
 				_selectedButton.color = new Color(1, 1, 1, 1f);
 			}
 			_selectedButton = value;
-			_selectedButton.color = new Color(1, 1, 1, .7f);
+			_selectedButton.color = new Color(1, 1, 1, _buttonFadePercentageOnSelected);
 		}
 	}
 	
