@@ -96,19 +96,19 @@ MonoBehaviour:
     onDistanceReached:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3514421509731789566}
-          m_TargetAssemblyTypeName: DroneManager, Assembly-CSharp
-          m_MethodName: SpawnDrone
-          m_Mode: 1
+        - m_Target: {fileID: 9179316900627594086}
+          m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
+          m_MethodName: TriggerWind
+          m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 0.25
+            m_FloatArgument: 0.1
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - distanceThreshold: 16
+  - distanceThreshold: 12
     onDistanceReached:
       m_PersistentCalls:
         m_Calls:
@@ -120,55 +120,111 @@ MonoBehaviour:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 0
+            m_FloatArgument: 0.1
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - distanceThreshold: 24
-    onDistanceReached:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 3514421509731789566}
-          m_TargetAssemblyTypeName: DroneManager, Assembly-CSharp
-          m_MethodName: SpawnDrone
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - distanceThreshold: 32
-    onDistanceReached:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 8934787276198698101}
-          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
-          m_MethodName: TrySpawnPigeonEvent
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - distanceThreshold: 40
+  - distanceThreshold: 19
     onDistanceReached:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 9179316900627594086}
           m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
           m_MethodName: TriggerWind
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.17
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - distanceThreshold: 26
+    onDistanceReached:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8934787276198698101}
+          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
+          m_MethodName: TrySpawnPigeonEvent
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 0.25
+            m_FloatArgument: 0.17
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - distanceThreshold: 33
+    onDistanceReached:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3514421509731789566}
+          m_TargetAssemblyTypeName: DroneManager, Assembly-CSharp
+          m_MethodName: TrySpawnDrone
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.17
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - distanceThreshold: 38
+    onDistanceReached:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8934787276198698101}
+          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
+          m_MethodName: TrySpawnPigeonEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.17
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 8934787276198698101}
+          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
+          m_MethodName: TrySpawnPigeonEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - distanceThreshold: 43
+    onDistanceReached:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8934787276198698101}
+          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
+          m_MethodName: TrySpawnPigeonEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.17
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 9179316900627594086}
+          m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
+          m_MethodName: TriggerWind
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.17
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
@@ -184,17 +240,29 @@ MonoBehaviour:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 0
+            m_FloatArgument: 0.17
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - distanceThreshold: 56
+  - distanceThreshold: 53
     onDistanceReached:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3514421509731789566}
-          m_TargetAssemblyTypeName: DroneManager, Assembly-CSharp
-          m_MethodName: SpawnDrone
+        - m_Target: {fileID: 8934787276198698101}
+          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
+          m_MethodName: TrySpawnPigeonEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.17
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 8934787276198698101}
+          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
+          m_MethodName: TrySpawnPigeonEvent
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -204,13 +272,109 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - distanceThreshold: 64
+        - m_Target: {fileID: 9179316900627594086}
+          m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
+          m_MethodName: TriggerWind
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.17
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - distanceThreshold: 58
+    onDistanceReached:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8934787276198698101}
+          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
+          m_MethodName: TrySpawnPigeonEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.17
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 3514421509731789566}
+          m_TargetAssemblyTypeName: DroneManager, Assembly-CSharp
+          m_MethodName: TrySpawnDrone
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - distanceThreshold: 63
+    onDistanceReached:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8934787276198698101}
+          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
+          m_MethodName: TrySpawnPigeonEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.17
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 8934787276198698101}
+          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
+          m_MethodName: TrySpawnPigeonEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 8934787276198698101}
+          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
+          m_MethodName: TrySpawnPigeonEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - distanceThreshold: 66
     onDistanceReached:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 9179316900627594086}
           m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
           m_MethodName: TriggerWind
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.25
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - distanceThreshold: 69
+    onDistanceReached:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3514421509731789566}
+          m_TargetAssemblyTypeName: DroneManager, Assembly-CSharp
+          m_MethodName: TrySpawnDrone
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -224,81 +388,9 @@ MonoBehaviour:
     onDistanceReached:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 9179316900627594086}
-          m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
-          m_MethodName: TriggerWind
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0.25
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - distanceThreshold: 80
-    onDistanceReached:
-      m_PersistentCalls:
-        m_Calls:
         - m_Target: {fileID: 8934787276198698101}
           m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
           m_MethodName: TrySpawnPigeonEvent
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 8934787276198698101}
-          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
-          m_MethodName: TrySpawnPigeonEvent
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 8934787276198698101}
-          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
-          m_MethodName: TrySpawnPigeonEvent
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - distanceThreshold: 88
-    onDistanceReached:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 3514421509731789566}
-          m_TargetAssemblyTypeName: DroneManager, Assembly-CSharp
-          m_MethodName: SpawnDrone
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - distanceThreshold: 96
-    onDistanceReached:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 9179316900627594086}
-          m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
-          m_MethodName: TriggerWind
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -320,10 +412,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - distanceThreshold: 104
-    onDistanceReached:
-      m_PersistentCalls:
-        m_Calls:
         - m_Target: {fileID: 8934787276198698101}
           m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
           m_MethodName: TrySpawnPigeonEvent
@@ -336,26 +424,54 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - distanceThreshold: 112
+  - distanceThreshold: 75
     onDistanceReached:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3514421509731789566}
-          m_TargetAssemblyTypeName: DroneManager, Assembly-CSharp
-          m_MethodName: SpawnDrone
-          m_Mode: 1
+        - m_Target: {fileID: 9179316900627594086}
+          m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
+          m_MethodName: TriggerWind
+          m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
-            m_FloatArgument: 0
+            m_FloatArgument: 0.25
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - distanceThreshold: 120
+  - distanceThreshold: 78
     onDistanceReached:
       m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 9179316900627594086}
+          m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
+          m_MethodName: TriggerWind
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.3
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - distanceThreshold: 81
+    onDistanceReached:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 9179316900627594086}
+          m_TargetAssemblyTypeName: WindScript, Assembly-CSharp
+          m_MethodName: TriggerWind
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.3
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 8934787276198698101}
           m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
           m_MethodName: TrySpawnPigeonEvent
@@ -368,13 +484,49 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - distanceThreshold: 128
+        - m_Target: {fileID: 8934787276198698101}
+          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
+          m_MethodName: TrySpawnPigeonEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - distanceThreshold: 84
     onDistanceReached:
       m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 8934787276198698101}
+          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
+          m_MethodName: TrySpawnPigeonEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.3
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 8934787276198698101}
+          m_TargetAssemblyTypeName: PigeonManager, Assembly-CSharp
+          m_MethodName: TrySpawnPigeonEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 3514421509731789566}
           m_TargetAssemblyTypeName: DroneManager, Assembly-CSharp
-          m_MethodName: SpawnDrone
+          m_MethodName: TrySpawnDrone
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -767,7 +919,7 @@ MonoBehaviour:
   _player: {fileID: 0}
   _maxSpawnDistance: 10
   _carBehaviour: {fileID: 3986608441913731259, guid: 01f553fccf67c6f4b980d3515b4a8c92, type: 3}
-  _citySpawnRate: {x: 3, y: 5}
+  _citySpawnRate: {x: 1, y: 3}
   _playerSpawnRate: {x: 2.5, y: 7.5}
 --- !u!1 &6316571716130222640
 GameObject:

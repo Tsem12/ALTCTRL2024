@@ -15,9 +15,10 @@ public class MenuControler : MonoBehaviour
 
 	[SerializeField] private Image[] _buttons;
 	[SerializeField, Range(0f,1f)] private float _buttonFadePercentageOnSelected = .5f;
+	[SerializeField] private float _shakeCoolDown = .5f;
 	[SerializeField] private MenuStart _menuStart;
 	[SerializeField] private PlayerMovement _playerMovement;
-	[FormerlySerializedAs("_accelThreshold")] [SerializeField] private float _angleThreshold = 0.1f;
+	[SerializeField] private float _angleThreshold = 0.1f;
 	private int _currentButtonIndex;
 
 	private Image _selectedButton;
@@ -89,9 +90,9 @@ public class MenuControler : MonoBehaviour
 		    _currentButtonIndex = 1;
 	    }
 
-	    if (accel.magnitude >= _shakeTreshold || Input.GetKeyDown(KeyCode.Space))
+	    if (accel.magnitude >= _shakeTreshold && _shakeRoutine == null || Input.GetKeyDown(KeyCode.Space) && _shakeRoutine == null)
 	    {
-		    Click();
+		    _shakeRoutine = StartCoroutine(ClickRoutine());
 	    }
 	    
 		if (joycons.Count <= 0)
@@ -107,9 +108,11 @@ public class MenuControler : MonoBehaviour
         
     }
 
-    private void Click()
+    private IEnumerator ClickRoutine()
     {
 		_menuStart.OnInputReceived(_currentButtonIndex);
+		yield return new WaitForSeconds(_shakeCoolDown);
+		_shakeRoutine = null;
     }
 		
 }

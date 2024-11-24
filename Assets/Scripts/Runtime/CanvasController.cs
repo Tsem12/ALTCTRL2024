@@ -51,7 +51,7 @@ public class CanvasController : MonoBehaviour
         _fallingSFX.PlaySfx();
         _ropeSFX.PlaySfx();
         FallFade(3f);
-        StartCoroutine(DebugLosingScreen());
+        //StartCoroutine(DebugLosingScreen());
     }
 
     public void OnRespawn()
@@ -72,7 +72,7 @@ public class CanvasController : MonoBehaviour
 
     public void OnWin()
     {
-        losingText.text = "Ty as gagn� le sang (avec tt le respect)";
+        //losingText.text = "Ty as gagn� le sang (avec tt le respect)";
         losingScreen.SetActive(true);
     }
 }
