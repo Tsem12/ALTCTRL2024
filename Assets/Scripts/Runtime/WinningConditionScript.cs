@@ -6,7 +6,8 @@ public class WinningConditionScript : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        Debug.Log("toto");
+        if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Fin du jeu");
             GameManager.OnWinEvent.Invoke();
