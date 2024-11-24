@@ -10,6 +10,9 @@ public class Road : MonoBehaviour
 {
     [field: SerializeField, ReadOnly] public Vector3[] Points { get; private set;}
     [SerializeField] private float _curveGizmoPrecision;
+    [SerializeField] private float _timeToComplete = 15;
+    [SerializeField] private float _angleLerp = 15;
+    public int LastCall { get; set; }
 
     private Dictionary<Vector2, (Vector3 pointA, Vector3 pointB)> _distanceDict = new Dictionary<Vector2, (Vector3 pointA, Vector3 pointB)>();
     public Vector3 Barycenter
@@ -27,6 +30,9 @@ public class Road : MonoBehaviour
     }
 
     [field: SerializeField] public bool EditPoints { get; set; }
+
+    public float TimeToComplete => _timeToComplete;
+    public float AngleLerp => _angleLerp;
 
 
     private void Awake()
@@ -72,7 +78,7 @@ public class Road : MonoBehaviour
         }
 
         if (points == (Vector3.zero, Vector3.zero))
-            return Vector3.zero;
+            return new Vector3(0,-1000,0);
 
         direction = points.pointB - points.pointA;
         return transform.localToWorldMatrix.MultiplyPoint(Vector3.Lerp(points.pointA, points.pointB, (time - percentages.x) / (percentages.y - percentages.x)));

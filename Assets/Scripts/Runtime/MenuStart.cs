@@ -9,6 +9,10 @@ public class MenuStart : MonoBehaviour
 {
 
     public static MenuStart Instance;
+
+    [Header("Menu Events")] 
+    [SerializeField] private Transform _planesPosition;
+    [SerializeField] private Vector3 _planesMenuOffset = new Vector3(0,140,0);
     
     [Header("How To Play")]
     [SerializeField] private GameObject _howToPlay;
@@ -54,6 +58,8 @@ public class MenuStart : MonoBehaviour
     {
         _mainCamera.gameObject.SetActive(false);
         _menuCamera.transform.position = _transitionCurve.GetPosition(0f, transform.localToWorldMatrix);
+
+        _planesPosition.localPosition = _planesMenuOffset;
     }
 
     #region Transition
@@ -107,6 +113,7 @@ public class MenuStart : MonoBehaviour
         _menuCamera.gameObject.SetActive(false);
         _mainCamera.gameObject.SetActive(true);
         _hasGameStarted = true;
+        _planesPosition.localPosition = Vector3.zero;
     }
     
     private void OnDrawGizmos()

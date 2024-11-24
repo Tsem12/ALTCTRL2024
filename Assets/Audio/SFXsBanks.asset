@@ -162,10 +162,9 @@ MonoBehaviour:
   - _name: car
     _clips:
     - {fileID: 8300000, guid: 836c579b96fdd3d439a7fa3a15716f99, type: 3}
-    - {fileID: 8300000, guid: 93adcdbdd58ccd54ebd97ebd1ce9a32a, type: 3}
-    _sizeMax: 5
+    _sizeMax: 20
     _isLooping: 1
-    _overflowOperation: 0
+    _overflowOperation: 1
     _priority: 128
     _volume: 1
     _pitch: 1
@@ -175,5 +174,5 @@ MonoBehaviour:
     _dopplerLevel: 1
     _spreadLevel: 0
     _rolloffMode: 0
-    _minDistance: 20
-    _maxDistance: 500
+    _minDistance: 1.5
+    _maxDistance: 5

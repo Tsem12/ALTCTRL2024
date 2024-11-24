@@ -45,8 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 290728249ff5a894982b6a64c5fba92b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _angleLerp: 25
-  _timeToTravel: 15
   _carSFX:
     _source: {fileID: 5697292509302474759}
     _name: car
@@ -121,6 +119,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Voiture
       objectReference: {fileID: 0}
+    - target: {fileID: 1040552530238638865, guid: 6623fa9045e7f4c46bf47ac38b892e95, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040552530238638865, guid: 6623fa9045e7f4c46bf47ac38b892e95, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 835bae1e17af8b84b8827401030808ac, type: 2}
+    - target: {fileID: 1040552530238638865, guid: 6623fa9045e7f4c46bf47ac38b892e95, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2302994985143706520, guid: 6623fa9045e7f4c46bf47ac38b892e95, type: 3}
+    - target: {fileID: 1040552530238638865, guid: 6623fa9045e7f4c46bf47ac38b892e95, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: -4098033642396555213, guid: 6623fa9045e7f4c46bf47ac38b892e95, type: 3}
+    - target: {fileID: 1040552530238638865, guid: 6623fa9045e7f4c46bf47ac38b892e95, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: -340611719560228813, guid: 6623fa9045e7f4c46bf47ac38b892e95, type: 3}
+    - target: {fileID: 1040552530238638865, guid: 6623fa9045e7f4c46bf47ac38b892e95, type: 3}
+      propertyPath: m_Materials.Array.data[4]
+      value: 
+      objectReference: {fileID: -340611719560228813, guid: 6623fa9045e7f4c46bf47ac38b892e95, type: 3}
     m_RemovedComponents:
     - {fileID: 4742473837712756890, guid: 6623fa9045e7f4c46bf47ac38b892e95, type: 3}
     m_RemovedGameObjects: []

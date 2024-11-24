@@ -50,6 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3f4e6121335f09409fcd2d30a60cac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _planesPosition: {fileID: 0}
+  _planesMenuOffset: {x: 0, y: 430, z: 0}
   _howToPlay: {fileID: 0}
   _transitionCurve:
     <EnableEditPositionsOnScene>k__BackingField: 0
@@ -109,6 +111,7 @@ MonoBehaviour:
   - {fileID: 8184979782815224662}
   - {fileID: 6784800732847895249}
   - {fileID: 7360894252422880520}
+  _buttonFadePercentageOnSelected: 0.5
   _menuStart: {fileID: 30651185761106643}
   _playerMovement: {fileID: 0}
   _angleThreshold: 30
@@ -1291,6 +1294,14 @@ PrefabInstance:
     - target: {fileID: 6369465052846967263, guid: 0cc45eb2b00d07141b4785cce3e2f6df, type: 3}
       propertyPath: m_LocalPosition.z
       value: 2.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365076048887981833, guid: 0cc45eb2b00d07141b4785cce3e2f6df, type: 3}
+      propertyPath: _angleLerp
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365076048887981833, guid: 0cc45eb2b00d07141b4785cce3e2f6df, type: 3}
+      propertyPath: _timeToComplete
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6889351026338541537, guid: 0cc45eb2b00d07141b4785cce3e2f6df, type: 3}

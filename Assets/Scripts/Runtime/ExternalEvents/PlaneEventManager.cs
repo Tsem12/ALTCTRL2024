@@ -16,6 +16,7 @@ public class PlaneEventManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine(SpawnPlaneEventRoutine());
+        SpawnPlane();
     }
 
     [Button] 

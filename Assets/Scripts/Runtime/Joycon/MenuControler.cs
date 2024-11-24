@@ -73,7 +73,6 @@ public class MenuControler : MonoBehaviour
 
     void Update () 
     {
-	    Debug.Log(_playerMovement.MovementInput);
 	    if (_playerMovement.MovementInput > 0)
 	    {
 		    SelectedButton = _buttons[0];
