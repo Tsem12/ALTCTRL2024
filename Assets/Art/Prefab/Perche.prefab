@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BoussoleVent
       objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 38c04bfd0cd26724fb21408ff72eba6c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7202271454713460447, guid: 38c04bfd0cd26724fb21408ff72eba6c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -298,6 +302,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 7fc03c6ca00f73041b8b4fa1420258b8, type: 3}
       propertyPath: m_Name
       value: Hands
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 7fc03c6ca00f73041b8b4fa1420258b8, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
